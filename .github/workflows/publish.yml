@@ -1,5 +1,5 @@
 # This is a name of the workflow
-name: publish package to npmjs
+name: publish to npm
 # Controls when the workflow will run
 on:
   # Triggers the workflow on published releases

@@ -1,12 +1,11 @@
 # next-mdx-remote-client
 
-[![NPM version][badge-npm-image]](https://www.npmjs.com/package/next-mdx-remote-client)
-[![Build][badge-github-build]](https://github.com/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml)
+[![NPM version][badge-npm]][npm-package-url]
+[![Build][badge-build]][github-workflow-url]
+[![License][badge-license]][github-license-url]
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
-[![License][badge-github-license]](https://github.com/ipikuka/next-mdx-remote-client/blob/main/LICENSE)
-[![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fplantain-00%2Ftype-coverage%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/nex-mdx-remote-client)
-![badge-npm-typescript]
+[![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fplantain-00%2Ftype-coverage%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/next-mdx-remote-client)
+[![typescript][badge-typescript]][typescript-url]
 
 The **`next-mdx-remote-client`** is a wrapper of the **`@mdx-js/mdx`** for the `nextjs` applications in order to load MDX content. It is a fork of **`next-mdx-remote`** created by the **hashicorp company**, with the same licence [MPL 2.0](./LICENSE).
 
@@ -922,7 +921,7 @@ If you provide **the generic type parameter**, it ensures the `frontmatter` gets
 
 ## Types
 
-The `next-mdx-remote-client` is fully typed with [TypeScript][typeScript].
+The `next-mdx-remote-client` is fully typed with [TypeScript][typescript-url].
 
 The package exports the types for server side (rsc):
 
@@ -994,15 +993,20 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 
 ## Keywords
 
-[next/mdx][next-mdx] [next-mdx-remote][next-mdx-remote] [next-mdx-remote-client][next-mdx-remote-client] 
+🟩 [next/mdx][next-mdx] 🟩 [next-mdx-remote][next-mdx-remote] 🟩 [next-mdx-remote-client][next-mdx-remote-client] 
 
 [next-mdx]: https://www.npmjs.com/package/@next/mdx
 [next-mdx-remote]: https://www.npmjs.com/package/next-mdx-remote
 [next-mdx-remote-client]: https://www.npmjs.com/package/next-mdx-remote-client
 
-[typescript]: https://www.typescriptlang.org/
+[badge-npm]: https://img.shields.io/npm/v/next-mdx-remote-client
+[npm-package-url]: https://www.npmjs.com/package/next-mdx-remote-client
 
-[badge-npm-image]: https://img.shields.io/npm/v/next-mdx-remote-client
-[badge-github-license]: https://img.shields.io/github/license/ipikuka/next-mdx-remote-client
-[badge-github-build]: https://img.shields.io/github/actions/workflow/status/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml
-[badge-npm-typescript]: https://img.shields.io/npm/types/next-mdx-remote-client
+[badge-license]: https://img.shields.io/github/license/ipikuka/next-mdx-remote-client
+[github-license-url]: https://github.com/ipikuka/next-mdx-remote-client/blob/main/LICENSE
+
+[badge-build]: https://github.com/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml/badge.svg
+[github-workflow-url]: https://github.com/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml
+
+[badge-typescript]: https://img.shields.io/npm/types/next-mdx-remote-client
+[typescript-url]: https://www.typescriptlang.org/
