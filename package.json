@@ -1,0 +1,92 @@
+{
+  "name": "next-mdx-remote-client",
+  "description": "A wrapper of the `@mdx-js/mdx` for the `nextjs` applications in order to load MDX content. It is a fork of `next-mdx-remote`.",
+  "version": "0.0.1",
+  "main": "./dist/csr/index.js",
+  "types": "./dist/csr/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": "./dist/csr/index.js",
+    "./csr": "./dist/csr/index.js",
+    "./rsc": "./dist/rsc/index.js",
+    "./utils": "./dist/utils/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "csr": [
+        "./dist/csr/index.d.ts"
+      ],
+      "rsc": [
+        "./dist/rsc/index.d.ts"
+      ],
+      "utils": [
+        "./dist/utils/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "lint": "eslint .",
+    "prettier": "prettier --write .",
+    "pretest": "npm run build && npm pack --pack-destination ./dist",
+    "prepack": "npm run build",
+    "kill": "killall node"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "LICENSE",
+    "README.md",
+    "tsconfig.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipikuka/next-mdx-remote-client.git"
+  },
+  "keywords": [
+    "markdown",
+    "MDX",
+    "@mdx-js/mdx",
+    "nextjs",
+    "next-mdx-remote",
+    "next-mdx-remote-client"
+  ],
+  "author": "ipikuka <talatkuyuk@gmail.com>",
+  "license": "MPL 2.0",
+  "homepage": "https://github.com/ipikuka/next-mdx-remote-client#readme",
+  "bugs": {
+    "url": "https://github.com/ipikuka/next-mdx-remote-client/issues"
+  },
+  "dependencies": {
+    "@babel/code-frame": "^7.23.5",
+    "@mdx-js/mdx": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@types/mdx": "^2.0.11",
+    "vfile": "^6.0.1",
+    "vfile-matter": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.23.10",
+    "@types/babel__code-frame": "^7.0.6",
+    "@types/node": "^20.11.20",
+    "@types/react": "^18.2.58",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "dedent": "^1.5.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "next": "^14.1.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}
