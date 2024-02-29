@@ -1,0 +1,45 @@
+# This is a name of the workflow
+name: publish package to npmjs
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on published releases
+  release:
+    types: [published]
+# A workflow run is made up of one or more jobs, which run in parallel by default
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      matrix:
+        node-version: [20]
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ matrix.node-version }}
+        # Setup node environment and .npmrc file to publish to npm
+        uses: actions/setup-node@v4
+        with:
+          # Node version. Run "node -v" to check the latest version
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npm publish --provenance --access public
+
+        env:
+          # We need this to our NPM account
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
