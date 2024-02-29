@@ -4,6 +4,7 @@
 [![Build][badge-build]][github-workflow-url]
 [![License][badge-license]][github-license-url]
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
+[![codecov](https://codecov.io/gh/ipikuka/next-mdx-remote-client/graph/badge.svg?token=N0BPBCI5CC)](https://codecov.io/gh/ipikuka/next-mdx-remote-client)
 [![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fplantain-00%2Ftype-coverage%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/next-mdx-remote-client)
 [![typescript][badge-typescript]][typescript-url]
 
