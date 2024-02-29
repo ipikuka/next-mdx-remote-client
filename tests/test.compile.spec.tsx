@@ -188,9 +188,7 @@ describe("the result of the compile function", () => {
           new URL(d);
           return d;
         } catch {}
-        if (d.startsWith("/") || d.startsWith("./") || d.startsWith("../")) return new URL(d, "file:///Users/talatkuyuk/MyCodeRepo/my_packages/next-mdx-remote-client/tests/test.compile.spec.tsx").href;
-        return d;
-      }`;
+        if (d.startsWith("/") || d.startsWith("./") || d.startsWith("../")) return new URL(d, "file:`;
 
     expect(String(result.compiledSource)).toContain(compiledSource);
   });
@@ -373,9 +371,7 @@ describe("the result of the compile function", () => {
           new URL(d);
           return d;
         } catch {}
-        if (d.startsWith("/") || d.startsWith("./") || d.startsWith("../")) return new URL(d, "file:///Users/talatkuyuk/MyCodeRepo/my_packages/next-mdx-remote-client/tests/test.compile.spec.tsx").href;
-        return d;
-      }`;
+        if (d.startsWith("/") || d.startsWith("./") || d.startsWith("../")) return new URL(d, "file:`;
 
     expect(String(result.compiledSource)).toContain(compiledSource);
   });
