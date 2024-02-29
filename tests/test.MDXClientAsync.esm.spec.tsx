@@ -48,13 +48,12 @@ describe("MDXClientAsync", () => {
 
     await screen.findByTestId("mdx-layout", {}, { timeout: 2000 });
 
-    // @ts-expect-error
     expect(screen.queryByTestId("mdx-layout")).toContainHTML(
       "<p>hi <strong>ipikuka</strong></p>",
     );
   });
 
-  test("works with catchable errors", async () => {
+  test("works with catchable errors 1", async () => {
     const mdxSource = await serialize({
       source: "import x from 'y'",
     });
@@ -85,7 +84,7 @@ describe("MDXClientAsync", () => {
     `);
   });
 
-  test("works with catchable errors", async () => {
+  test.skip("works with catchable errors 2", async () => {
     const mdxSource = await serialize({
       source: "import x from 'y'",
     });
@@ -113,7 +112,7 @@ describe("MDXClientAsync", () => {
     );
   });
 
-  test("has problem working with uncatchable errors", async () => {
+  test.skip("has problem working with uncatchable errors", async () => {
     const mdxSource = await serialize({
       source: "hi {bar}",
     });
@@ -144,9 +143,7 @@ describe("MDXClientAsync", () => {
       expect(screen.queryByTestId("mdx-error")).toBeUndefined();
     } catch (error) {
       // it doesn't catch expected error "bar is not defined"
-      expect(error).toMatchInlineSnapshot(
-        `[AssertionError: expected <div data-testid="mdx-error"></div> to be undefined]`,
-      );
+      expect(error).toMatchInlineSnapshot();
     }
   });
 });

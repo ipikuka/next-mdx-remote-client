@@ -8,7 +8,6 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["./vitest-setup-tests.js"],
     include: ["tests/**/*.spec.ts?(x)"],
-    exclude: ["tests/integration-test/**"],
     poolOptions: {
       vmThreads: {
         memoryLimit: "1 MB",

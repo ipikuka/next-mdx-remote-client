@@ -40,7 +40,7 @@ export function hydrateAsync({
   useEffect(() => {
     async function getContent() {
       // to see loading state a bit
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       try {
         const runResult_ = await runAsync(compiledSource, {
