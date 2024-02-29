@@ -1,7 +1,7 @@
 {
   "name": "next-mdx-remote-client",
   "description": "A wrapper of the `@mdx-js/mdx` for the `nextjs` applications in order to load MDX content. It is a fork of `next-mdx-remote`.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "./dist/csr/index.js",
   "types": "./dist/csr/index.d.ts",
   "type": "module",

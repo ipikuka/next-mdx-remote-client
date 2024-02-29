@@ -2,9 +2,9 @@
 
 [![NPM version][badge-npm-image]](https://www.npmjs.com/package/next-mdx-remote-client)
 [![Build][badge-github-build]](https://github.com/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml)
-[![License][badge-github-license]](https://github.com/ipikuka/next-mdx-remote-client/blob/main/LICENSE)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml)
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
+[![License][badge-github-license]](https://github.com/ipikuka/next-mdx-remote-client/blob/main/LICENSE)
 [![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fplantain-00%2Ftype-coverage%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/nex-mdx-remote-client)
 ![badge-npm-typescript]
 
