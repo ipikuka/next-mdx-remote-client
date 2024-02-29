@@ -2,8 +2,6 @@ import { describe, test, expect } from "vitest";
 
 import dedent from "dedent";
 import { VFile } from "vfile";
-import React from "react";
-import ReactDOMServer from "react-dom/server";
 
 import { runSync } from "../src/lib/run.js";
 import { compile } from "../src/lib/compile.js";

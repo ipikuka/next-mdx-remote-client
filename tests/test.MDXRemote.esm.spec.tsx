@@ -4,7 +4,7 @@ import { MDXRemote, MDXRemoteOptions } from "../src/rsc";
 // import { render, screen } from "@testing-library/react";
 import ReactDOMServer from "react-dom/server";
 
-describe("MDXClient", () => {
+describe("MDXRemote", () => {
   // const LoadingComponent = () => {
   //   return <div data-testid="mdx-loading">loading</div>;
   // };
@@ -41,7 +41,7 @@ describe("MDXClient", () => {
     );
   });
 
-  test("works with catchable errors", async () => {
+  test("works with catchable errors 1", async () => {
     const source = "import x from 'y'";
 
     const content = await MDXRemote({
@@ -55,7 +55,7 @@ describe("MDXClient", () => {
     );
   });
 
-  test("works with catchable errors", async () => {
+  test("works with catchable errors 2", async () => {
     const source = "import x from 'y'";
 
     const options = {
