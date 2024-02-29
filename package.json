@@ -25,19 +25,19 @@
     }
   },
   "scripts": {
-    "build": "rimraf dist && tsc",
-    "lint": "eslint .",
-    "prettier": "prettier --write .",
-    "pretest": "npm run build && npm pack --pack-destination ./dist",
-    "prepack": "npm run build",
-    "test": "vitest --pool=vmThreads",
-    "test:file": "vitest --pool=vmThreads test.serialize-hydrate.spec.tsx",
-    "coverage": "vitest --pool=vmThreads run --coverage",
+    "build": "rimraf dist && tsc --build && npm run type-coverage",
     "type-coverage": "type-coverage --ignoreAsAssertion",
-    "test:ci": "vitest --pool=forks --watch=false --exclude '**/test.evaluate.esm.spec.tsx'",
-    "test:vm": "vitest --pool=vmThreads --watch=false test.evaluate.esm.spec.tsx",
-    "prepublishOnly": "npm run test:ci && npm run test:vm && npm run type-coverage && npm run prettier && npm run lint",
-    "kill": "killall node"
+    "format": "npm run prettier && npm run lint",
+    "prettier": "prettier --write .",
+    "lint": "eslint .",
+    "pretest": "npm run build && npm pack --pack-destination ./dist",
+    "test:watch": "vitest --pool=vmThreads",
+    "test:file": "vitest --pool=vmThreads test.serialize-hydrate.spec.tsx",
+    "test": "npm run test:esm && npm run test:rest",
+    "test:esm": "vitest --pool=vmThreads --watch=false esm",
+    "test:rest": "vitest --pool=forks --watch=false --exclude 'tests/*esm*'",
+    "prepublishOnly": "npm run test && npm run format && npm run test-coverage",
+    "test-coverage": "vitest --pool=vmThreads run --coverage"
   },
   "files": [
     "dist/",
