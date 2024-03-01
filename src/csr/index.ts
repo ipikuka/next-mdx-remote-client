@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-export { serialize } from "./serialize.js";
 export { hydrate } from "./hydrate.js";
 export { hydrateLazy } from "./hydrateLazy.js";
 export { hydrateAsync } from "./hydrateAsync.js";
@@ -12,12 +11,10 @@ export { MDXClientLazy } from "./MDXClientLazy.js";
 export { MDXClientAsync } from "./MDXClientAsync.js";
 
 export type {
-  SerializeProps,
-  SerializeOptions,
-  SerializeResult,
   HydrateProps,
   HydrateResult,
   MDXClientProps,
+  SerializeResult,
   // below are experimantal
   HydrateAsyncProps,
   HydrateAsyncOptions,

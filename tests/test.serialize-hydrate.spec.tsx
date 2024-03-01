@@ -9,7 +9,8 @@ import remarkEmoji from "remark-emoji";
 import recmaMdxEscapeMissingComponents from "recma-mdx-escape-missing-components";
 import recmaMdxChangeProps from "recma-mdx-change-props";
 
-import { serialize, hydrate, type SerializeOptions } from "../src/csr";
+import { hydrate } from "../src/csr";
+import { serialize, type SerializeOptions } from "../src/csr/serialize.js";
 
 type Frontmatter = { title: string };
 

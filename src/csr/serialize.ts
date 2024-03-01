@@ -10,7 +10,9 @@ import { passVfileDataIntoScope } from "../lib/util.js";
 import { prepare } from "../lib/prepare.js";
 import { compile } from "../lib/compile.js";
 
-import type { SerializeResult, SerializeProps } from "./types.js";
+import type { SerializeResult, SerializeProps, SerializeOptions } from "./types.js";
+
+export type { SerializeResult, SerializeProps, SerializeOptions };
 
 /**
  * compiles the MDX source.

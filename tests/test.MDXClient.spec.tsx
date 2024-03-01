@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { describe, expect, test } from "vitest";
-import { MDXClient, serialize } from "../src/csr";
+import { MDXClient } from "../src/csr";
+import { serialize } from "../src/csr/serialize.js";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 describe("MDXClient", () => {

@@ -2,8 +2,9 @@ import React from "react";
 import { describe, expect, test } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 
-import { MDXClientLazy, serialize } from "../src/csr";
-import ErrorBoundary from "./ErrorBoundarySimple";
+import { MDXClientLazy } from "../src/csr";
+import { serialize } from "../src/csr/serialize.js";
+import ErrorBoundary from "./ErrorBoundarySimple.jsx";
 
 describe("MDXClientLazy", () => {
   const ErrorComponent = ({ error }: { error: Error }) => {
@@ -32,7 +33,7 @@ describe("MDXClientLazy", () => {
     render(<MDXClientLazy components={components} {...mdxSource} onError={ErrorComponent} />);
 
     await waitFor(() =>
-      expect(screen.queryByTestId("mdx-layout")).toContainHTML(
+      expect(screen.queryByTestId("mdx-layout")?.innerHTML).toContain(
         "<p>hi <strong>ipikuka</strong></p>",
       ),
     );
