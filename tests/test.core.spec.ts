@@ -11,9 +11,10 @@ test("should expose the public apis", async function () {
     "hydrate",
     "hydrateAsync",
     "hydrateLazy",
-    "serialize",
     "useMDXComponents",
   ]);
+
+  assert.deepEqual(Object.keys(await import("../src/csr/serialize.js")).sort(), ["serialize"]);
 
   assert.deepEqual(Object.keys(await import("../src/rsc")).sort(), ["MDXRemote", "evaluate"]);
 

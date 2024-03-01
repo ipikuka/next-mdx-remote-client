@@ -2,8 +2,9 @@ import React from "react";
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-import { MDXClientAsync, serialize } from "../src/csr";
-import ErrorBoundary from "./ErrorBoundarySimple";
+import { MDXClientAsync } from "../src/csr";
+import { serialize } from "../src/csr/serialize.js";
+import ErrorBoundary from "./ErrorBoundarySimple.jsx";
 
 describe("MDXClientAsync", () => {
   const LoadingComponent = () => {
@@ -48,7 +49,7 @@ describe("MDXClientAsync", () => {
 
     await screen.findByTestId("mdx-layout", {}, { timeout: 2000 });
 
-    expect(screen.queryByTestId("mdx-layout")).toContainHTML(
+    expect(screen.queryByTestId("mdx-layout")?.innerHTML).toContain(
       "<p>hi <strong>ipikuka</strong></p>",
     );
   });

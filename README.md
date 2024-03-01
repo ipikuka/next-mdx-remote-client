@@ -56,12 +56,13 @@ yarn add next-mdx-remote-client
 > [!WARNING]  
 > The `next-mdx-remote` users may follow the [migration guide](/migration_guide.md).
 
-## The package has 3 subpath exports
+## The package's exported subpaths
 
 The main entry point also refers to **`/csr`** subpath.
 
 ```typescript
 import /* */ from "next-mdx-remote-client";
+import /* */ from "next-mdx-remote-client/serialize"; // for the "serialize" function
 import /* */ from "next-mdx-remote-client/csr"; // related with "pages" router
 import /* */ from "next-mdx-remote-client/rsc"; // related with "app" router
 import /* */ from "next-mdx-remote-client/utils"; // utils
@@ -226,7 +227,7 @@ const options: EvaluateOptions = {
 };
 ```
 
-For more information see [the MDX docs](https://github.com/mdx-js/mdx/blob/master/packages/mdx/index.js).
+For more information see [the MDX documentation](https://github.com/mdx-js/mdx/blob/master/packages/mdx/index.js).
 
 #### `disableExports`
 
@@ -466,10 +467,12 @@ The details are the same with the [EvaluateOptions](#the-evaluate-options-evalua
 _Go to [the part associated with Next.js app router](#the-part-associated-with-nextjs-app-router)_
 
 ```typescript
-import { serialize, hydrate, MDXClient } from "next-mdx-remote-client/csr";
+import { serialize } from "next-mdx-remote-client/serialize";
+
+import { hydrate, MDXClient } from "next-mdx-remote-client/csr";
 ```
 
-The `serialize` function is used on the server side, while as the `hydrate` and the `MDXClient` are used on the client side in "pages" router.
+The `serialize` function is used on the server side in "pages" router, while as the `hydrate` and the `MDXClient` are used on the client side in "pages" router. That is why the "serialize" function is purposefully isolated considering it is intended to run on server-side.
 
 ### The `serialize` function
 
@@ -479,7 +482,7 @@ _or the [MDXClient](#the-mdxclient-component) component_
 The `serialize` function is used for compiling the **MDX source**, in other words, producing the **compiled source** from MDX source, intended to run on the server at build time.
 
 > [!WARNING]
-> The `serialize` function is **asyncronous** and to be used within the `getStaticProps` or the `getServerSideProps` on the server side. (Off the record, it can be used within an `useEffect` as well, but this is not recommended).
+> The `serialize` function is **asyncronous** and to be used within the `getStaticProps` or the `getServerSideProps` on the server side. (Off the record, it can be used within an `useEffect` as well, but this is not recommended because it is a little heavy function as having more dependencies).
 
 ```typescript
 async function serialize(props: SerializeProps): Promise<SerializeResult> {}
@@ -514,7 +517,7 @@ The `serialize` function has **internal error handling mechanism** for the MDX s
 The `nextjs` will send the mdxSource (**`compiledSource`** + **`frontmatter`** + **`scope`** + **`error`**) to the client side.
 
 ```tsx
-import { serialize, type SerializeOptions } from "next-mdx-remote-client/csr";
+import { serialize, type SerializeOptions } from "next-mdx-remote-client/serialize";
 import { Frontmatter, Scope } from "./types"
 
 export async function getStaticProps() {
@@ -934,12 +937,16 @@ The package exports the types for server side (rsc):
 
 The package exports the types for client side (csr):
 
-- `SerializeProps`
-- `SerializeOptions`
-- `SerializeResult`
 - `HydrateProps`
 - `HydrateResult`
 - `MDXClientProps`
+- `SerializeResult`
+
+The package exports the types for the serialize function:
+
+- `SerializeProps`
+- `SerializeOptions`
+- `SerializeResult`
 
 In addition, the package exports the types for developers don't need to import `mdx/types`:
 

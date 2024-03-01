@@ -1,6 +1,6 @@
 # Migration guide from `next-mdx-remote`
 
-### The differences in package's export subpaths
+### The differences in package's exported subpaths
 
 **`🟥 next-mdx-remote`:**
 
@@ -14,13 +14,16 @@ import /* */ from "next-mdx-remote/rsc";
 
 ```typescript
 import /* */ from "next-mdx-remote-client";
-import /* */ from "next-mdx-remote-client/csr";
+import /* */ from "next-mdx-remote-client/serialize";
 import /* */ from "next-mdx-remote-client/rsc";
+
+// additional exported subpaths
+import /* */ from "next-mdx-remote-client/csr";
 import /* */ from "next-mdx-remote-client/utils";
 ```
 
 > [!NOTE]
-> The `next-mdx-remote-client` refers to the `next-mdx-remote-client/csr`
+> The `next-mdx-remote-client` and the `next-mdx-remote-client/csr` refer to the same.
 
 ### Use `<MDXClient />` in the client side
 
@@ -202,25 +205,6 @@ The "evaluate" and "MDXRemote" options:
 ## The part associated with Next.js `pages` router
 
 _Go to [the part associated with Next.js app router](#the-part-associated-with-nextjs-app-router)_
-
-### Serialize function has no dedicated subpath
-
-**`🟥 next-mdx-remote`:**
-
-The `serialize` and `MDXRemote` are purposefully isolated into their own files.
-
-```typescript
-import { MDXRemote } from "next-mdx-remote";
-import { serialize } from "next-mdx-remote/serialize";
-```
-
-**`🟩 next-mdx-remote-client`:**
-
-The all in one subpath considering there is no significant benefit in isolating them.
-
-```typescript
-import { serialize, MDXClient, hydrate } from "next-mdx-remote-client/csr";
-```
 
 ### Serialize function takes named parameters and `rsc` parameter is removed
 
