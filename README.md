@@ -3,12 +3,13 @@
 [![NPM version][badge-npm]][npm-package-url]
 [![Build][badge-build]][github-workflow-url]
 [![License][badge-license]][github-license-url]
-[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 [![codecov](https://codecov.io/gh/ipikuka/next-mdx-remote-client/graph/badge.svg?token=N0BPBCI5CC)](https://codecov.io/gh/ipikuka/next-mdx-remote-client)
 [![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fplantain-00%2Ftype-coverage%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/next-mdx-remote-client)
 [![typescript][badge-typescript]][typescript-url]
 
 The **`next-mdx-remote-client`** is a wrapper of the **`@mdx-js/mdx`** for the `nextjs` applications in order to load MDX content. It is a fork of **`next-mdx-remote`** created by the **hashicorp company**, with the same licence [MPL 2.0](./LICENSE).
+
+An example application source code is reachable at the link https://github.com/talatkuyuk/demo-next-mdx-remote-client.
 
 ## The reason for creating the `next-mdx-remote-client`
 
@@ -23,7 +24,7 @@ I started to create this package in line with the mindset of the `@mdx-js/mdx` i
 ## General considerations about development
 
 - It is ESM only package
-- Needs react version 18.2+, works with latest nextjs ^13.5.6 and ^14.1.0 versions (tested)
+- Needs react version 18.2+, works with latest nextjs ^13.5.6 and ^14.1.1 versions (tested)
 - Needs node version 18.17+ as inline with nextjs does
 - Vitest is used instead of jest for testing
 - Rollup is removed for bundling
@@ -181,12 +182,12 @@ In the above example, I assume you use `remark-flexible-toc` remark plugin in or
 All options are optional.
 
 ```typescript
-const options?: EvaluateOptions<Scope> = {
+type EvaluateOptions<TScope> = {
   mdxOptions?: EvaluateMdxOptions;
   disableExports?: boolean;
   disableImports?: boolean;
   parseFrontmatter?: boolean;
-  scope?: Scope;
+  scope?: TScope;
   vfileDataIntoScope?: VfileDataIntoScope;
 };
 ```
@@ -214,6 +215,7 @@ As you see, some of the options are omitted and opinionated within the package. 
 
 ```typescript
 const options: EvaluateOptions = {
+  // ...
   mdxOptions: {
     format: "mdx",
     baseUrl: import.meta.url,
@@ -271,7 +273,7 @@ const options: EvaluateOptions = {
 
 Now, the `frontmatter` part of the MDX file is parsed and extracted from the MDX source; and will be supplied into the MDX file so as you to use it within the javascript statements.
 
-> [!INFO]
+> [!NOTE]
 > Frontmatter is a way to identify metadata in Markdown files. Metadata can literally be anything you want it to be, but often it's used for data elements your page needs and you don't want to show directly.
 
 ```mdx
@@ -450,12 +452,12 @@ export default async function MDXComponent({ source }: {source?: string}) {
 All options are optional.
 
 ```typescript
-const options?: MDXRemoteOptions<Scope> = {
+type MDXRemoteOptions<TScope> = {
   mdxOptions?: EvaluateMdxOptions;
   disableExports?: boolean;
   disableImports?: boolean;
   parseFrontmatter?: boolean;
-  scope?: Scope;
+  scope?: TScope;
   vfileDataIntoScope?: VfileDataIntoScope;
 };
 ```
@@ -466,11 +468,7 @@ The details are the same with the [EvaluateOptions](#the-evaluate-options-evalua
 
 _Go to [the part associated with Next.js app router](#the-part-associated-with-nextjs-app-router)_
 
-```typescript
-import { serialize } from "next-mdx-remote-client/serialize";
-
-import { hydrate, MDXClient } from "next-mdx-remote-client/csr";
-```
+The `next-mdx-remote-client` exposes `serialize`, `hydrate` and `MDXClient` for the pages router.
 
 The `serialize` function is used on the server side in "pages" router, while as the `hydrate` and the `MDXClient` are used on the client side in "pages" router. That is why the "serialize" function is purposefully isolated considering it is intended to run on server-side.
 
@@ -478,6 +476,10 @@ The `serialize` function is used on the server side in "pages" router, while as 
 
 _Go to the [hydrate](#the-hydrate-function) function_
 _or the [MDXClient](#the-mdxclient-component) component_
+
+```typescript
+import { serialize } from "next-mdx-remote-client/serialize";
+```
 
 The `serialize` function is used for compiling the **MDX source**, in other words, producing the **compiled source** from MDX source, intended to run on the server at build time.
 
@@ -505,7 +507,7 @@ Either the `compiledSource` or the `error` exists, in addition to `frontmatter` 
 
 ```typescript
 type SerializeResult<TFrontmatter, TScope> = 
-({ compiledSource: string; } | { error: Error; })
+({ compiledSource: string } | { error: Error })
 & {
   frontmatter: TFrontmatter;
   scope: TScope;
@@ -554,7 +556,7 @@ If you provide **the generic type parameters** like `await serialize<Frontmatter
 All options are optional.
 
 ```typescript
-const options?: SerializeOptions<TScope> = {
+type SerializeOptions<TScope> = {
   mdxOptions?: SerializeMdxOptions;
   disableExports?: boolean;
   disableImports?: boolean;
@@ -583,6 +585,7 @@ As you see, some of the options are omitted and opinionated within the package. 
 
 ```typescript
 const options: SerializeOptions = {
+  // ...
   mdxOptions: {
     format: "mdx",
     baseUrl: import.meta.url,
@@ -610,13 +613,17 @@ const options: SerializeOptions = {
 _Go to the [serialize](#the-serialize-function) function_
 _or the [MDXClient](#the-mdxclient-component) component_
 
+```typescript
+import { hydrate } from "next-mdx-remote-client/csr";
+```
+
 The `hydrate` function is used for constructing the **compiled source**, getting exported information from MDX and returning MDX content to be rendered on the client side, in the browser.
 
 ```typescript
 function hydrate(props: HydrateProps): HydrateResult {}
 ```
 
-The `hydrate` function takes `HydrateProps` and returns `HydrateResult`. The `hydrate` has no "options" parameter !
+The `hydrate` function takes `HydrateProps` and returns `HydrateResult`. The `hydrate` has no "options" parameter.
 
 **Props of the `hydrate` function**
 
@@ -696,13 +703,17 @@ In the above example, I assume you use `remark-flexible-toc` remark plugin in or
 _Go to the [serialize](#the-serialize-function) function_
 _or the [hydrate](#the-hydrate-function) function_
 
+```typescript
+import { MDXClient } from "next-mdx-remote-client/csr";
+```
+
 The `MDXClient` component is used for rendering the MDX content on the client side, in the browser.
 
 ```typescript
 function MDXClient(props: MDXClientProps): JSX.Element {}
 ```
 
-The `MDXClient` component takes `MDXClientProps` and returns `JSX.Element`. The `MDXClient` has no "options" parameter like `hydrate`! 
+The `MDXClient` component takes `MDXClientProps` and returns `JSX.Element`. The `MDXClient` has no "options" parameter like `hydrate`.
 
 **Props of the `MDXClient` component**
 
@@ -1001,8 +1012,9 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 
 ## Keywords
 
-🟩 [next/mdx][next-mdx] 🟩 [next-mdx-remote][next-mdx-remote] 🟩 [next-mdx-remote-client][next-mdx-remote-client] 
+🟩 [@mdx-js][mdx-js] 🟩 [next/mdx][next-mdx] 🟩 [next-mdx-remote][next-mdx-remote] 🟩 [next-mdx-remote-client][next-mdx-remote-client] 
 
+[mdx-js]: https://www.npmjs.com/package/@mdx-js/mdx
 [next-mdx]: https://www.npmjs.com/package/@next/mdx
 [next-mdx-remote]: https://www.npmjs.com/package/next-mdx-remote
 [next-mdx-remote-client]: https://www.npmjs.com/package/next-mdx-remote-client
