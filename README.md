@@ -1,19 +1,37 @@
 # next-mdx-remote-client
 
-[![NPM version][badge-npm]][npm-package-url]
+[![NPM version][badge-npm-version]][npm-package-url]
+[![NPM downloads][badge-npm-download]][npm-package-url]
 [![Build][badge-build]][github-workflow-url]
-[![License][badge-license]][github-license-url]
 [![codecov](https://codecov.io/gh/ipikuka/next-mdx-remote-client/graph/badge.svg?token=N0BPBCI5CC)](https://codecov.io/gh/ipikuka/next-mdx-remote-client)
-[![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fplantain-00%2Ftype-coverage%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/next-mdx-remote-client)
+[![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fipikuka%2Fnext-mdx-remote-client%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/next-mdx-remote-client)
 [![typescript][badge-typescript]][typescript-url]
+[![License][badge-license]][github-license-url]
 
-The **`next-mdx-remote-client`** is a wrapper of the **`@mdx-js/mdx`** for the `nextjs` applications in order to load MDX content. It is a fork of **`next-mdx-remote`** created by the **hashicorp company**, with the same licence [MPL 2.0](./LICENSE).
+The **`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for `nextjs` applications in order to load MDX content. It is a fork of **`next-mdx-remote`** created by the **hashicorp company**, with the same licence [MPL 2.0](./LICENSE).
 
-An example application source code is reachable at the link https://github.com/talatkuyuk/demo-next-mdx-remote-client.
+An example application source code is at the link https://github.com/talatkuyuk/demo-next-mdx-remote-client.
 
-## The reason for creating the `next-mdx-remote-client`
+## Why `next-mdx-remote-client` ?
 
-I started to create this package in line with the mindset of the `@mdx-js/mdx` in early 2024 considering the [next-mdx-remote][next-mdx-remote] has not been updated for a long time, and finally, a brand new package emerged.
+I started to create the `next-mdx-remote-client` in line with the mindset of the `@mdx-js/mdx` in early 2024 considering the [next-mdx-remote][next-mdx-remote] has not been updated for a long time, and finally, a brand new package emerged.
+
+**The `next-mdx-remote-client` serves as a viable alternative to `next-mdx-remote` having more features.**
+
+| Feature                                              | `next-mdx-remote` | `next-mdx-remote-client` |
+| ---------------------------------------------------- | :---------------: | :----------------------: |
+| support MDX version 3                                | canary            | stable                   |
+| provide internal error handling in `app` router      | ❌                | ✅                        |
+| provide internal error handling in `pages` router    | ❌                | ✅                        |
+| support export-from-MDX in `app` router              | ❌                | ✅                        |
+| support export-from-MDX in `pages` router            | ❌                | ✅                        | 
+| support import-into-MDX in `app` router              | ❌                | ✅                        |
+| support import-into-MDX in `pages` router            | ❌                | ❌                        |
+| support disabling imports and exports in MDX         | ✅                | ✅                        |
+| support passing vfile.data into the scope            | ❌                | ✅                        |
+| get frontmatter and mutated scope in `app` router    | ❌                | ✅                        |
+| provide utility for frontmatter without compiling    | ❌                | ✅                        |
+| expose some components and types from `@mdx-js/mdx`  | ❌                | ✅                        |
 
 > [!IMPORTANT]
 > You will see a lot the abbreviatons **`csr`** and **`rsc`**. _Pay attention to the both are spelled backwards._\
@@ -24,7 +42,7 @@ I started to create this package in line with the mindset of the `@mdx-js/mdx` i
 ## General considerations about development
 
 - It is ESM only package
-- Needs react version 18.2+, works with latest nextjs ^13.5.6 and ^14.1.1 versions (tested)
+- Needs react version 18.2+, works with latest nextjs ^13.5.6 and ^14.1.3 versions (tested)
 - Needs node version 18.17+ as inline with nextjs does
 - Vitest is used instead of jest for testing
 - Rollup is removed for bundling
@@ -78,11 +96,11 @@ import { evaluate, MDXRemote } from "next-mdx-remote-client/rsc";
 ```
 
 > [!TIP]
-> If you need to get the **exports** from MDX --> use the **`evaluate`**\
-> If you don't need --> use the **`MDXRemote`**\
+> If you need to get the **exports** from MDX --> use **`evaluate`**\
+> If you don't need --> use **`MDXRemote`**\
 > \
-> If you need to get the **frontmatter** and the **mutated scope** --> use the **`evaluate`**\
-> If you don't need --> use the **`MDXRemote`**
+> If you need to get the **frontmatter** and the **mutated scope** --> use **`evaluate`**\
+> If you don't need --> use **`MDXRemote`**
 
 ### The `evaluate` function
 
@@ -355,7 +373,7 @@ type VfileDataIntoScope =
 
 ```typescript
 const options: EvaluateOptions = {
-  // Let's assume you use the "remark-flexible-toc" plugin which composes
+  // Let's assume you use "remark-flexible-toc" plugin which composes
   // the table of content (TOC) within the 'vfile.data.toc'
   vfileDataIntoScope: "toc";
 };
@@ -648,8 +666,8 @@ type HydrateResult = {
 ```
 
 > [!TIP]
-> If you need to get the **exports** from MDX --> use the **`hydrate`**\
-> If you don't need --> use the **`MDXClient`**
+> If you need to get the **exports** from MDX --> use **`hydrate`**\
+> If you don't need --> use **`MDXClient`**
 
 The `hydrate` has **internal error handling mechanism** as much as it can, in order to do so, it returns an **`error`** object if it is catched.
 
@@ -729,8 +747,8 @@ type MDXClientProps = {
 ```
 
 > [!TIP]
-> If you need to get the **exports** from MDX --> use the **`hydrate`**\
-> If you don't need --> use the **`MDXClient`**
+> If you need to get the **exports** from MDX --> use **`hydrate`**\
+> If you don't need --> use **`MDXClient`**
 
 The `MDXClient` has **internal error handling mechanism** as much as it can, in order to do so, it takes **`onError`** prop in addition to `hydrate` function.
 
@@ -778,7 +796,7 @@ In the above example, I assume you use `remark-flexible-toc` remark plugin in or
 
 The `next-mdx-remote-client` exports additional versions, say, the `hydrateLazy` and the `MDXClientLazy`, which both **have the same _functionality_, _props_, _results_** with the `hydrate` and the `MDXClient`, correspondently.
 
-**The only difference is the hydration process takes place lazily** on the browser within a `window.requestIdleCallback` in a useEffect. You can use the `hydrateLazy` or the `MDXClientLazy` in order to defer hydration of the content and immediately serve the static markup.
+**The only difference is the hydration process takes place lazily** on the browser within a `window.requestIdleCallback` in a useEffect. You can use `hydrateLazy` or `MDXClientLazy` in order to defer hydration of the content and immediately serve the static markup.
 
 ```typescript
 import { hydrateLazy, MDXClientLazy } from "next-mdx-remote-client/csr";
@@ -841,7 +859,7 @@ export default function App({ Component, pageProps }) {
 
 You can provide a map of custom MDX components, which is a feature of `@mdx-js/mdx`, in order to replace HTML tags (see [the list of markdown syntax and equivalent HTML tags](https://mdxjs.com/table-of-components)) with the custom components.
 
-Typescript users can use the type `MDXComponents` from `mdx/types`, which is exported by this package as well.
+Typescript users can use `MDXComponents` from `mdx/types`, which is exported by this package as well.
 
 `./mdxComponents/index.ts`
 ```tsx
@@ -999,6 +1017,11 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 - [`remark-mdx-remove-esm`](https://www.npmjs.com/package/remark-mdx-remove-esm)
   – Remark plugin to remove import and/or export statements (mdxjsEsm)
 
+### My Rehype Plugins
+
+- [`rehype-pre-language`](https://www.npmjs.com/package/rehype-pre-language)
+  – Rehype plugin to add language information as a property to `pre` element
+
 ### My Recma Plugins
 
 - [`recma-mdx-escape-missing-components`](https://www.npmjs.com/package/recma-mdx-escape-missing-components)
@@ -1008,7 +1031,7 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 
 ## License
 
-[MPL 2.0 License](./LICENSE)
+[MPL 2.0 License](./LICENSE) © ipikuka
 
 ## Keywords
 
@@ -1019,7 +1042,8 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 [next-mdx-remote]: https://www.npmjs.com/package/next-mdx-remote
 [next-mdx-remote-client]: https://www.npmjs.com/package/next-mdx-remote-client
 
-[badge-npm]: https://img.shields.io/npm/v/next-mdx-remote-client
+[badge-npm-version]: https://img.shields.io/npm/v/next-mdx-remote-client
+[badge-npm-download]:https://img.shields.io/npm/dt/next-mdx-remote-client
 [npm-package-url]: https://www.npmjs.com/package/next-mdx-remote-client
 
 [badge-license]: https://img.shields.io/github/license/ipikuka/next-mdx-remote-client
