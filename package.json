@@ -18,7 +18,7 @@
         "./dist/csr/index.d.ts"
       ],
       "serialize": [
-        "./dist/csr/index.d.ts"
+        "./dist/csr/serialize.d.ts"
       ],
       "rsc": [
         "./dist/rsc/index.d.ts"
