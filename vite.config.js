@@ -19,6 +19,12 @@ export default defineConfig({
         ["lcov", { projectRoot: "./src" }],
         ["json", { file: "coverage.json" }],
       ],
+      thresholds: {
+        lines: 100,
+        functions: 100,
+        branches: 100,
+        statements: 100,
+      },
       exclude: [
         "archive",
         "tests",
