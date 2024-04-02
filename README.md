@@ -16,7 +16,7 @@ An example application source code is at the link https://github.com/talatkuyuk/
 
 I started to create the `next-mdx-remote-client` in line with the mindset of the `@mdx-js/mdx` in early 2024 considering the [next-mdx-remote][next-mdx-remote] has not been updated for a long time, and finally, a brand new package emerged.
 
-**The `next-mdx-remote-client` serves as a viable alternative to `next-mdx-remote` having more features.**
+The **`next-mdx-remote-client`** serves as a **viable alternative to `next-mdx-remote`** having more features.
 
 | Feature                                              | `next-mdx-remote` | `next-mdx-remote-client` |
 | ---------------------------------------------------- | :---------------: | :----------------------: |
@@ -534,8 +534,6 @@ type SerializeResult<TFrontmatter, TScope> =
 
 The `serialize` function has **internal error handling mechanism** for the MDX syntax errors. The catched error is serialized via `serialize-error` package and attached into the serialize results, further you can deserialize the error on the client, if necessary. **You don't need to implement error handling by yourself.**
 
-The `nextjs` will send the mdxSource (**`compiledSource`** + **`frontmatter`** + **`scope`** + **`error`**) to the client side.
-
 ```tsx
 import { serialize, type SerializeOptions } from "next-mdx-remote-client/serialize";
 import { Frontmatter, Scope } from "./types"
@@ -568,6 +566,26 @@ If you provide **the generic type parameters** like `await serialize<Frontmatter
 
 > [!WARNING]
 > Pay attention to the order of the generic type parameters.
+
+The `nextjs` will send the mdxSource (**`compiledSource`** or **`error`** + **`frontmatter`** + **`scope`**) to the client side.
+
+**On the client side, you need first to narrow the mdxSource by checking `if ("error" in mdxSource) {}`. It is important.**
+
+```tsx
+type Props = {
+  mdxSource?: SerializeResult<Frontmatter, Scope>;
+}
+
+export default function Page({ mdxSource }: Props) {
+  // ...
+
+  if ("error" in mdxSource) {
+    return <ErrorComponent error={mdxSource.error} />;
+  }
+
+  // ...
+};
+```
 
 ### The serialize options (`SerializeOptions`)
 
