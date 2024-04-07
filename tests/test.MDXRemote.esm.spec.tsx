@@ -23,11 +23,11 @@ describe("MDXRemote", () => {
   test("works", async () => {
     const source = "hi <Test name={bar} />";
 
-    const options = {
+    const options: MDXRemoteOptions = {
       scope: {
         bar: "ipikuka",
       },
-    } as MDXRemoteOptions;
+    };
 
     const content = await MDXRemote({
       source,
@@ -39,6 +39,21 @@ describe("MDXRemote", () => {
     expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(
       `"<div data-testid="mdx-layout"><p>hi <strong>ipikuka</strong></p></div>"`,
     );
+  });
+
+  test("works with catchable error but no Error Component", async () => {
+    const source = "import x from 'y'";
+
+    try {
+      await MDXRemote({
+        source,
+        components,
+      });
+    } catch (error) {
+      expect(error).toMatchInlineSnapshot(
+        `[Error: Unexpected missing \`options.baseUrl\` needed to support \`export … from\`, \`import\`, or \`import.meta.url\` when generating \`function-body\`]`,
+      );
+    }
   });
 
   test("works with catchable errors 1", async () => {
@@ -58,11 +73,11 @@ describe("MDXRemote", () => {
   test("works with catchable errors 2", async () => {
     const source = "import x from 'y'";
 
-    const options = {
+    const options: MDXRemoteOptions = {
       mdxOptions: {
         baseUrl: import.meta.url,
       },
-    } as MDXRemoteOptions;
+    };
 
     const content = await MDXRemote({
       source,

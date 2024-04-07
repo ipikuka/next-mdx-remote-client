@@ -16,6 +16,7 @@ export function MDXClientLazy(props: MDXClientProps): JSX.Element {
 
   const { content, error } = hydrateLazy(rest);
 
+  /* v8 ignore next */
   if (error && !ErrorComponent) throw error;
 
   if (error && ErrorComponent) return <ErrorComponent error={error} />;

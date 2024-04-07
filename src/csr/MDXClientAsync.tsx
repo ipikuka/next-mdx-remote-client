@@ -18,6 +18,7 @@ export function MDXClientAsync(props: MDXClientAsyncProps): JSX.Element {
 
   const { content, error } = hydrateAsync(rest);
 
+  /* v8 ignore next */
   if (error && !ErrorComponent) throw error;
 
   if (error && ErrorComponent) return <ErrorComponent error={error} />;

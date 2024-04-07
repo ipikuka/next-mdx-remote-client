@@ -55,6 +55,7 @@ function prepareConstruction(options: RunOptions) {
 export function runSync(compiledSource: string, options: RunOptions): RunResult {
   const { keys, values } = prepareConstruction(options);
 
+  /* v8 ignore next */
   const SyncFunction = function () {}.constructor;
 
   // constructs the compiled source utilizing Reflect API with "function constructor"
@@ -77,6 +78,7 @@ export async function runAsync(
 ): Promise<RunResult> {
   const { keys, values } = prepareConstruction(options);
 
+  /* v8 ignore next */
   const AsyncFunction = async function () {}.constructor;
 
   // await new Promise((resolve) => setTimeout(resolve, 500));
