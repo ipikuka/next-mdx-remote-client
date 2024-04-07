@@ -18,20 +18,21 @@ I started to create the `next-mdx-remote-client` in line with the mindset of the
 
 The **`next-mdx-remote-client`** serves as a **viable alternative to `next-mdx-remote`** having more features.
 
-| Feature                                              | `next-mdx-remote` | `next-mdx-remote-client` |
-| ---------------------------------------------------- | :---------------: | :----------------------: |
-| support MDX version 3                                | canary            | stable                   |
-| provide internal error handling in `app` router      | ❌                | ✅                        |
-| provide internal error handling in `pages` router    | ❌                | ✅                        |
-| support export-from-MDX in `app` router              | ❌                | ✅                        |
-| support export-from-MDX in `pages` router            | ❌                | ✅                        | 
-| support import-into-MDX in `app` router              | ❌                | ✅                        |
-| support import-into-MDX in `pages` router            | ❌                | ❌                        |
-| support disabling imports and exports in MDX         | ✅                | ✅                        |
-| support passing vfile.data into the scope            | ❌                | ✅                        |
-| get frontmatter and mutated scope in `app` router    | ❌                | ✅                        |
-| provide utility for frontmatter without compiling    | ❌                | ✅                        |
-| expose some components and types from `@mdx-js/mdx`  | ❌                | ✅                        |
+| Feature                                                        | `next-mdx-remote` | `next-mdx-remote-client` |
+| -------------------------------------------------------------- | :---------------: | :----------------------: |
+| support MDX version 3                                          | canary            | stable                   |
+| provide internal error handling mechanism in `app` router      | ❌                | ✅                        |
+| provide internal error handling mechanism in `pages` router    | ❌                | ✅                        |
+| support export-from-MDX in `app` router                        | ❌                | ✅                        |
+| support export-from-MDX in `pages` router                      | ❌                | ✅                        | 
+| support import-into-MDX in `app` router                        | ❌                | ✅                        |
+| support import-into-MDX in `pages` router                      | ❌                | ❌                        |
+| support disabling imports and exports in MDX                   | ✅                | ✅                        |
+| support passing `vfile.data` into the `scope`                  | ❌                | ✅                        |
+| get frontmatter and mutated scope in `app` router              | ❌                | ✅                        |
+| get frontmatter and mutated scope in `pages` router            | ✅                | ✅                        |
+| provide utility for getting frontmatter without compiling      | ❌                | ✅                        |
+| expose components and types from `@mdx-js/mdx`                 | ❌                | ✅                        |
 
 > [!IMPORTANT]
 > You will see a lot the abbreviatons **`csr`** and **`rsc`**. _Pay attention to the both are spelled backwards._\

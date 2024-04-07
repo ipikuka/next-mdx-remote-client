@@ -62,7 +62,7 @@ export function createFormattedMDXError(error: PositionedError, source: string):
         {
           start: {
             line: position.start.line,
-            column: position.start.column ?? 0,
+            column: position.start.column,
           },
         },
         { linesAbove: 2, linesBelow: 2 },

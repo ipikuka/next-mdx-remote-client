@@ -18,6 +18,7 @@ export default defineConfig({
       reporter: [
         ["lcov", { projectRoot: "./src" }],
         ["json", { file: "coverage.json" }],
+        "text",
       ],
       thresholds: {
         lines: 100,
