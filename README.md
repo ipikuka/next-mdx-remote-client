@@ -8,31 +8,33 @@
 [![typescript][badge-typescript]][typescript-url]
 [![License][badge-license]][github-license-url]
 
-The **`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for `nextjs` applications in order to load MDX content. It is a fork of **`next-mdx-remote`** created by the **hashicorp company**, with the same licence [MPL 2.0](./LICENSE).
+The **`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for `nextjs` applications in order to load MDX content. It is a fork of **`next-mdx-remote`**.
 
-An example application source code is at the link https://github.com/talatkuyuk/demo-next-mdx-remote-client.
+An example application source code is at https://github.com/talatkuyuk/demo-next-mdx-remote-client.
 
 ## Why `next-mdx-remote-client` ?
 
 I started to create the `next-mdx-remote-client` in line with the mindset of the `@mdx-js/mdx` in early 2024 considering the [next-mdx-remote][next-mdx-remote] has not been updated for a long time, and finally, a brand new package emerged.
 
-The **`next-mdx-remote-client`** serves as a **viable alternative to `next-mdx-remote`** having more features.
+The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-mdx-remote`** having **more features**.
 
-| Feature                                                    | `next-mdx-remote`   | `next-mdx-remote-client` |
-| ---------------------------------------------------------- | :-----------------: | :----------------------: |
-| support MDX version 3                                      | canary              | stable                   |
-| ensure internal error handling mechanism in `app` router   | ❌                  | ✅                        |
-| ensure internal error handling mechanism in `pages` router | ❌                  | ✅                        |
-| support export-from-MDX in `app` router                    | ❌                  | ✅                        |
-| support export-from-MDX in `pages` router                  | ❌                  | ✅                        | 
-| support import-into-MDX in `app` router                    | ❌                  | ✅                        |
-| support import-into-MDX in `pages` router                  | ❌                  | ❌                        |
-| support disabling imports and exports in MDX               | ✅                  | ✅                        |
-| support passing `vfile.data` into the `scope`              | ❌                  | ✅                        |
-| get frontmatter and mutated scope in `app` router          | ❌                  | ✅                        |
-| get frontmatter and mutated scope in `pages` router        | ✅                  | ✅                        |
-| provide utility for getting frontmatter without compiling  | ❌                  | ✅                        |
-| expose components and types from `@mdx-js/mdx`             | ❌                  | ✅                        |
+| Features                                                    | `next-mdx-remote`   | `next-mdx-remote-client` |
+| :---------------------------------------------------------- | :-----------------: | :----------------------: |
+| support MDX version 3                                       | canary              | stable                   |
+| ensure internal error handling mechanism in `app` router    | ❌                  | ✅                        |
+| ensure internal error handling mechanism in `pages` router  | ❌                  | ✅                        |
+| support export-from-MDX in `app` router                     | ❌                  | ✅                        |
+| support export-from-MDX in `pages` router                   | ❌                  | ✅                        | 
+| support import-into-MDX in `app` router                     | ❌                  | ✅                        |
+| support import-into-MDX in `pages` router                   | ❌                  | ❌                        |
+| get frontmatter and mutated scope in `app` router           | ❌                  | ✅                        |
+| get frontmatter and mutated scope in `pages` router         | ✅                  | ✅                        |
+| support options for disabling imports and exports in MDX    | ✅                  | ✅                        |
+| support passing `vfile.data` into the `scope`               | ❌                  | ✅                        |
+| provide utility for getting frontmatter without compiling   | ❌                  | ✅                        |
+| expose `MDXProvider`, `useMDXComponents` from `@mdx-js/mdx` | ❌                  | ✅                        |
+| provide option for disabling parent `MDXProvider` context   | ❌                  | ✅                        |
+| expose the necessary types from `mdx/types`                 | ❌                  | ✅                        |
 
 > [!IMPORTANT]
 > You will see a lot the abbreviatons **`csr`** and **`rsc`**. _Pay attention to the both are spelled backwards._\
@@ -192,7 +194,9 @@ export default async function MDXComponent({ source }: {source?: string}) {
 If you provide **the generic type parameters** like `await evaluate<Frontmatter, Scope>(){}`, the `frontmatter` and the `scope` get the types, otherwise `Record<string, unknown>` by default for both.
 
 > [!WARNING]
-> Pay attention to the order of the generic type parameters.
+> Pay attention to the order of the generic type parameters.\
+> \
+> The type parameters `Frontmatter` and `Scope` should extend `Record<string, unknown>`. You should use `type` instead of `interface` for type parameters otherwise you will receive an Error `Type 'Xxxx' does not satisfy the constraint 'Record<string, unknown>'.`. See this [issue](https://github.com/ipikuka/next-mdx-remote-client/issues/2) for more explanation.
 
 In the above example, I assume you use `remark-flexible-toc` remark plugin in order to collect the headings from the MDX content, and you pass that information into the `scope` via `vfileDataIntoScope` option.
 
@@ -674,6 +678,8 @@ type HydrateProps = {
 };
 ```
 
+The option `disableParentContext` is a feature of `@mdx-js/mdx`. If it is `false`, the mdx components provided by parent `MDXProvider`s are going to be disregarded.
+
 **Result of the `hydrate` function**
 
 ```typescript
@@ -764,6 +770,8 @@ type MDXClientProps = {
   onError?: React.ComponentType<{ error: Error }>
 };
 ```
+
+The option `disableParentContext` is a feature of `@mdx-js/mdx`. If it is `false`, the mdx components provided by parent `MDXProvider`s are going to be disregarded.
 
 > [!TIP]
 > If you need to get the **exports** from MDX --> use **`hydrate`**\
@@ -964,12 +972,14 @@ Here is _italic text_ and **strong text**
 The package exports one utility, for now, which is **for getting the frontmatter without compiling the source**. You can get the fronmatter and the stripped source by using the `getFrontmatter` which employs the same frontmatter extractor `vfile-matter` used within the package.
 
 ```typescript
+import { getFrontmatter } from "next-mdx-remote-client/utils";
+
 const { frontmatter, strippedSource } = getFrontmatter<TFrontmatter>(source);
 ```
 
 If you provide **the generic type parameter**, it ensures the `frontmatter` gets the type, otherwise `Record<string, unknown>` by default.
 
-**If there is no frontmatter** in the MDX, the `frontmatter` will be **empty object `{}`**.
+**If there is no frontmatter** in the source, the `frontmatter` will be **empty object `{}`**.
 
 ## Types
 
@@ -996,7 +1006,7 @@ The package exports the types for the serialize function:
 - `SerializeOptions`
 - `SerializeResult`
 
-In addition, the package exports the types for developers don't need to import `mdx/types`:
+In addition, the package exports the types from `mdx/types` so that developers do not need to import `mdx/types`:
 
 - `MDXComponents`
 - `MDXContent`
@@ -1009,9 +1019,11 @@ The `next-mdx-remote-client` works with unified version 6+ ecosystem since it is
 
 ## Security
 
-Allowance of the `export` and the `import` declarations in the MDX, if you don't have exact control on the content, may cause vulnerabilities and harmful activities. The `next-mdx-remote-client` gives options for disabling them. You may need to use a plugin for disabiling the import expressions like `await import("xyz")` since the package doesn't touch the import expressions.
+Allowance of the **`export declarations`** and the **`import declarations`** in the MDX, if you don't have exact control on the content, may cause vulnerabilities and harmful activities. The **next-mdx-remote-client** gives options for disabling them. 
 
-`Eval` a string of JavaScript can be a dangerous and may cause enabling XSS attacks, which is how the `next-mdx-remote-client` APIs do. Please, take your own measures while passing the user input.
+But, you need to use a custom recma plugin for disabiling the **`import expressions`** like `await import("xyz")` since the **next-mdx-remote-client** doesn't touch the import expressions.
+
+`Eval` a string of JavaScript can be a dangerous and may cause enabling XSS attacks, which is how the **next-mdx-remote-client** APIs do. Please, take your own measures while passing the user input.
 
 If there is a Content Security Policy (CSP) on the website that disallows code evaluation via `eval` or `new Function()`, it is needed to loosen that restriction in order to utilize `next-mdx-remote-client`, which can be done using [unsafe-eval](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#common_sources).
 
