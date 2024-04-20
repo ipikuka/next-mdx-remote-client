@@ -19,7 +19,7 @@ export function prepare<TFrontmatter extends Record<string, unknown> = Record<st
   source: Compatible,
   parseFrontmatter?: boolean,
 ): PrepareResult<TFrontmatter> {
-  const vfile = new VFile(source);
+  const vfile = looksLikeAVFile(source) ? source : new VFile(source);
 
   // makes frontmatter available via vfile.data.matter
   parseFrontmatter && matter(vfile, { strip: true });
@@ -30,4 +30,13 @@ export function prepare<TFrontmatter extends Record<string, unknown> = Record<st
     vfile,
     frontmatter,
   };
+}
+
+/**
+ * taken from @mdx-js/mdx/lib/util/resolve-file-and-options.js
+ */
+function looksLikeAVFile(value?: Compatible): value is VFile {
+  return Boolean(
+    value && typeof value === "object" && "message" in value && "messages" in value,
+  );
 }
