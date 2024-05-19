@@ -20,7 +20,7 @@ The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-m
 
 | Features                                                    | `next-mdx-remote`   | `next-mdx-remote-client` |
 | :---------------------------------------------------------- | :-----------------: | :----------------------: |
-| support MDX version 3                                       | ✅\ _(as of v5)_    | ✅                        |
+| support MDX version 3                                       | ✅<br />_(as of v5)_| ✅                        |
 | ensure internal error handling mechanism in `app` router    | ❌                  | ✅                        |
 | ensure internal error handling mechanism in `pages` router  | ❌                  | ✅                        |
 | support _export-from-MDX_ in `app` router                   | ❌                  | ✅                        |
@@ -245,7 +245,7 @@ import remarkFlexibleToc, { type TocItem } from "remark-flexible-toc";
 
 import { calculateSomeHow, getSourceSomeHow } from "../utils";
 import { ErrorComponent, LoadingComponent, TableOfContentComponent } from "../components";
-import { components } from '../mdxComponents';
+import { components } from "../mdxComponents";
 
 type Scope = {
   readingTime: string;
@@ -370,9 +370,10 @@ The `evaluate` has **internal error handling mechanism** as much as it can, in o
 ```tsx
 import { Suspense } from "react";
 import { evaluate, type EvaluateOptions } from "next-mdx-remote-client/rsc";
-import { ErrorComponent, LoadingComponent, TableOfContentComponent } from "./components";
-import { components } from "./mdxComponents";
-import type { Frontmatter, Scope } from "./types"
+
+import { ErrorComponent, LoadingComponent, TableOfContentComponent } from "../components";
+import { components } from "../mdxComponents";
+import type { Frontmatter, Scope } from "../types"
 
 export default async function MDXComponent({ source }: {source?: string}) {
   if (!source) {
@@ -668,8 +669,9 @@ The `MDXRemote` has **internal error handling mechanism** as much as it can, in 
 ```tsx
 import { Suspense } from "react";
 import { MDXRemote, type MDXRemoteOptions } from "next-mdx-remote-client/rsc";
-import { ErrorComponent, LoadingComponent } from "./components";
-import { components } from "./mdxComponents";
+
+import { ErrorComponent, LoadingComponent } from "../components";
+import { components } from "../mdxComponents";
 
 export default async function MDXComponent({ source }: {source?: string}) {
   if (!source) {
@@ -1143,9 +1145,10 @@ The `hydrate` has **internal error handling mechanism** as much as it can, in or
 
 ```tsx
 import { hydrate, type SerializeResult } from "next-mdx-remote-client/csr";
-import { ErrorComponent, TableOfContentComponent } from "./components";
-import { components } from "./mdxComponents";
-import type { Frontmatter, Scope } from "./types"
+
+import { ErrorComponent, TableOfContentComponent } from "../components";
+import { components } from "../mdxComponents";
+import type { Frontmatter, Scope } from "../types"
 
 type Props = {
   mdxSource?: SerializeResult<Frontmatter, Scope>;
@@ -1226,9 +1229,10 @@ The `MDXClient` has **internal error handling mechanism** as much as it can, in 
 
 ```tsx
 import { MDXClient, type SerializeResult } from "next-mdx-remote-client/csr";
-import { ErrorComponent, TableOfContentComponent } from "./components";
-import { components } from "./mdxComponents";
-import type { Frontmatter, Scope } from "./types"
+
+import { ErrorComponent, TableOfContentComponent } from "../components";
+import { components } from "../mdxComponents";
+import type { Frontmatter, Scope } from "../types"
 
 type Props = {
   mdxSource?: SerializeResult<Frontmatter, Scope>;
@@ -1307,7 +1311,8 @@ For example, you can wrap the whole application so as **you do not need to suppl
 
 ```tsx
 import { MDXProvider } from 'next-mdx-remote-client';
-import { components } from "./mdxComponents"; 
+
+import { components } from "../mdxComponents"; 
 
 export default function App({ Component, pageProps }) {
   return (
@@ -1322,7 +1327,7 @@ export default function App({ Component, pageProps }) {
 > How this happens, because the `next-mdx-remote-client` injects the `useMdxComponents` context hook from `@mdx-js/react` during the function construction of the compiled source, internally.
 
 > [!CAUTION]
-> React server components don't support React Context, so **the `MDXProvider` can not be used within the nextjs `app` router**.
+> React server components don't support React Context, so **`MDXProvider` can not be used within the nextjs `app` router**.
 
 ## MDX Components
 
@@ -1330,7 +1335,7 @@ You can provide a map of custom MDX components, which is a feature of `@mdx-js/m
 
 Typescript users can use `MDXComponents` from `mdx/types`, which is exported by this package as well.
 
-`./mdxComponents/index.ts`
+`../mdxComponents/index.ts`
 ```tsx
 import { type MDXComponents } from "next-mdx-remote-client";
 

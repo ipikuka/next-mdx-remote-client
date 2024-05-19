@@ -1,11 +1,11 @@
 # Migration guide from `next-mdx-remote`
 
-## Migration Examples for "pages" router
+## Migration examples for "pages" router
 
-All examples taken from **`next-mdx-remote`** to show exactly how to migrate the code.
+All examples have been taken from **`next-mdx-remote`** to show exactly how to migrate the code.
 
 <details>
-  <summary>main example in the github page headline</summary>
+  <summary>Main example in the github page headline</summary>
 
 ```diff
 - import { serialize } from 'next-mdx-remote/serialize'
@@ -44,7 +44,7 @@ export async function getStaticProps() {
 </details>
 
 <details>
-  <summary>Parsing Frontmatter</summary>
+  <summary>Parsing frontmatter</summary>
 
 ```diff
 - import { serialize } from 'next-mdx-remote/serialize'
@@ -77,9 +77,7 @@ export async function getStaticProps() {
   const source = `---
 title: Test
 ---
-
-Some **mdx** text, with a component <Test name={frontmatter.title}/>
-  `
+Some **mdx** text, with a component <Test name={frontmatter.title}/>`
 
 - const mdxSource = await serialize(source, { parseFrontmatter: true })
 + const mdxSource = await serialize({source, options: { parseFrontmatter: true }})
@@ -360,14 +358,14 @@ export const getStaticProps: GetStaticProps<{
 
 </details>
 
-## Migration Examples for "app" router
+## Migration examples for "app" router
 
-All examples taken from **`next-mdx-remote`** to show exactly how to migrate the code.
+All examples have been taken from **`next-mdx-remote`** to show exactly how to migrate the code.
 
 <details>
-  <summary>basic example for React Server Components (RSC)</summary>
+  <summary>Basic example for React Server Components (RSC)</summary>
 
-```tsx
+```diff
 - import { MDXRemote } from 'next-mdx-remote/rsc'
 + import { MDXRemote } from 'next-mdx-remote-client/rsc'
 
@@ -413,7 +411,7 @@ export default function Home() {
 </details>
 
 <details>
-  <summary>Custom Components</summary>
+  <summary>Custom components</summary>
 
 ```diff
 // components/mdx-remote.js
@@ -457,7 +455,7 @@ export default function Home() {
 </details>
 
 <details>
-  <summary>Access Frontmatter and Scope outside of MDX</summary>
+  <summary>Access `frontmatter` and `scope` outside of MDX</summary>
 
 ```diff
 // app/page.js
@@ -473,8 +471,7 @@ export default async function Home() {
 title: RSC Frontmatter Example
 ---
 # Hello World
-This is from {product}!
-`,
+This is from {product}!`,
     options: { 
       parseFrontmatter: true,
       scope: {
@@ -483,9 +480,9 @@ This is from {product}!
     },
   })
 
-+   if (error) {
-+     return <ErrorComponent error={error} />;
-+   }
++ if (error) {
++   return <ErrorComponent error={error} />;
++ }
 
   return (
     <>
@@ -610,9 +607,11 @@ type EvaluateProps<TScope> = {
   options?: EvaluateOptions<TScope>;
   components?: MDXComponents;
 }
+```
 
-The `MDXRemote` takes `MDXRemoteProps` which has additional `onError` prop in addition to `EvaluateProps`.
+The `MDXRemote` takes `MDXRemoteProps` which has `onError` prop in addition to `EvaluateProps`.
 
+```typescript
 type MDXRemoteProps<TScope> = {
   source: Compatible;
   options?: EvaluateOptions<TScope>;
@@ -857,8 +856,8 @@ type HydrateResult = {
 ```typescript
 <MDXRemote
   compiledSource={compiledSource}
-  /* */
-  lazy={true}
+  // ..
+  lazy
 />
 ```
 
@@ -871,6 +870,6 @@ or
 ```typescript
 <MDXClientLazy
   compiledSource={compiledSource}
-  /* */
+  // ..
 />
 ```
