@@ -20,13 +20,13 @@ The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-m
 
 | Features                                                    | `next-mdx-remote`   | `next-mdx-remote-client` |
 | :---------------------------------------------------------- | :-----------------: | :----------------------: |
-| support MDX version 3                                       | canary              | stable                   |
+| support MDX version 3                                       | ✅\ _(as of v5)_    | ✅                        |
 | ensure internal error handling mechanism in `app` router    | ❌                  | ✅                        |
 | ensure internal error handling mechanism in `pages` router  | ❌                  | ✅                        |
-| support export-from-MDX in `app` router                     | ❌                  | ✅                        |
-| support export-from-MDX in `pages` router                   | ❌                  | ✅                        | 
-| support import-into-MDX in `app` router                     | ❌                  | ✅                        |
-| support import-into-MDX in `pages` router                   | ❌                  | ❌                        |
+| support _export-from-MDX_ in `app` router                   | ❌                  | ✅                        |
+| support _export-from-MDX_ in `pages` router                 | ❌                  | ✅                        | 
+| support _import-into-MDX_ in `app` router                   | ❌                  | ✅                        |
+| support _import-into-MDX_ in `pages` router                 | ❌                  | ❌                        |
 | get frontmatter and mutated scope in `app` router           | ❌                  | ✅                        |
 | get frontmatter and mutated scope in `pages` router         | ✅                  | ✅                        |
 | support options for disabling imports and exports in MDX    | ✅                  | ✅                        |
@@ -54,9 +54,9 @@ The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-m
 - The parts client side (csr) and server side (rsc) are completely isolated from each other
 - Exported a small utility to get frontmatter without compiling the source
 - **All functions take named parameters**
-- Supports `import` statements and `export` statements in the MDX
-- Export statements (in the MDX) work for **both** `app` and `pages` router
-- Import statements (in the MDX) work for **only** `app` router
+- Supports `import statements` and `export statements` in the MDX
+- Export statements in MDX work for **both** `app` and `pages` router
+- Import statements in MDX work for **only** `app` router
 
 > [!IMPORTANT]
 > **Imported modules in MDX with relative path should be transpiled into javascript before or during build process, otherwise will not work.** I believe the community can find a solution to import reqular **`.jsx`** or **`.tsx`** modules into MDX. With the support of the **`next/mdx`**, it is viable to import **`.mdx`** into the MDX, but not tested yet.
@@ -94,7 +94,7 @@ import /* */ from "next-mdx-remote-client/utils"; // utils
 
 _Go to [the part associated with Next.js pages router](#the-part-associated-with-nextjs-pages-router)_
 
-The `next-mdx-remote-client` exposes **`evaluate`** and **`MDXRemote`** for the app router.
+The `next-mdx-remote-client` exposes **`evaluate`** function and **`MDXRemote`** component for "app" router.
 
 ```typescript
 import { evaluate, MDXRemote } from "next-mdx-remote-client/rsc";
@@ -106,6 +106,227 @@ import { evaluate, MDXRemote } from "next-mdx-remote-client/rsc";
 > \
 > If you need to get the **frontmatter** and the **mutated scope** --> use **`evaluate`**\
 > If you don't need --> use **`MDXRemote`**
+
+Let's give some examples how to use `next-mdx-remote-client` in "app" router first, then explain the exposed function and component.
+
+### Examples for `app` router
+
+#### An example with `javascript`
+
+```jsx
+import { Suspense } from "react";
+import { MDXRemote } from "next-mdx-remote-client/rsc";
+
+import { ErrorComponent, LoadingComponent } from "../components";
+import { Test } from '../mdxComponents';
+
+const components = {
+  Test,
+  wrapper: ({ children }) => <div className="mdx-wrapper">{children}</div>,
+}
+
+export default async function Page() {
+  const source = "Some **bold text** in MDX, with a component <Test />";
+
+  return (
+    <Suspense fallback={<LoadingComponent />}>
+      <MDXRemote
+        source={source}
+        components={components}
+        onError={ErrorComponent}
+      />
+    </Suspense>
+  );
+};
+```
+
+#### An example with `typescript`, parsing frontmatter and providing custom data with scope
+
+```tsx
+import { Suspense } from "react";
+import { MDXRemote } from "next-mdx-remote-client/rsc";
+import type { MDXRemoteOptions, MDXComponents } from "next-mdx-remote-client/rsc";
+
+import { calculateSomeHow, getSourceSomeHow } from "../utils";
+import { ErrorComponent, LoadingComponent } from "../components";
+import { Test } from '../mdxComponents';
+
+const components: MDXComponents = { 
+  Test,
+  wrapper: function ({ children }: React.ComponentPropsWithoutRef<"div">) {
+    return <div className="mdx-wrapper">{children}</div>;
+  },
+}
+
+export default async function Page() {
+  const source = await getSourceSomeHow();
+
+  if (!source) {
+    return <ErrorComponent error="The source could not found !" />;
+  }
+
+  const options: MDXRemoteOptions = {
+    mdxOptions: {
+      // ...
+    },
+    parseFrontmatter: true,
+    scope: {
+      readingTime: calculateSomeHow(source),
+    },
+  };
+
+  return (
+    <Suspense fallback={<LoadingComponent />}>
+      <MDXRemote
+        source={source}
+        options={options}
+        components={components}
+        onError={ErrorComponent}
+      />
+    </Suspense>
+  );
+}
+```
+
+#### An example with creating a table of content (TOC)
+
+```tsx
+import { Suspense } from "react";
+import { MDXRemote, type MDXRemoteOptions } from "next-mdx-remote-client/rsc";
+import remarkFlexibleToc from "remark-flexible-toc"; // <---------
+
+import { calculateSomeHow, getSourceSomeHow } from "../utils";
+import { ErrorComponent, LoadingComponent } from "../components";
+import { components } from '../mdxComponents';
+
+// assume the mdx "components" has an entry for "TableOfContentComponent",
+// and use it like <TableOfContentComponent toc={toc} /> within MDX source
+
+export default async function Page() {
+  const source = await getSourceSomeHow();
+
+  if (!source) {
+    return <ErrorComponent error="The source could not found !" />;
+  }
+
+  const options: MDXRemoteOptions = {
+    mdxOptions: {
+      remarkPlugins: [
+        // ...
+        remarkFlexibleToc, // <---------
+      ], 
+    },
+    parseFrontmatter: true,
+    scope: {
+      readingTime: calculateSomeHow(source),
+    },
+    vfileDataIntoScope: "toc", // <---------
+  };
+
+  return (
+    <Suspense fallback={<LoadingComponent />}>
+      <MDXRemote
+        source={source}
+        options={options}
+        components={components}
+        onError={ErrorComponent}
+      />
+    </Suspense>
+  );
+}
+```
+
+#### An example with using "frontmatter" and "scope" in JSX in "app" router
+
+```tsx
+import { Suspense } from "react";
+import { evaluate, type EvaluateOptions } from "next-mdx-remote-client/rsc";
+import remarkFlexibleToc, { type TocItem } from "remark-flexible-toc";
+
+import { calculateSomeHow, getSourceSomeHow } from "../utils";
+import { ErrorComponent, LoadingComponent, TableOfContentComponent } from "../components";
+import { components } from '../mdxComponents';
+
+type Scope = {
+  readingTime: string;
+  toc?: TocItem[];
+};
+
+type Frontmatter = {
+  title: string;
+  author: string;
+};
+
+export default async function Page() {
+  const source = await getSourceSomeHow();
+
+  if (!source) {
+    return <ErrorComponent error="The source could not found !" />;
+  }
+
+  const options: EvaluateOptions<Scope> = {
+    mdxOptions: {
+      remarkPlugins: [
+        // ...
+        remarkFlexibleToc,
+      ], 
+    },
+    parseFrontmatter: true,
+    scope: {
+      readingTime: calculateSomeHow(source),
+    },
+    vfileDataIntoScope: "toc",
+  };
+
+  const { content, frontmatter, scope, error } = await evaluate<Frontmatter, Scope>({
+    source,
+    options,
+    components,
+  });
+
+  if (error) {
+    return <ErrorComponent error={error} />;
+  }
+
+  return (
+    <>
+      <h1>{frontmatter.title}</h1>
+      <p>Written by {frontmatter.author}; read in {scope.readingTime}</p>
+      <TableOfContentComponent toc={scope.toc} />
+      <Suspense fallback={<LoadingComponent />}>
+        {content}
+      </Suspense>
+    </>
+  );
+}
+```
+
+Actually, you may not need to access the "frontmatter" and "scope" in JSX, you can use them within MDX directly, and return just `content` only.
+
+```tsx
+// ...
+export default async function Page({ source }: Props) {
+  // ...
+  return (
+    <Suspense fallback={<LoadingComponent />}>
+      {content}
+    </Suspense>
+  );
+}
+```
+
+_article.mdx_
+```markdown
+# {frontmatter.title}
+
+Written by {frontmatter.author}; read in {readingTime}
+
+<TableOfContentComponent toc={toc} />
+
+rest of the article...
+```
+
+After the examples given, let's dive into the exposed function and component by `next-mdx-remote-client` for "app" router.
 
 ### The `evaluate` function
 
@@ -151,7 +372,7 @@ import { Suspense } from "react";
 import { evaluate, type EvaluateOptions } from "next-mdx-remote-client/rsc";
 import { ErrorComponent, LoadingComponent, TableOfContentComponent } from "./components";
 import { components } from "./mdxComponents";
-import { Frontmatter, Scope } from "./types"
+import type { Frontmatter, Scope } from "./types"
 
 export default async function MDXComponent({ source }: {source?: string}) {
   if (!source) {
@@ -258,9 +479,9 @@ For more information see [the MDX documentation](https://github.com/mdx-js/mdx/b
 
 #### `disableExports`
 
-It is a **boolean** option whether or not stripping the `export` statements out from the MDX source.
+It is a **boolean** option whether or not stripping the `export statements` out from the MDX source.
 
-By default it is **false**, meaningly the `export` statements work as expected.
+By default it is **false**, meaningly the `export statements` work as expected.
 
 ```typescript
 const options: EvaluateOptions = {
@@ -268,13 +489,13 @@ const options: EvaluateOptions = {
 };
 ```
 
-Now, the `export` statements will be stripped out from the MDX.
+Now, the `export statements` will be stripped out from the MDX.
 
 #### `disableImports`
 
-It is a **boolean** option whether or not stripping the `import` statements out from the MDX source.
+It is a **boolean** option whether or not stripping the `import statements` out from the MDX source.
 
-By default it is **false**, meaningly the `import` statements work as expected.
+By default it is **false**, meaningly the `import statements` work as expected.
 
 ```typescript
 const options: EvaluateOptions = {
@@ -282,7 +503,7 @@ const options: EvaluateOptions = {
 };
 ```
 
-Now, the `import` statements will be stripped out from the MDX.
+Now, the `import statements` will be stripped out from the MDX.
 
 #### `parseFrontmatter`
 
@@ -382,7 +603,7 @@ type VfileDataIntoScope =
 const options: EvaluateOptions = {
   // Let's assume you use "remark-flexible-toc" plugin which composes
   // the table of content (TOC) within the 'vfile.data.toc'
-  vfileDataIntoScope: "toc";
+  vfileDataIntoScope: "toc"; // or fileDataIntoScope: ["toc"];
 };
 ```
 
@@ -493,9 +714,224 @@ The details are the same with the [EvaluateOptions](#the-evaluate-options-evalua
 
 _Go to [the part associated with Next.js app router](#the-part-associated-with-nextjs-app-router)_
 
-The `next-mdx-remote-client` exposes **`serialize`**, **`hydrate`** and **`MDXClient`** for the pages router.
+The `next-mdx-remote-client` exposes **`serialize`**, **`hydrate`** functions and **`MDXClient`** component for "pages" router.
 
-The `serialize` function is used on the server side in "pages" router, while as the `hydrate` and the `MDXClient` are used on the client side in "pages" router. That is why the "serialize" function is purposefully isolated considering it is intended to run on server side.
+The `serialize` function is used on the server side in "pages" router, while as the `hydrate` and the `MDXClient` are used on the client side in "pages" router. That is why the "serialize" function is purposefully isolated considering it is intended to run on the server side.
+
+Let's give some examples how to use `next-mdx-remote-client` in "pages" router first, then explain the exposed functions and component.
+
+### Examples for `pages` router
+
+#### An example with `javascript`
+
+```jsx
+import { serialize } from 'next-mdx-remote-client/serialize';
+import { MDXClient } from 'next-mdx-remote-client';
+
+import ErrorComponent from '../components/ErrorComponent';
+import Test from '../mdxComponents/Test';
+
+const components = { 
+  Test,
+  wrapper: ({children}) => <div className="mdx-wrapper">{children}</div>,
+}
+
+export default function Page({ mdxSource }) {
+  if ("error" in mdxSource) {
+    return <ErrorComponent error={mdxSource.error} />;
+  }
+
+  return <MDXClient {...mdxSource} components={components} />;
+}
+
+export async function getStaticProps() {
+  const source = "Some **bold text** in MDX, with a component <Test />";
+
+  const mdxSource = await serialize({source});
+
+  return { props: { mdxSource } };
+}
+```
+
+#### An example with `typescript`, parsing frontmatter and providing custom data with scope
+
+```tsx
+import { MDXClient, type MDXComponents } from 'next-mdx-remote-client';
+import { serialize } from "next-mdx-remote-client/serialize";
+import type { SerializeOptions, SerializeResult } from "next-mdx-remote-client/serialize";
+
+import { calculateSomeHow, getSourceSomeHow } from "../utils";
+import ErrorComponent from '../components/ErrorComponent';
+import Test from '../mdxComponents/Test';
+
+type Scope = {
+  readingTime: string;
+};
+
+type Frontmatter = {
+  title: string;
+  author: string;
+};
+
+const components: MDXComponents = { 
+  Test,
+  wrapper: function ({ children }: React.ComponentPropsWithoutRef<"div">) {
+    return <div className="mdx-wrapper">{children}</div>;
+  },
+}
+
+type Props = {
+  mdxSource?: SerializeResult<Frontmatter, Scope>;
+}
+
+export default function Page({ mdxSource }: Props) {
+  if (!mdxSource) {
+    return <ErrorComponent error="The source could not found !" />;
+  }
+
+  if ("error" in mdxSource) {
+    return <ErrorComponent error={mdxSource.error} />;
+  }
+
+  return (
+    <>
+      <h1>{mdxSource.frontmatter.title}</h1>
+      <p>Written by {mdxSource.frontmatter.author}; read in {mdxSource.scope.readingTime}</p>
+      <MDXClient {...mdxSource} components={components} />
+    </>
+  );
+}
+
+export async function getStaticProps() {
+  const source = await getSourceSomeHow();
+
+  if (!source) return { props: {} };
+
+  const options: SerializeOptions<Scope> = {
+    disableImports: true,
+    mdxOptions: {
+      // ...
+    },
+    parseFrontmatter: true,
+    scope: {
+      readingTime: calculateSomeHow(source),
+    },
+  };
+
+  const mdxSource = await serialize<Frontmatter, Scope>({source, options});
+
+  return { props: { mdxSource } };
+}
+```
+
+#### An example with creating a table of content (TOC)
+
+```tsx
+import { MDXClient, type MDXComponents } from 'next-mdx-remote-client';
+import { serialize } from "next-mdx-remote-client/serialize";
+import type { SerializeOptions, SerializeResult } from "next-mdx-remote-client/serialize";
+import remarkFlexibleToc, {type TocItem} from "remark-flexible-toc"; // <---------
+
+import { calculateSomeHow, getSourceSomeHow } from "../utils";
+import { ErrorComponent, TableOfContentComponent } from '../components';
+import { Test } from '../mdxComponents';
+
+type Scope = {
+  readingTime: string;
+};
+
+type Frontmatter = {
+  title: string;
+  author: string;
+};
+
+const components: MDXComponents = { 
+  Test,
+  wrapper: function ({ children }: React.ComponentPropsWithoutRef<"div">) {
+    return <div className="mdx-wrapper">{children}</div>;
+  },
+}
+
+type Props = {
+  mdxSource?: SerializeResult<Frontmatter, Scope & {toc: TocItem[]}>;
+}
+
+export default function Page({ mdxSource }: Props) {
+  if (!mdxSource) {
+    return <ErrorComponent error="The source could not found !" />;
+  }
+
+  if ("error" in mdxSource) {
+    return <ErrorComponent error={mdxSource.error} />;
+  }
+
+  return (
+    <>
+      <h1>{mdxSource.frontmatter.title}</h1>
+      <p>Written by {mdxSource.frontmatter.author}; read in {mdxSource.scope.readingTime}</p>
+      <TableOfContentComponent toc={mdxSource.scope.toc /* <----- here added TOC */} />
+      <MDXClient {...mdxSource} components={components} />
+    </>
+  );
+}
+
+export async function getStaticProps() {
+  const source = await getSourceSomeHow();
+
+  if (!source) return { props: {} };
+
+  const options: SerializeOptions<Scope> = {
+    disableImports: true,
+    mdxOptions: {
+      remarkPlugins: [
+        // ...
+        remarkFlexibleToc, // <---------
+      ], 
+    },
+    parseFrontmatter: true,
+    scope: {
+      readingTime: calculateSomeHow(source),
+    },
+    vfileDataIntoScope: "toc", // <---------
+  };
+
+  const mdxSource = await serialize<Frontmatter, Scope>({source, options});
+
+  return { props: { mdxSource } };
+}
+```
+
+Actually, you may not need to access the "frontmatter" and "scope" in JSX, you can use them within MDX directly, and return just `<MDXClient />` only.
+
+```tsx
+// ...
+const components: MDXComponents = { 
+  TableOfContentComponent, // <---------
+  wrapper: function ({ children }: React.ComponentPropsWithoutRef<"div">) {
+    return <div className="mdx-wrapper">{children}</div>;
+  },
+}
+// ...
+export default function Page({ mdxSource }: Props) {
+  // ...
+  return (
+    <MDXClient {...mdxSource} components={components} />
+  );
+}
+```
+
+_article.mdx_
+```markdown
+# {frontmatter.title}
+
+Written by {frontmatter.author}; read in {readingTime}
+
+<TableOfContentComponent toc={toc} />
+
+rest of the article...
+```
+
+After the examples given, let's dive into the exposed functions and component by `next-mdx-remote-client` for "pages" router.
 
 ### The `serialize` function
 
@@ -509,7 +945,7 @@ import { serialize } from "next-mdx-remote-client/serialize";
 The `serialize` function is used for compiling the **MDX source**, in other words, producing the **compiled source** from MDX source, intended to run on server side at build time.
 
 > [!WARNING]
-> The `serialize` function is **asyncronous** and to be used within the `getStaticProps` or the `getServerSideProps` on the server side. (Off the record, it can be used within an `useEffect` as well, but this is not recommended because it is a little heavy function as having more dependencies).
+> The `serialize` function is **asyncronous** and to be used within the `getStaticProps` or the `getServerSideProps` on the server side. (Off the record, it can be used within an `useEffect` as well, but this is not recommended because it is a heavy function as having more dependencies).
 
 ```typescript
 async function serialize(props: SerializeProps): Promise<SerializeResult> {}
@@ -543,7 +979,7 @@ The `serialize` function has **internal error handling mechanism** for the MDX s
 
 ```tsx
 import { serialize, type SerializeOptions } from "next-mdx-remote-client/serialize";
-import { Frontmatter, Scope } from "./types"
+import type { Frontmatter, Scope } from "./types"
 
 export async function getStaticProps() {
   const source = await getSourceSomeHow();
@@ -709,7 +1145,7 @@ The `hydrate` has **internal error handling mechanism** as much as it can, in or
 import { hydrate, type SerializeResult } from "next-mdx-remote-client/csr";
 import { ErrorComponent, TableOfContentComponent } from "./components";
 import { components } from "./mdxComponents";
-import { Frontmatter, Scope } from "./types"
+import type { Frontmatter, Scope } from "./types"
 
 type Props = {
   mdxSource?: SerializeResult<Frontmatter, Scope>;
@@ -792,7 +1228,7 @@ The `MDXClient` has **internal error handling mechanism** as much as it can, in 
 import { MDXClient, type SerializeResult } from "next-mdx-remote-client/csr";
 import { ErrorComponent, TableOfContentComponent } from "./components";
 import { components } from "./mdxComponents";
-import { Frontmatter, Scope } from "./types"
+import type { Frontmatter, Scope } from "./types"
 
 type Props = {
   mdxSource?: SerializeResult<Frontmatter, Scope>;
@@ -846,9 +1282,9 @@ import { hydrateLazy, MDXClientLazy } from "next-mdx-remote-client/csr";
 
 The `next-mdx-remote-client` exports additional versions, say, the `hydrateAsync` and the `MDXClientAsync`.
 
-These have additional props and options, but here, I don't want to give the details since **I created these for experimental** to show the `import` statements on the client side don't work. You can have a look at the github repository for the codes and the tests.
+These have additional props and options, but here, I don't want to give the details since **I created these for experimental** to show the `import statements` on the client side don't work. You can have a look at the github repository for the codes and the tests.
 
-**The main difference is that the eval of the compiled source takes place in a useEffect** on the browser, since the compile source has `await` keyword for the `import` statements.
+**The main difference is that the eval of the compiled source takes place in a useEffect** on the browser, since the compile source has `await` keyword for the `import statements`.
 
 ```typescript
 import { hydrateAsync, MDXClientAsync } from "next-mdx-remote-client/csr";
