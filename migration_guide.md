@@ -369,14 +369,14 @@ All examples have been taken from **`next-mdx-remote`** to show exactly how to m
 - import { MDXRemote } from 'next-mdx-remote/rsc'
 + import { MDXRemote } from 'next-mdx-remote-client/rsc'
 
++ import { ErrorComponent } from '../components'
+
 // app/page.js
 export default function Home() {
   return (
     <MDXRemote
-      source={`# Hello World
-
-      This is from Server Components!
-      `}
+      source={`# Hello from Server Components`}
++     onEror={ErrorComponent}    
     />
   )
 }
@@ -392,16 +392,16 @@ import { Suspense } from 'react'
 - import { MDXRemote } from 'next-mdx-remote/rsc'
 + import { MDXRemote } from 'next-mdx-remote-client/rsc'
 
++ import { ErrorComponent } from '../components'
+
 // app/page.js
 export default function Home() {
   return (
     // In Next.js you can also use `loading.js` instead of <Suspense />
     <Suspense fallback={<>Loading...</>}>
       <MDXRemote
-        source={`# Hello World
-
-        This is from Server Components!
-        `}
+        source={`# Hello from Server Components`}
++       onEror={ErrorComponent}  
       />
     </Suspense>
   )
@@ -418,6 +418,8 @@ export default function Home() {
 - import { MDXRemote } from 'next-mdx-remote/rsc'
 + import { MDXRemote } from 'next-mdx-remote-client/rsc'
 
++ import { ErrorComponent } from '../components'
+
 const components = {
   h1: (props) => (
     <h1 {...props} className="large-text">
@@ -431,6 +433,7 @@ export function CustomMDX(props) {
     <MDXRemote
       {...props}
       components={{ ...components, ...(props.components || {}) }}
++     onEror={ErrorComponent}  
     />
   )
 }
@@ -444,9 +447,7 @@ export default function Home() {
   return (
     <CustomMDX
       // h1 now renders with `large-text` className
-      source={`# Hello World
-      This is from Server Components!
-    `}
+      source={`# Hello from Server Components`}
     />
   )
 }
@@ -470,8 +471,7 @@ export default async function Home() {
     source: `---
 title: RSC Frontmatter Example
 ---
-# Hello World
-This is from {product}!`,
+# Hello from {product}!`,
     options: { 
       parseFrontmatter: true,
       scope: {

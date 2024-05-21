@@ -45,7 +45,7 @@ The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-m
 ## General considerations about development
 
 - It is ESM only package
-- Needs react version 18.2+, works with latest nextjs ^13.5.6 and ^14.1.3 versions (tested)
+- Needs react version 18.2+, works with latest nextjs ^13.5.6 and ^14.2.3 versions (tested)
 - Needs node version 18.17+ as inline with nextjs does
 - Vitest is used instead of jest for testing
 - Rollup is removed for bundling
