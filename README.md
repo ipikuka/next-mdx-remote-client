@@ -10,13 +10,27 @@
 
 The **`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for **`nextjs`** applications in order to load MDX content. It is a fork of **`next-mdx-remote`**.
 
-An example application source code is at https://github.com/talatkuyuk/demo-next-mdx-remote-client.
+See some blog applications in which **`next-mdx-remote-client`** is used:
++ for a **demo application** which uses **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/)
++ for a **demo application** which uses **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/)
++ for a **testing application** which uses **both `app` and `pages` router**, visit [source code](https://github.com/talatkuyuk/testing-app-for-next-mdx-remote-client) or [living web site](https://testing-app-for-next-mdx-remote-client.vercel.app/)
 
 ## Why `next-mdx-remote-client` ?
 
 I started to create the **`next-mdx-remote-client`** in line with the mindset of the **`@mdx-js/mdx`** in early 2024 considering [next-mdx-remote][next-mdx-remote] had not been updated for a long time, and finally, a brand new package emerged.
 
 The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-mdx-remote`** having **more features**.
+
+**I would like to highlight some main features:**
++ It supports MDX version 3.
++ It provides well designed components and functions for both "pages" router and "app" router, which completely isolated from eachother.
++ It provides internal error handling mechanism.
++ It supports `import statements` and `export statements` in MDX source, which can be disabled as well.
++ Creating table of contents (TOC) is so easy since it supports passing `vfile.data` into the `scope`.
++ You can get frontmatter without compilng the source while listing the articles/posts via a util `getFrontmatter`.
++ It exports some components and types from `@mdx-js/mdx` so as you don't need to install.
+
+Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-client`**.
 
 | Features                                                    | `next-mdx-remote`   | `next-mdx-remote-client` |
 | :---------------------------------------------------------- | :-----------------: | :----------------------: |
@@ -83,11 +97,20 @@ yarn add next-mdx-remote-client
 The main entry point **`/`** also refers to **`/csr`** subpath.
 
 ```typescript
+// main entry point, which is related "pages" router
 import /* */ from "next-mdx-remote-client";
-import /* */ from "next-mdx-remote-client/serialize"; // for the "serialize" function
-import /* */ from "next-mdx-remote-client/csr"; // related with "pages" router
-import /* */ from "next-mdx-remote-client/rsc"; // related with "app" router
-import /* */ from "next-mdx-remote-client/utils"; // utils
+
+// isolated subpath for the "serialize" function
+import /* */ from "next-mdx-remote-client/serialize";
+
+// sub entry point related with "pages" router
+import /* */ from "next-mdx-remote-client/csr";
+
+// sub entry point related with "app" router
+import /* */ from "next-mdx-remote-client/rsc";
+
+// isolated subpath for the utils
+import /* */ from "next-mdx-remote-client/utils";
 ```
 
 ## The part associated with Next.js `app` router
@@ -110,6 +133,8 @@ import { evaluate, MDXRemote } from "next-mdx-remote-client/rsc";
 Let's give some examples how to use `next-mdx-remote-client` in "app" router first, then explain the exposed function and component.
 
 ### Examples for `app` router
+
+See a **demo application** with **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/)
 
 #### An example with `javascript`
 
@@ -188,7 +213,24 @@ export default async function Page() {
 }
 ```
 
-#### An example with creating a table of content (TOC)
+#### An example with creating a table of contents (TOC)
+
+I assume you have a MDX file having `<TableOfContentComponent />` inside; and you provide some MDX components which have an entry for `TableOfContentComponent: (props) => { ... }`.
+
+```markdown
+---
+title: My Article
+---
+# {frontmatter.title}
+
+<TableOfContentComponent toc={toc} />
+
+rest of the article...
+```
+
+You can have a look at an example [TOC component](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router/blob/main/mdxComponents/Toc.tsx) in the demo application.
+
+In order to create a table of contents (TOC) I use `remark-flexible-toc` in the remark plugin list and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`. That's it ! So easy !
 
 ```tsx
 import { Suspense } from "react";
@@ -198,9 +240,6 @@ import remarkFlexibleToc from "remark-flexible-toc"; // <---------
 import { calculateSomeHow, getSourceSomeHow } from "../utils";
 import { ErrorComponent, LoadingComponent } from "../components";
 import { components } from '../mdxComponents';
-
-// assume the mdx "components" has an entry for "TableOfContentComponent",
-// and use it like <TableOfContentComponent toc={toc} /> within MDX source
 
 export default async function Page() {
   const source = await getSourceSomeHow();
@@ -724,6 +763,8 @@ Let's give some examples how to use `next-mdx-remote-client` in "pages" router f
 
 ### Examples for `pages` router
 
+See a **demo application** with **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/)
+
 #### An example with `javascript`
 
 ```jsx
@@ -826,7 +867,24 @@ export async function getStaticProps() {
 }
 ```
 
-#### An example with creating a table of content (TOC)
+#### An example with creating a table of contents (TOC)
+
+I assume you have a MDX file having `<TableOfContentComponent />` inside; and you provide some MDX components which have an entry for `TableOfContentComponent: (props) => { ... }`.
+
+```markdown
+---
+title: My Article
+---
+# {frontmatter.title}
+
+<TableOfContentComponent toc={toc} />
+
+rest of the article...
+```
+
+You can have a look at an example [TOC component](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router/blob/main/mdxComponents/Toc.tsx) in the demo application.
+
+In order to create a table of contents (TOC) I use `remark-flexible-toc` in the remark plugin list and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`. That's it ! So easy !
 
 ```tsx
 import { MDXClient, type MDXComponents } from 'next-mdx-remote-client';
@@ -1275,6 +1333,8 @@ The `next-mdx-remote-client` exports additional versions, say, the `hydrateLazy`
 import { hydrateLazy, MDXClientLazy } from "next-mdx-remote-client/csr";
 ```
 
+When you use `hydrateLazy`, and want to get the exports from MDX via `mod` object, please be aware that the `mod` object is always empty `{}` at first render, then it will get actual exports at second render.
+
 > [!NOTE]
 > Lazy hydration defers hydration of the components on the client. This is an optimization technique to improve the initial load of the application, but may introduce unexpected delays in interactivity for any dynamic content within the MDX content.\
 > \
@@ -1286,9 +1346,9 @@ import { hydrateLazy, MDXClientLazy } from "next-mdx-remote-client/csr";
 
 The `next-mdx-remote-client` exports additional versions, say, the `hydrateAsync` and the `MDXClientAsync`.
 
-These have additional props and options, but here, I don't want to give the details since **I created these for experimental** to show the `import statements` on the client side don't work. You can have a look at the github repository for the codes and the tests.
+These have additional props and options, but here, I don't want to give the details since **I created them for experimental** to show the `import statements` on the client side don't work. You can have a look at the github repository for the code and the tests.
 
-**The main difference is that the eval of the compiled source takes place in a useEffect** on the browser, since the compile source has `await` keyword for the `import statements`.
+**The main difference is that the eval of the compiled source takes place in a useEffect** on the browser, since the compile source has `await` keyword for `import statements`.
 
 ```typescript
 import { hydrateAsync, MDXClientAsync } from "next-mdx-remote-client/csr";
@@ -1324,10 +1384,10 @@ export default function App({ Component, pageProps }) {
 ```
 
 > [!NOTE]
-> How this happens, because the `next-mdx-remote-client` injects the `useMdxComponents` context hook from `@mdx-js/react` during the function construction of the compiled source, internally.
+> How this happens, because the `next-mdx-remote-client` injects the `useMdxComponents` context hook from `@mdx-js/react` during the function construction of the compiled source, internally. Pay attention that it is valid for only `MDXClient` and `hydrate` functions.
 
 > [!CAUTION]
-> React server components don't support React Context, so **`MDXProvider` can not be used within the nextjs `app` router**.
+> Since `MDXRemote` as a react server component can not read the context, **`MDXProvider` is effectless when used within the nextjs `app` router** for `MDXRemote`, which is also for `evaluate`.
 
 ## MDX Components
 
@@ -1416,7 +1476,7 @@ Here is _italic text_ and **strong text**
 
 ## Utility `getFrontmatter`
 
-The package exports one utility **`getFrontmatter`** which is **for getting the frontmatter without compiling the source**. You can get the fronmatter and the stripped source by using the `getFrontmatter` which employs the same frontmatter extractor **`vfile-matter`** used within the package.
+The package exports one utility **`getFrontmatter`** which is **for getting frontmatter without compiling the source**. You can get the fronmatter and the stripped source by using the `getFrontmatter` which employs the same frontmatter extractor **`vfile-matter`** used within the package.
 
 ```typescript
 import { getFrontmatter } from "next-mdx-remote-client/utils";
@@ -1427,6 +1487,12 @@ const { frontmatter, strippedSource } = getFrontmatter<TFrontmatter>(source);
 If you provide **the generic type parameter**, it ensures the `frontmatter` gets the type, otherwise `Record<string, unknown>` by default.
 
 **If there is no frontmatter** in the source, the `frontmatter` will be **empty object `{}`**.
+
+> [!IMPORTANT]
+> \
+> If you use **`next-mdx-remote`** and want to get `frontmatter` without compiling the source !
+> \
+> The subpath **`next-mdx-remote-client/utils`** is isolated from other features of the package and it does cost minimum. **So, anyone can use `next-mdx-remote-client/utils` while using `next-mdx-remote`.**
 
 ## Types
 
