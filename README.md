@@ -11,9 +11,9 @@
 The **`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for **`nextjs`** applications in order to load MDX content. It is a fork of **`next-mdx-remote`**.
 
 See some blog applications in which **`next-mdx-remote-client`** is used:
-+ for a **demo application** which uses **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/)
-+ for a **demo application** which uses **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/)
-+ for a **testing application** which uses **both `app` and `pages` router**, visit [source code](https://github.com/talatkuyuk/testing-app-for-next-mdx-remote-client) or [living web site](https://testing-app-for-next-mdx-remote-client.vercel.app/)
++ for a **demo application** which uses **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/),
++ for a **demo application** which uses **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/),
++ for a **testing application** which uses **both `app` and `pages` router**, visit [source code](https://github.com/talatkuyuk/testing-app-for-next-mdx-remote-client) or [living web site](https://testing-app-for-next-mdx-remote-client.vercel.app/).
 
 ## Why `next-mdx-remote-client` ?
 
@@ -134,7 +134,7 @@ Let's give some examples how to use `next-mdx-remote-client` in "app" router fir
 
 ### Examples for `app` router
 
-See a **demo application** with **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/)
+See a **demo application** with **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/).
 
 #### An example with `javascript`
 
@@ -230,7 +230,9 @@ rest of the article...
 
 You can have a look at an example [TOC component](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router/blob/main/mdxComponents/Toc.tsx) in the demo application.
 
-In order to create a table of contents (TOC) I use `remark-flexible-toc` in the remark plugin list and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`. That's it ! So easy !
+In order to create a table of contents (TOC) I use `remark-flexible-toc` in the remark plugin list and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`.
+
+That's it ! So easy !
 
 ```tsx
 import { Suspense } from "react";
@@ -763,7 +765,7 @@ Let's give some examples how to use `next-mdx-remote-client` in "pages" router f
 
 ### Examples for `pages` router
 
-See a **demo application** with **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/)
+See a **demo application** with **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/).
 
 #### An example with `javascript`
 
@@ -884,7 +886,9 @@ rest of the article...
 
 You can have a look at an example [TOC component](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router/blob/main/mdxComponents/Toc.tsx) in the demo application.
 
-In order to create a table of contents (TOC) I use `remark-flexible-toc` in the remark plugin list and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`. That's it ! So easy !
+In order to create a table of contents (TOC) I use `remark-flexible-toc` in the remark plugin list and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`.
+
+That's it! So easy!
 
 ```tsx
 import { MDXClient, type MDXComponents } from 'next-mdx-remote-client';
