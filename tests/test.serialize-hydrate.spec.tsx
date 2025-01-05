@@ -498,7 +498,42 @@ describe("serialize & hydrate", () => {
 });
 
 describe("serialize & hydrate function with ESM exports", () => {
-  test("works with `export` statements", async () => {
+  test("works with `export` statements 1", async () => {
+    const source = dedent`
+      ---
+      title: 'My Article'
+      ---
+      export const name = 'world'
+      
+      # Hello {name.toUpperCase()}
+    `;
+
+    const mdxSource = await serialize<Frontmatter>({
+      source,
+      options: {
+        parseFrontmatter: true,
+      },
+    });
+
+    if ("error" in mdxSource) throw new Error("shouldn't have any MDX syntax error");
+
+    expect(mdxSource.frontmatter).toEqual({ title: "My Article" });
+    expect(mdxSource.scope).toEqual({});
+
+    const { content, mod, error } = hydrate(mdxSource);
+
+    expect(error).toBeUndefined();
+
+    expect(mod).toMatchObject({
+      name: "world",
+    });
+
+    expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(
+      `"<h1>Hello WORLD</h1>"`,
+    );
+  });
+
+  test("works with `export` statements 2", async () => {
     const source = dedent`
       ---
       title: 'My Article'
@@ -512,6 +547,7 @@ describe("serialize & hydrate function with ESM exports", () => {
 
       # {num} {str} {String(bool)} <Component />
     `;
+
     const mdxSource = await serialize<Frontmatter>({
       source,
       options: {

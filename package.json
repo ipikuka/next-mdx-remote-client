@@ -35,7 +35,7 @@
     "lint": "eslint .",
     "pretest": "npm run build && npm pack --pack-destination ./dist",
     "test:watch": "vitest --pool=vmThreads",
-    "test:file": "vitest --pool=vmThreads test.MDXProvider.spec.tsx",
+    "test:file": "vitest --pool=vmThreads test.serialize-hydrate.spec.tsx",
     "test": "npm run test:esm && npm run test:rest",
     "test:esm": "vitest --pool=vmThreads --watch=false esm",
     "test:rest": "vitest --pool=forks --watch=false --exclude 'tests/*esm*'",
