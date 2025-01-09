@@ -6,7 +6,6 @@
  */
 
 if (typeof window !== "undefined") {
-  // eslint-disable-next-line no-undef
   window.requestIdleCallback ||= function (cb) {
     var start = Date.now();
     return setTimeout(function () {
@@ -19,7 +18,6 @@ if (typeof window !== "undefined") {
     }, 1);
   };
 
-  // eslint-disable-next-line no-undef
   window.cancelIdleCallback ||= function (id) {
     clearTimeout(id);
   };
