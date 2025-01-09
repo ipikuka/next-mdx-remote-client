@@ -113,13 +113,16 @@ export function passVfileDataIntoScope(
     vfileDataIntoScope.forEach((field) => {
       if (typeof field === "string") {
         scope[field] = data[field];
-      } else if (field.hasOwnProperty("name") && field.hasOwnProperty("as")) {
+      } else if (
+        Object.prototype.hasOwnProperty.call(field, "name") &&
+        Object.prototype.hasOwnProperty.call(field, "as")
+      ) {
         scope[field.as] = data[field.name];
       }
     });
   } else if (
-    vfileDataIntoScope.hasOwnProperty("name") &&
-    vfileDataIntoScope.hasOwnProperty("as")
+    Object.prototype.hasOwnProperty.call(vfileDataIntoScope, "name") &&
+    Object.prototype.hasOwnProperty.call(vfileDataIntoScope, "as")
   ) {
     scope[vfileDataIntoScope.as] = data[vfileDataIntoScope.name];
   }

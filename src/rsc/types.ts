@@ -9,7 +9,6 @@ import { type Compatible } from "vfile";
 
 import { VfileDataIntoScope } from "../lib/util.js";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type Prettify<T> = { [K in keyof T]: T[K] } & {};
 
 export type EvaluateProps<TScope extends Record<string, unknown> = Record<string, unknown>> = {
