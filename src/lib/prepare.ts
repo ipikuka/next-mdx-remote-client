@@ -22,7 +22,7 @@ export function prepare<TFrontmatter extends Record<string, unknown> = Record<st
   const vfile = looksLikeAVFile(source) ? source : new VFile(source);
 
   // makes frontmatter available via vfile.data.matter
-  parseFrontmatter && matter(vfile, { strip: true });
+  if (parseFrontmatter) matter(vfile, { strip: true });
 
   const frontmatter = (vfile.data.matter ?? {}) as TFrontmatter;
 
