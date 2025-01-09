@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { coverageConfigDefaults } from "vitest/config";
 import react from "@vitejs/plugin-react-swc";
 
 /// <reference types="vitest" />
@@ -32,6 +33,7 @@ export default defineConfig({
         "**/types.ts",
         "**/*.d.ts",
         "src/csr/idle-callback-polyfill.js",
+        ...coverageConfigDefaults.exclude,
       ],
     },
   },
