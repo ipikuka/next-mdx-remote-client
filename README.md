@@ -8,6 +8,13 @@
 [![typescript][badge-typescript]][typescript-url]
 [![License][badge-license]][github-license-url]
 
+> [!IMPORTANT]
+> **If you are using `react18`, use ver.1 of `next-mdx-remote-client`, currently v1.0.4**
+>
+> **If you are using `react19`, use ver.2 of `next-mdx-remote-client`, currently v2.0.0**
+>
+> *The both serve the same features and APIs. I am going to maintain both.*
+
 The **`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for **`nextjs`** applications in order to load MDX content. It is a fork of **`next-mdx-remote`**.
 
 See some blog applications in which **`next-mdx-remote-client`** is used:
@@ -27,7 +34,7 @@ The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-m
 + It provides internal error handling mechanism.
 + It supports `import statements` and `export statements` in MDX source, which can be disabled as well.
 + Creating table of contents (TOC) is so easy since it supports passing `vfile.data` into the `scope`.
-+ You can get frontmatter without compilng the source while listing the articles/posts via a util `getFrontmatter`.
++ You can get frontmatter without compiling the source while listing the articles/posts via `getFrontmatter`.
 + It exports some components and types from `@mdx-js/mdx` so as you don't need to install.
 
 Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-client`**.
@@ -59,8 +66,8 @@ Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-clien
 ## General considerations about development
 
 - It is ESM only package
-- Needs react version 18.2+, works with latest nextjs ^13.5.6 and ^14.2.4 versions (tested)
-- Needs node version 18.17+ as inline with nextjs does
+- Needs `react` version 18.3+, works with latest next@13 and next@14 versions (tested)
+- Needs `node` version 18.18+ in line with nextjs does
 - Vitest is used instead of jest for testing
 - Rollup is removed for bundling
 - Test coverage is 100%
@@ -68,19 +75,26 @@ Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-clien
 - The parts client side (csr) and server side (rsc) are completely isolated from each other
 - Exported a small utility to get frontmatter without compiling the source
 - **All functions take named parameters**
-- Supports `import statements` and `export statements` in the MDX
+- Supports `import statements` and `export statements` in MDX
 - Export statements in MDX work for **both** `app` and `pages` router
 - Import statements in MDX work for **only** `app` router
 
 > [!IMPORTANT]
-> **Imported modules in MDX with relative path should be transpiled into javascript before or during build process, otherwise will not work.** I believe the community can find a solution to import reqular **`.jsx`** or **`.tsx`** modules into MDX. With the support of the **`next/mdx`**, it is viable to import **`.mdx`** into the MDX, but not tested yet.
+> **Imported modules in MDX with relative path should be transpiled into javascript before or during build process, otherwise will not work.** I believe the community can find a solution to import reqular **`.jsx`** or **`.tsx`** modules into MDX. With the support of the **`next/mdx`**, it is viable to import **`.mdx`** into MDX, but not tested yet.
 
 ## Installation
 
-This package is ESM only, requires Node.js (version 18.17+).
+This package is ESM only, requires Node.js (version 18.18+).
 
 ```bash
+# in general
 npm install next-mdx-remote-client
+
+# specifically for react18 users
+npm install next-mdx-remote-client@1
+
+# specifically for react19 users
+npm install next-mdx-remote-client@2
 ```
 
 or
@@ -1569,6 +1583,8 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 
 - [`rehype-pre-language`](https://www.npmjs.com/package/rehype-pre-language)
   – Rehype plugin to add language information as a property to `pre` element
+- [`rehype-highlight-code-lines`](https://www.npmjs.com/package/rehype-highlight-code-lines)
+  – Rehype plugin to add line numbers to code blocks and allow highlighting of desired code lines
 
 ### My Recma Plugins
 
