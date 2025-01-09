@@ -1,7 +1,7 @@
 {
   "name": "next-mdx-remote-client",
   "description": "A wrapper of the `@mdx-js/mdx` for the `nextjs` applications in order to load MDX content. It is a fork of `next-mdx-remote`.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "./dist/csr/index.js",
   "types": "./dist/csr/index.d.ts",
   "type": "module",
@@ -109,8 +109,8 @@
     "vitest": "^2.1.8"
   },
   "peerDependencies": {
-    "react": "^18.3",
-    "react-dom": "^18.3"
+    "react": ">= 18.3.0 < 19.0.0",
+    "react-dom": ">= 18.3.0 < 19.0.0"
   },
   "engines": {
     "node": ">=18.18.0"
