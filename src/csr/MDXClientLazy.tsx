@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { type MDXClientProps } from "./types.js";
+import type { MDXClientProps, Element } from "./types.js";
 import { hydrateLazy } from "./hydrateLazy.js";
 
 /**
@@ -11,7 +11,7 @@ import { hydrateLazy } from "./hydrateLazy.js";
  *
  * the content is going to be hydrated "lazily".
  */
-export function MDXClientLazy(props: MDXClientProps): JSX.Element {
+export function MDXClientLazy(props: MDXClientProps): Element {
   const { onError: ErrorComponent, ...rest } = props;
 
   const { content, error } = hydrateLazy(rest);

@@ -5,7 +5,7 @@
 
 import { serializeError } from "serialize-error";
 
-import { type CompileMdxOptions } from "../lib/types.js";
+import type { CompileMdxOptions } from "../lib/types.js";
 import { passVfileDataIntoScope } from "../lib/util.js";
 import { prepare } from "../lib/prepare.js";
 import { compile } from "../lib/compile.js";

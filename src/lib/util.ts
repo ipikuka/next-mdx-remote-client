@@ -114,14 +114,18 @@ export function passVfileDataIntoScope(
       if (typeof field === "string") {
         scope[field] = data[field];
       } else if (
+        // type-coverage:ignore-next-line
         Object.prototype.hasOwnProperty.call(field, "name") &&
+        // type-coverage:ignore-next-line
         Object.prototype.hasOwnProperty.call(field, "as")
       ) {
         scope[field.as] = data[field.name];
       }
     });
   } else if (
+    // type-coverage:ignore-next-line
     Object.prototype.hasOwnProperty.call(vfileDataIntoScope, "name") &&
+    // type-coverage:ignore-next-line
     Object.prototype.hasOwnProperty.call(vfileDataIntoScope, "as")
   ) {
     scope[vfileDataIntoScope.as] = data[vfileDataIntoScope.name];
