@@ -36,13 +36,15 @@ describe("MDXProvider", () => {
 
     if ("error" in mdxSource) throw new Error("shouldn't have any MDX syntax error");
 
+    const CustomWrapper: React.FC<React.PropsWithChildren> = (properties) => {
+      return <div id="layout" {...properties} />;
+    };
+
     expect(
       ReactDOMServer.renderToStaticMarkup(
         <MDXProvider
           components={{
-            wrapper(properties: JSX.IntrinsicElements["div"]) {
-              return <div id="layout" {...properties} />;
-            },
+            wrapper: CustomWrapper,
           }}
         >
           <MDXClient {...mdxSource} />

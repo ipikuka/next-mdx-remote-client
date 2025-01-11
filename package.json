@@ -83,6 +83,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@types/babel__code-frame": "^7.0.6",
+    "@types/eslint-config-prettier": "^6.11.3",
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.4",
     "@types/react-dom": "^19.0.2",
@@ -106,11 +107,12 @@
     "type-coverage": "^2.29.7",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.19.1",
+    "unified": "^11.0.5",
     "vitest": "^3.0.0-beta.4"
   },
   "peerDependencies": {
-    "react": ">= 19.0.0",
-    "react-dom": ">= 19.0.0"
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
   },
   "engines": {
     "node": ">=18.18.0"

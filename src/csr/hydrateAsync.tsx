@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { MDXProvider, useMDXComponents } from "@mdx-js/react";
 
 import { runAsync } from "../lib/run.js";
-import { type RunResult } from "../lib/types.js";
+import type { RunResult } from "../lib/types.js";
 
 import type { HydrateAsyncProps, HydrateResult } from "./types.js";
 

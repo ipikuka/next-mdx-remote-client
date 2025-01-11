@@ -3,14 +3,16 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import {
-  type CompileOptions as OriginalCompileOptions,
-  type RunOptions as OriginalRunOptions,
+import type {
+  CompileOptions as OriginalCompileOptions,
+  RunOptions as OriginalRunOptions,
 } from "@mdx-js/mdx";
-import { type MDXComponents } from "mdx/types";
-import { type Compatible } from "vfile";
+import type { MDXComponents, Element } from "mdx/types";
+import type { Compatible } from "vfile";
 
-import { type VfileDataIntoScope } from "../lib/util.js";
+import type { VfileDataIntoScope } from "../lib/util.js";
+
+export type { Element } from "mdx/types";
 
 export type Prettify<T> = { [K in keyof T]: T[K] } & {};
 
@@ -129,7 +131,7 @@ export type HydrateResult = {
   /**
    * React element that renders the MDX compiled source using the component names mapping object.
    */
-  content: JSX.Element;
+  content: Element;
   /**
    * An object which holds any value that is exported from the MDX file.
    */
@@ -155,7 +157,7 @@ export type HydrateAsyncProps = Prettify<
     /**
      * fallback loading component
      */
-    loading?: () => JSX.Element;
+    loading?: () => Element;
   }
 >;
 

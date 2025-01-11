@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { type MDXClientAsyncProps } from "./types.js";
+import type { MDXClientAsyncProps, Element } from "./types.js";
 import { hydrateAsync } from "./hydrateAsync.js";
 
 /**
@@ -13,7 +13,7 @@ import { hydrateAsync } from "./hydrateAsync.js";
  *
  * the content is going to be hydrated "asynchronously" in a useEffect hook.
  */
-export function MDXClientAsync(props: MDXClientAsyncProps): JSX.Element {
+export function MDXClientAsync(props: MDXClientAsyncProps): Element {
   const { onError: ErrorComponent, ...rest } = props;
 
   const { content, error } = hydrateAsync(rest);

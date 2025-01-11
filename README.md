@@ -1543,6 +1543,7 @@ In addition, the package exports the types from `mdx/types` so that developers d
 - `MDXContent`
 - `MDXProps`
 - `MDXModule`
+- `Element`
 
 ## Compatibility
 

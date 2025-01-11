@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { Compatible, VFile } from "vfile";
+import { type Compatible, VFile } from "vfile";
 import { matter } from "vfile-matter";
 
-import { type PrepareResult } from "./types";
+import type { PrepareResult } from "./types.js";
 
 /**
  * turns the source into vfile, gets the fronmatter, strips it out from the vfile
