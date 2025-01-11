@@ -12,7 +12,7 @@ import type { Compatible } from "vfile";
 
 import type { VfileDataIntoScope } from "../lib/util.js";
 
-export type { Element } from "mdx/types.js";
+export type { Element } from "mdx/types";
 
 export type Prettify<T> = { [K in keyof T]: T[K] } & {};
 

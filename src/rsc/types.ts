@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { type EvaluateOptions as OriginalEvaluateOptions } from "@mdx-js/mdx";
-import type { MDXComponents, Element } from "mdx/types.js";
+import type { EvaluateOptions as OriginalEvaluateOptions } from "@mdx-js/mdx";
+import type { MDXComponents, Element } from "mdx/types";
 import type { Compatible } from "vfile";
 
-import { VfileDataIntoScope } from "../lib/util.js";
+import type { VfileDataIntoScope } from "../lib/util.js";
 
-export type { Element } from "mdx/types.js";
+export type { Element } from "mdx/types";
 
 export type Prettify<T> = { [K in keyof T]: T[K] } & {};
 

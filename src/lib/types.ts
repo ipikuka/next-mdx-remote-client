@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import {
-  type CompileOptions as OriginalCompileOptions,
-  type RunOptions as OriginalRunOptions,
+import type {
+  CompileOptions as OriginalCompileOptions,
+  RunOptions as OriginalRunOptions,
 } from "@mdx-js/mdx";
 import type { MDXContent } from "mdx/types";
 import type { Compatible, VFile } from "vfile";
