@@ -4,7 +4,7 @@
  */
 
 import { compile as compileMDX, type CompileOptions as CompileMDXOptions } from "@mdx-js/mdx";
-import { VFile } from "vfile";
+import type { VFile } from "vfile";
 import type { PluggableList } from "unified";
 import remarkMdxRemoveEsm, { clsx } from "remark-mdx-remove-esm";
 
