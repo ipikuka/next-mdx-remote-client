@@ -4,12 +4,12 @@
  */
 
 import { evaluate } from "./evaluate.js";
-import { type MDXRemoteProps } from "./types.js";
+import type { MDXRemoteProps, Element } from "./types.js";
 
 /**
  * renders the content as a react server component (rsc), which is provided by the "evaluate" function
  */
-export async function MDXRemote(props: MDXRemoteProps): Promise<JSX.Element> {
+export async function MDXRemote(props: MDXRemoteProps): Promise<Element> {
   const { onError: ErrorComponent, ...rest } = props;
 
   const { content, error } = await evaluate(rest);

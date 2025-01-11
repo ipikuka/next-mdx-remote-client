@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { type MDXClientProps } from "./types.js";
+import type { MDXClientProps, Element } from "./types.js";
 import { hydrate } from "./hydrate.js";
 
 /**
  * renders the content on the client side (csr), which is provided by the "hydrate" function.
  */
-export function MDXClient(props: MDXClientProps): JSX.Element {
+export function MDXClient(props: MDXClientProps): Element {
   const { onError: ErrorComponent, ...rest } = props;
 
   const { content, error } = hydrate(rest);

@@ -6,7 +6,7 @@
 import { Compatible, VFile } from "vfile";
 import { matter } from "vfile-matter";
 
-import { type PrepareResult } from "./types";
+import type { PrepareResult } from "./types";
 
 /**
  * turns the source into vfile, gets the fronmatter, strips it out from the vfile
