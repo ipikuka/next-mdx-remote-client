@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { describe, expect, test } from "vitest";
 import { serialize } from "../src/csr/serialize.js";
-import { MDXClient, MDXProvider } from "../src/csr/index.js";
+import { MDXClient, MDXProvider, type MDXComponents } from "../src/csr/index.js";
 
 // the test cases are taken from `@mdx-js/react`for reference
 describe("MDXProvider", () => {
@@ -36,8 +36,11 @@ describe("MDXProvider", () => {
 
     if ("error" in mdxSource) throw new Error("shouldn't have any MDX syntax error");
 
-    const CustomWrapper: React.FC<React.PropsWithChildren> = (properties) => {
-      return <div id="layout" {...properties} />;
+    const CustomWrapper = (
+      props: React.JSX.IntrinsicElements["div"] & { components: MDXComponents },
+    ) => {
+      const { components, ...rest } = props;
+      return <div id="layout" {...rest} />;
     };
 
     expect(

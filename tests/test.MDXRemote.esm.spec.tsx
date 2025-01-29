@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, expect, test } from "vitest";
-import { MDXRemote, MDXRemoteOptions } from "../src/rsc";
+import { MDXRemote, type MDXRemoteOptions, type MDXComponents } from "../src/rsc";
 // import { render, screen } from "@testing-library/react";
 import ReactDOMServer from "react-dom/server";
 
@@ -13,10 +13,15 @@ describe("MDXRemote", () => {
     return <div data-testid="mdx-error">{error.message}</div>;
   };
 
-  const components = {
+  const mdxComponents = {
     Test: ({ name }: { name: string }) => <strong>{name}</strong>,
-    wrapper: (props: { children: any }) => {
-      return <div data-testid="mdx-layout">{props.children}</div>;
+    wrapper: (props: React.ComponentProps<"div"> & { components: MDXComponents }) => {
+      const { components, children, ...rest } = props;
+      return (
+        <div data-testid="mdx-layout" {...rest}>
+          {children}
+        </div>
+      );
     },
   };
 
@@ -32,7 +37,7 @@ describe("MDXRemote", () => {
     const content = await MDXRemote({
       source,
       options,
-      components,
+      components: mdxComponents,
       onError: ErrorComponent,
     });
 
@@ -47,7 +52,7 @@ describe("MDXRemote", () => {
     try {
       await MDXRemote({
         source,
-        components,
+        components: mdxComponents,
       });
     } catch (error) {
       expect(error).toMatchInlineSnapshot(
@@ -61,7 +66,7 @@ describe("MDXRemote", () => {
 
     const content = await MDXRemote({
       source,
-      components,
+      components: mdxComponents,
       onError: ErrorComponent,
     });
 
@@ -82,7 +87,7 @@ describe("MDXRemote", () => {
     const content = await MDXRemote({
       source,
       options,
-      components,
+      components: mdxComponents,
       onError: ErrorComponent,
     });
 
@@ -94,7 +99,7 @@ describe("MDXRemote", () => {
 
     const content = await MDXRemote({
       source,
-      components,
+      components: mdxComponents,
       onError: ErrorComponent,
     });
 

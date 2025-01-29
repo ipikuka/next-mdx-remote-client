@@ -2,7 +2,7 @@ import React from "react";
 import { describe, expect, test } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 
-import { MDXClientLazy } from "../src/csr";
+import { MDXClientLazy, type MDXComponents } from "../src/csr";
 import { serialize } from "../src/csr/serialize.js";
 import ErrorBoundary from "./ErrorBoundarySimple.jsx";
 
@@ -11,10 +11,15 @@ describe("MDXClientLazy", () => {
     return <div data-testid="mdx-error">{error.message}</div>;
   };
 
-  const components = {
+  const mdxComponents = {
     Test: ({ name }: { name: string }) => <strong>{name}</strong>,
-    wrapper: (props: { children: any }) => {
-      return <div data-testid="mdx-layout">{props.children}</div>;
+    wrapper: (props: React.ComponentProps<"div"> & { components: MDXComponents }) => {
+      const { components, children, ...rest } = props;
+      return (
+        <div data-testid="mdx-layout" {...rest}>
+          {children}
+        </div>
+      );
     },
   };
 
@@ -30,7 +35,9 @@ describe("MDXClientLazy", () => {
 
     if ("error" in mdxSource) throw new Error("shouldn't have any MDX syntax error");
 
-    render(<MDXClientLazy components={components} {...mdxSource} onError={ErrorComponent} />);
+    render(
+      <MDXClientLazy components={mdxComponents} {...mdxSource} onError={ErrorComponent} />,
+    );
 
     await waitFor(() =>
       expect(screen.queryByTestId("mdx-layout")?.innerHTML).toContain(
@@ -46,7 +53,9 @@ describe("MDXClientLazy", () => {
 
     if ("error" in mdxSource) throw new Error("shouldn't have any MDX syntax error");
 
-    render(<MDXClientLazy components={components} {...mdxSource} onError={ErrorComponent} />);
+    render(
+      <MDXClientLazy components={mdxComponents} {...mdxSource} onError={ErrorComponent} />,
+    );
 
     await screen.findByTestId("mdx-error", {}, { timeout: 2000 });
 
@@ -68,7 +77,7 @@ describe("MDXClientLazy", () => {
 
     render(
       <ErrorBoundary fallback={<div data-testid="mdx-error">Something went wrong</div>}>
-        <MDXClientLazy components={components} {...mdxSource} onError={ErrorComponent} />
+        <MDXClientLazy components={mdxComponents} {...mdxSource} onError={ErrorComponent} />
       </ErrorBoundary>,
     );
 
