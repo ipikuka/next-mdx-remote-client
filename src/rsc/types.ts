@@ -4,12 +4,10 @@
  */
 
 import type { EvaluateOptions as OriginalEvaluateOptions } from "@mdx-js/mdx";
-import type { MDXComponents, Element } from "mdx/types";
+import type { MDXComponents } from "mdx/types";
 import type { Compatible } from "vfile";
 
 import type { VfileDataIntoScope } from "../lib/util.js";
-
-export type { Element } from "mdx/types";
 
 export type Prettify<T> = { [K in keyof T]: T[K] } & {};
 
@@ -84,7 +82,7 @@ export type EvaluateResult<
   /**
    * React element that renders the MDX source using the component names mapping object.
    */
-  content: Element;
+  content: React.JSX.Element;
   /**
    * An object which holds any value that is exported from the MDX file.
    */

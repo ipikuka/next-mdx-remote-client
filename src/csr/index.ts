@@ -26,4 +26,4 @@ export type {
 export { MDXProvider, useMDXComponents } from "@mdx-js/react";
 
 // for who needs to use them without installing the "mdx/types"
-export type { MDXComponents, MDXContent, MDXProps, MDXModule, Element } from "mdx/types";
+export type { MDXComponents, MDXContent, MDXProps, MDXModule } from "mdx/types";

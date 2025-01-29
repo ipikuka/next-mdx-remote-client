@@ -665,7 +665,7 @@ The `evaluate` returns `mod` object for the exports, `scope`, and `error` object
 const { content, mod, frontmatter, scope, error } = await evaluate<Frontmatter, Scope>({source, options, components});
 
 type EvaluateResult<TFrontmatter, TScope> = {
-  content: JSX.Element;
+  content: React.JSX.Element;
   mod: Record<string, unknown>;
   frontmatter: TFrontmatter;
   scope: TScope;
@@ -817,7 +817,7 @@ type HydrateProps = {
 };
 
 type HydrateResult = {
-  content: JSX.Element;
+  content: React.JSX.Element;
   mod: Record<string, unknown>;
   error?: Error;
 };
