@@ -16,7 +16,7 @@ describe("MDXRemote", () => {
   const mdxComponents = {
     Test: ({ name }: { name: string }) => <strong>{name}</strong>,
     wrapper: (props: React.ComponentProps<"div"> & { components: MDXComponents }) => {
-      const { components, children, ...rest } = props;
+      const { components, children, ...rest } = props; // eslint-disable-line @typescript-eslint/no-unused-vars
       return (
         <div data-testid="mdx-layout" {...rest}>
           {children}

@@ -39,7 +39,7 @@ describe("MDXProvider", () => {
     const CustomWrapper = (
       props: React.JSX.IntrinsicElements["div"] & { components: MDXComponents },
     ) => {
-      const { components, ...rest } = props;
+      const { components, ...rest } = props; // eslint-disable-line @typescript-eslint/no-unused-vars
       return <div id="layout" {...rest} />;
     };
 

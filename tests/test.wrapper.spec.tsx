@@ -24,7 +24,7 @@ describe("evaluate function with wrapper", () => {
       source: "foo **bar**",
       components: {
         wrapper(props: React.ComponentProps<"div"> & { components: MDXComponents }) {
-          const { components, ...rest } = props;
+          const { components, ...rest } = props; // eslint-disable-line @typescript-eslint/no-unused-vars
           return <div id="layout" {...rest} />;
         },
       },
