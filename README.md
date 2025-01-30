@@ -409,7 +409,7 @@ type EvaluateProps<TScope> = {
 
 ```typescript
 type EvaluateResult<TFrontmatter, TScope> = {
-  content: JSX.Element;
+  content: React.JSX.Element;
   mod: Record<string, unknown>;
   frontmatter: TFrontmatter;
   scope: TScope;
@@ -700,10 +700,10 @@ _Go to the [evaluate](#the-evaluate-function) function_
 The `MDXRemote` component is used for rendering the MDX content on the server side. It is a react server component.
 
 ```typescript
-async function MDXRemote(props: MDXRemoteProps): Promise<JSX.Element> {}
+async function MDXRemote(props: MDXRemoteProps): Promise<React.JSX.Element> {}
 ```
 
-The `MDXRemote` component takes `MDXRemoteProps` and returns `JSX.Element` as a promise.
+The `MDXRemote` component takes `MDXRemoteProps` and returns `React.JSX.Element` as a promise.
 
 **Props of the `MDXRemote` component**
 
@@ -1202,7 +1202,7 @@ The option `disableParentContext` is a feature of `@mdx-js/mdx`. If it is `false
 
 ```typescript
 type HydrateResult = {
-  content: JSX.Element;
+  content: React.JSX.Element;
   mod: Record<string, unknown>;
   error?: Error;
 };
@@ -1274,10 +1274,10 @@ import { MDXClient } from "next-mdx-remote-client/csr";
 The `MDXClient` component is used for rendering the MDX content on the client side.
 
 ```typescript
-function MDXClient(props: MDXClientProps): JSX.Element {}
+function MDXClient(props: MDXClientProps): React.JSX.Element {}
 ```
 
-The `MDXClient` component takes `MDXClientProps` and returns `JSX.Element`. The `MDXClient` has no "options" parameter like `hydrate`.
+The `MDXClient` component takes `MDXClientProps` and returns `React.JSX.Element`. The `MDXClient` has no "options" parameter like `hydrate`.
 
 **Props of the `MDXClient` component**
 
@@ -1543,7 +1543,6 @@ In addition, the package exports the types from `mdx/types` so that developers d
 - `MDXContent`
 - `MDXProps`
 - `MDXModule`
-- `Element`
 
 ## Compatibility
 

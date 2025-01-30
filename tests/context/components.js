@@ -3,7 +3,7 @@
 import React from "react";
 
 /**
- * @param {Readonly<JSX.IntrinsicElements['span']>} props
+ * @param {Readonly<React.JSX.IntrinsicElements['span']>} props
  *   Props
  * @returns
  *   `span` element.
@@ -13,7 +13,7 @@ export function Pill(props) {
 }
 
 /**
- * @param {Readonly<JSX.IntrinsicElements['div']>} props
+ * @param {Readonly<React.JSX.IntrinsicElements['div']>} props
  *   Props
  * @returns
  *   `div` element.
