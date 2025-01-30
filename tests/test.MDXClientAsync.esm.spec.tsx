@@ -2,7 +2,7 @@ import React from "react";
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-import { MDXClientAsync } from "../src/csr";
+import { MDXClientAsync, type MDXComponents } from "../src/csr";
 import { serialize } from "../src/csr/serialize.js";
 import ErrorBoundary from "./ErrorBoundarySimple.jsx";
 
@@ -15,10 +15,15 @@ describe("MDXClientAsync", () => {
     return <div data-testid="mdx-error">{error.message}</div>;
   };
 
-  const components = {
+  const mdxComponents = {
     Test: ({ name }: { name: string }) => <strong>{name}</strong>,
-    wrapper: (props: { children: any }) => {
-      return <div data-testid="mdx-layout">{props.children}</div>;
+    wrapper: (props: React.ComponentProps<"div"> & { components: MDXComponents }) => {
+      const { components, children, ...rest } = props; // eslint-disable-line @typescript-eslint/no-unused-vars
+      return (
+        <div data-testid="mdx-layout" {...rest}>
+          {children}
+        </div>
+      );
     },
   };
 
@@ -36,7 +41,7 @@ describe("MDXClientAsync", () => {
 
     render(
       <MDXClientAsync
-        components={components}
+        components={mdxComponents}
         {...mdxSource}
         loading={LoadingComponent}
         onError={ErrorComponent}
@@ -63,7 +68,7 @@ describe("MDXClientAsync", () => {
 
     render(
       <MDXClientAsync
-        components={components}
+        components={mdxComponents}
         {...mdxSource}
         loading={LoadingComponent}
         onError={ErrorComponent}
@@ -94,7 +99,7 @@ describe("MDXClientAsync", () => {
 
     render(
       <MDXClientAsync
-        components={components}
+        components={mdxComponents}
         {...mdxSource}
         loading={LoadingComponent}
         onError={ErrorComponent}
@@ -124,7 +129,7 @@ describe("MDXClientAsync", () => {
       <ErrorBoundary fallback={<div data-testid="mdx-error">Something went wrong</div>}>
         render(
         <MDXClientAsync
-          components={components}
+          components={mdxComponents}
           {...mdxSource}
           loading={LoadingComponent}
           onError={ErrorComponent}
