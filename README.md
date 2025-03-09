@@ -1,12 +1,12 @@
 # next-mdx-remote-client
 
-[![NPM version][badge-npm-version]][npm-package-url]
-[![NPM downloads][badge-npm-download]][npm-package-url]
-[![Build][badge-build]][github-workflow-url]
-[![codecov](https://codecov.io/gh/ipikuka/next-mdx-remote-client/graph/badge.svg?token=N0BPBCI5CC)](https://codecov.io/gh/ipikuka/next-mdx-remote-client)
-[![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fipikuka%2Fnext-mdx-remote-client%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/next-mdx-remote-client)
-[![typescript][badge-typescript]][typescript-url]
-[![License][badge-license]][github-license-url]
+[![npm version][badge-npm-version]][url-npm-package]
+[![npm downloads][badge-npm-download]][url-npm-package]
+[![publish to npm][badge-publish-to-npm]][url-publish-github-actions]
+[![code-coverage][badge-codecov]][url-codecov]
+[![type-coverage][badge-type-coverage]][url-github-package]
+[![typescript][badge-typescript]][url-typescript]
+[![license][badge-license]][url-license]
 
 > [!IMPORTANT]
 > **If you are using `react18`, use ver.1 of `next-mdx-remote-client`, currently v1.0.7**
@@ -41,7 +41,7 @@ Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-clien
 
 | Features                                                    | `next-mdx-remote`   | `next-mdx-remote-client` |
 | :---------------------------------------------------------- | :-----------------: | :----------------------: |
-| support MDX version 3                                       | ✅<br />_(as of v5)_| ✅                        |
+| support MDX version 3                                       | ✅                  | ✅                        |
 | ensure internal error handling mechanism in `app` router    | ❌                  | ✅                        |
 | ensure internal error handling mechanism in `pages` router  | ❌                  | ✅                        |
 | support _export-from-MDX_ in `app` router                   | ❌                  | ✅                        |
@@ -56,6 +56,7 @@ Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-clien
 | expose `MDXProvider` from `@mdx-js/mdx`                     | ❌                  | ✅                        |
 | provide option for disabling parent `MDXProvider` contexts  | ❌                  | ✅                        |
 | expose the necessary types from `mdx/types`                 | ❌                  | ✅                        |
+| injects `React` instance into runtime options               | ❌                  | ✅                        |
 
 > [!IMPORTANT]
 > You will see a lot the abbreviatons **`csr`** and **`rsc`**. _Pay attention to the both are spelled backwards._\
@@ -66,7 +67,7 @@ Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-clien
 ## General considerations about development
 
 - It is ESM only package
-- Needs `react` version 19.0+, works with latest next@15 (tested)
+- Needs `react` version 19.0+, works with latest next@15.2 (tested)
 - Needs `node` version 18.18+ in line with nextjs does
 - Vitest is used instead of jest for testing
 - Rollup is removed for bundling
@@ -1514,7 +1515,7 @@ If you provide **the generic type parameter**, it ensures the `frontmatter` gets
 
 ## Types
 
-The `next-mdx-remote-client` is fully typed with [TypeScript][typescript-url].
+The `next-mdx-remote-client` is fully typed with [TypeScript][url-typescript].
 
 The package exports the types for server side (rsc):
 
@@ -1592,29 +1593,36 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
   – Recma plugin to set the default value `() => null` for the Components in MDX in case of missing or not provided so as not to throw an error
 - [`recma-mdx-change-props`](https://www.npmjs.com/package/recma-mdx-change-props)
   – Recma plugin to change the `props` parameter into the `_props` in the `function _createMdxContent(props) {/* */}` in the compiled source in order to be able to use `{props.foo}` like expressions. It is useful for the `next-mdx-remote` or `next-mdx-remote-client` users in `nextjs` applications.
+- [`recma-mdx-change-imports`](https://www.npmjs.com/package/recma-mdx-change-imports)
+  – Recma plugin to convert import declarations for assets and media with relative links into variable declarations with string URLs, enabling direct asset URL resolution in compiled MDX.
+- [`recma-mdx-import-media`](https://www.npmjs.com/package/recma-mdx-import-media)
+  – Recma plugin to turn media relative paths into import declarations for both markdown and html syntax in MDX.
+- [`recma-mdx-import-react`](https://www.npmjs.com/package/recma-mdx-import-react)
+  – Recma plugin to ensure getting React from arguments and and inject it as property into the imported components in the compiled source.
 
 ## License
 
 [MPL 2.0 License](./LICENSE) © ipikuka
 
-## Keywords
-
-🟩 [@mdx-js][mdx-js] 🟩 [next/mdx][next-mdx] 🟩 [next-mdx-remote][next-mdx-remote] 🟩 [next-mdx-remote-client][next-mdx-remote-client] 
-
-[mdx-js]: https://www.npmjs.com/package/@mdx-js/mdx
-[next-mdx]: https://www.npmjs.com/package/@next/mdx
-[next-mdx-remote]: https://www.npmjs.com/package/next-mdx-remote
-[next-mdx-remote-client]: https://www.npmjs.com/package/next-mdx-remote-client
+[MDX]: https://mdxjs.com/
+[mdx-js-mdx]: https://github.com/mdx-js/mdx
+[next-mdx-remote]: https://github.com/hashicorp/next-mdx-remote
 
 [badge-npm-version]: https://img.shields.io/npm/v/next-mdx-remote-client
 [badge-npm-download]:https://img.shields.io/npm/dt/next-mdx-remote-client
-[npm-package-url]: https://www.npmjs.com/package/next-mdx-remote-client
+[url-npm-package]: https://www.npmjs.com/package/next-mdx-remote-client
+[url-github-package]: https://github.com/ipikuka/next-mdx-remote-client
 
 [badge-license]: https://img.shields.io/github/license/ipikuka/next-mdx-remote-client
-[github-license-url]: https://github.com/ipikuka/next-mdx-remote-client/blob/main/LICENSE
+[url-license]: https://github.com/ipikuka/next-mdx-remote-client/blob/main/LICENSE
 
-[badge-build]: https://github.com/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml/badge.svg
-[github-workflow-url]: https://github.com/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml
+[badge-publish-to-npm]: https://github.com/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml/badge.svg
+[url-publish-github-actions]: https://github.com/ipikuka/next-mdx-remote-client/actions/workflows/publish.yml
 
 [badge-typescript]: https://img.shields.io/npm/types/next-mdx-remote-client
-[typescript-url]: https://www.typescriptlang.org/
+[url-typescript]: https://www.typescriptlang.org/
+
+[badge-codecov]: https://codecov.io/gh/ipikuka/next-mdx-remote-client/graph/badge.svg?token=N0BPBCI5CC
+[url-codecov]: https://codecov.io/gh/ipikuka/next-mdx-remote-client
+
+[badge-type-coverage]: https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fipikuka%2Fnext-mdx-remote-client%2Fmaster%2Fpackage.json
