@@ -1,6 +1,7 @@
 import { describe, test, expect } from "vitest";
 
 import ReactDOMServer from "react-dom/server";
+import recmaMdxImportReact from "recma-mdx-import-react";
 import dedent from "dedent";
 
 import { evaluate } from "../src/rsc";
@@ -582,5 +583,40 @@ describe("error handling in evaluate related with ESM", () => {
       "<p>Hi ipikuka</p>
       <div><label for=":R3:-name">Enter your name:</label><input id=":R3:-name" type="text" value=""/><p>Hello, stranger!</p></div>"
     `);
+  });
+
+  test("import .mjs React component in which the React instance injected", async () => {
+    const source = dedent`
+      import HelloDave from "./context/HelloDave.mjs"
+
+      <HelloDave />
+    `;
+
+    const { content, error } = await evaluate({
+      source,
+      options: {
+        scope: {
+          name: "ipikuka",
+        },
+        mdxOptions: {
+          baseUrl: import.meta.url,
+          // without recma plugin, it throws an error
+          // TypeError: Cannot read properties of undefined (reading 'useId')
+          recmaPlugins: [recmaMdxImportReact],
+        },
+      },
+    });
+
+    expect(error).toBeUndefined();
+
+    expect(content).toMatchInlineSnapshot(`
+      <MDXContent
+        components={{}}
+      />
+    `);
+
+    expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(
+      `"Hello Dave, your id is :R0:"`,
+    );
   });
 });

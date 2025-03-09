@@ -100,6 +100,7 @@
     "prettier": "^3.5.3",
     "recma-mdx-change-props": "^1.1.2",
     "recma-mdx-escape-missing-components": "^1.1.2",
+    "recma-mdx-import-react": "^1.0.0",
     "remark-emoji": "^5.0.1",
     "remark-flexible-markers": "^1.2.1",
     "remark-flexible-paragraphs": "^1.2.0",
