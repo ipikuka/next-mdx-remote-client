@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
+import * as React from "react";
 import * as jsxRuntime from "react/jsx-runtime";
 import * as jsxDevRuntime from "react/jsx-dev-runtime";
 import type { MDXModule } from "mdx/types";
@@ -38,6 +39,7 @@ function prepareConstruction(options: RunOptions) {
       jsxs: (jsxRuntime as JsxRuntime).jsxs,
       jsxDEV: (jsxDevRuntime as JsxDevRuntime).jsxDEV,
       Fragment: (jsxRuntime as JsxRuntime).Fragment, // doesn't matter
+      React,
     },
     frontmatter: options.frontmatter,
     ...options.scope,
