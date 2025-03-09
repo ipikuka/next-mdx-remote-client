@@ -296,6 +296,7 @@ describe("evaluate", () => {
     const { content, mod, frontmatter, scope, error } = await evaluate({
       source: "<motion.p />",
       components: {
+        // @ts-ignore
         motion: { p: () => <p>Hello world</p> },
       },
     });
