@@ -36,7 +36,7 @@ export default tseslint.config(
     extends: [tseslint.configs.disableTypeChecked],
   },
   {
-    files: ["**/*.jsx"],
+    files: ["**/*.jsx", "tests/context/ExampleForm.mjs"],
     plugins: {
       react,
       prettier: eslintPluginPrettier,
