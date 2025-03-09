@@ -479,4 +479,108 @@ describe("error handling in evaluate related with ESM", () => {
       `"<div class="mdx-empty"></div>"`,
     );
   });
+
+  test("import .mjs React component with jsx syntax", async () => {
+    const source = dedent`
+      import ExampleForm from "./context/ExampleForm.mjs"
+      
+      Hi {name}
+
+      <ExampleForm />
+    `;
+
+    const { content, error } = await evaluate({
+      source,
+      options: {
+        scope: {
+          name: "ipikuka",
+        },
+        mdxOptions: {
+          baseUrl: import.meta.url,
+        },
+      },
+    });
+
+    expect(error).toMatchInlineSnapshot(`[SyntaxError: Unexpected token '<']`);
+
+    expect(content).toMatchInlineSnapshot(`
+      <div
+        className="mdx-empty"
+      />
+    `);
+
+    expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(
+      `"<div class="mdx-empty"></div>"`,
+    );
+  });
+
+  test("import .mjs React component transformed to classic runtime", async () => {
+    const source = dedent`
+      import ExampleForm from "./context/ExampleFormTransformedClassic.mjs"
+      
+      Hi {name}
+
+      <ExampleForm />
+    `;
+
+    const { content, error } = await evaluate({
+      source,
+      options: {
+        scope: {
+          name: "ipikuka",
+        },
+        mdxOptions: {
+          baseUrl: import.meta.url,
+        },
+      },
+    });
+
+    expect(error).toBeUndefined();
+
+    expect(content).toMatchInlineSnapshot(`
+      <MDXContent
+        components={{}}
+      />
+    `);
+
+    expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(`
+      "<p>Hi ipikuka</p>
+      <div><label for=":R3:-name">Enter your name:</label><input id=":R3:-name" type="text" value=""/><p>Hello, stranger!</p></div>"
+    `);
+  });
+
+  test("import .mjs React component transformed to automatic runtime", async () => {
+    const source = dedent`
+      import ExampleForm from "./context/ExampleFormTransformedAutomatic.mjs"
+      
+      Hi {name}
+
+      <ExampleForm />
+    `;
+
+    const { content, error } = await evaluate({
+      source,
+      options: {
+        scope: {
+          name: "ipikuka",
+        },
+        mdxOptions: {
+          baseUrl: import.meta.url,
+        },
+      },
+    });
+
+    expect(error).toBeUndefined();
+
+    expect(content).toMatchInlineSnapshot(`
+      <MDXContent
+        components={{}}
+      />
+    `);
+
+    expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(`
+      "<p>Hi ipikuka</p>
+      <div><label for=":R3:-name">Enter your name:</label><input id=":R3:-name" type="text" value=""/><p>Hello, stranger!</p></div>"
+    `);
+  });
 });
