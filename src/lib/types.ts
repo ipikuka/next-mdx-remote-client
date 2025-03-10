@@ -46,6 +46,10 @@ export type CompileOptions = {
    * Whether or not strip out "import"s from MDX. Defaults to false, which means it does NOT strip out.
    */
   disableImports?: boolean;
+  /**
+   * for debugging
+   */
+  debugCompiledSource?: boolean;
 };
 
 export type CompileMdxOptions = Omit<OriginalCompileOptions, "outputFormat">;

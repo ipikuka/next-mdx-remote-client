@@ -31,6 +31,7 @@ export async function evaluate<
     scope = {} as TScope,
     parseFrontmatter,
     vfileDataIntoScope,
+    debug,
   } = options;
 
   const { vfile, frontmatter } = prepare<TFrontmatter>(source, parseFrontmatter);
@@ -42,6 +43,7 @@ export async function evaluate<
       mdxOptions: compileMDXOptions,
       disableExports,
       disableImports,
+      debugCompiledSource: debug?.compiledSource,
     });
 
     if (vfileDataIntoScope)
