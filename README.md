@@ -8,10 +8,12 @@
  [![typescript][badge-typescript]][url-typescript]
  [![license][badge-license]][url-license]
 
+I would like to announce that **`next-mdx-remote-client`** is recommended in the `Next.js` canary docs *([see the PR](https://github.com/vercel/next.js/pull/78347))*, hope to see it in the official `Next.js` docs.
+
 > [!IMPORTANT]
-> **If you are using `react18`, use ver.1 of `next-mdx-remote-client`, currently v1.1.0**
+> **If you are using `react18`, use ver.1 of `next-mdx-remote-client`, currently v1.1**
 >
-> **If you are using `react19`, use ver.2 of `next-mdx-remote-client`, currently v2.1.0**
+> **If you are using `react19`, use ver.2 of `next-mdx-remote-client`, currently v2.1**
 >
 > *The both serve the same features and APIs. I am going to maintain both.*
 
