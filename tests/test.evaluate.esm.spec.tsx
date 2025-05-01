@@ -615,8 +615,8 @@ describe("error handling in evaluate related with ESM", () => {
       />
     `);
 
-    expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(
-      `"Hello Dave, your id is :R0:"`,
+    expect(ReactDOMServer.renderToStaticMarkup(content)).toBe(
+      "<div>Hello, Dave! Your id is :R0:</div>",
     );
   });
 });
