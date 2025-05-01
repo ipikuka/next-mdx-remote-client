@@ -43,6 +43,11 @@ export async function compile(vfile: VFile, options?: CompileOptions): Promise<C
   try {
     const compiledSource = await compileMDX(vfile, composeCompileOptions(options));
 
+    // for debugging
+    if (options?.debugCompiledSource) {
+      console.log(String(compiledSource));
+    }
+
     // await new Promise((resolve) => setTimeout(resolve, 500));
 
     return {

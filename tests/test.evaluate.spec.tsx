@@ -1,4 +1,4 @@
-import { describe, test, expect } from "vitest";
+import { vi, describe, test, expect } from "vitest";
 
 import React from "react";
 import ReactDOMServer from "react-dom/server";
@@ -10,6 +10,7 @@ import recmaMdxEscapeMissingComponents from "recma-mdx-escape-missing-components
 import recmaMdxChangeProps from "recma-mdx-change-props";
 
 import { evaluate, type EvaluateOptions } from "../src/rsc";
+import { compile } from "../src/lib/compile";
 
 type Frontmatter = { title: string };
 
@@ -356,6 +357,22 @@ describe("evaluate", () => {
     expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(
       `"<p>foo <strong>bar</strong></p>"`,
     );
+  });
+
+  test("debug compiled source", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    const result = await compile(new VFile("Hi"));
+
+    await evaluate({
+      source: "Hi",
+      options: { debug: { compiledSource: true } },
+    });
+
+    expect(logSpy).toHaveBeenCalledTimes(1);
+    expect(logSpy).toHaveBeenCalledWith(String(result.compiledSource));
+
+    logSpy.mockRestore(); // Restore original console.log behavior
   });
 });
 

@@ -62,6 +62,12 @@ export type EvaluateOptions<TScope extends Record<string, unknown> = Record<stri
      * if the scope has the same key already, vfile.data overrides it.
      */
     vfileDataIntoScope?: VfileDataIntoScope;
+    /**
+     * for debugging
+     */
+    debug?: {
+      compiledSource?: boolean;
+    };
   };
 
 type EvaluateMdxOptions = Omit<
