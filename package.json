@@ -6,11 +6,14 @@
   "types": "./dist/csr/index.d.ts",
   "type": "module",
   "exports": {
-    ".": "./dist/csr/index.js",
+    ".": {
+      "workerd": "./dist/csr/index.js",
+      "import": "./dist/csr/index.js",
+      "default": "./dist/csr/index.js"
+    },
     "./csr": "./dist/csr/index.js",
     "./serialize": "./dist/csr/serialize.js",
     "./rsc": "./dist/rsc/index.js",
-    "./workerd": "./dist/rsc/index.js",
     "./utils": "./dist/utils/index.js"
   },
   "typesVersions": {
@@ -22,9 +25,6 @@
         "./dist/csr/serialize.d.ts"
       ],
       "rsc": [
-        "./dist/rsc/index.d.ts"
-      ],
-      "workerd": [
         "./dist/rsc/index.d.ts"
       ],
       "utils": [
