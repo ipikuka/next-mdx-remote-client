@@ -74,7 +74,9 @@ ${error?.message}
 ${codeFrames ? "\n" + codeFrames + "\n" : ""}
 More information: https://mdxjs.com/docs/troubleshooting-mdx`);
 
-  formattedError.stack = "";
+  // commented since React Flight throws an error if error stack is mutated
+  // when the error object is a prop in a rsc
+  // formattedError.stack = "";
 
   return formattedError;
 }
