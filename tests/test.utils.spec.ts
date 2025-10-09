@@ -11,9 +11,9 @@ describe("getFrontmatter", () => {
   test("works as expected without generic type", async () => {
     const source = dedent`
       ---
-	  title: 'my title'
-	  ---
-	  Hi
+	    title: 'my title'
+	    ---
+	    Hi
     `;
 
     const { frontmatter, strippedSource } = getFrontmatter(source);
@@ -29,9 +29,9 @@ describe("getFrontmatter", () => {
   test("works as expected with generic type", async () => {
     const source = dedent`
       ---
-	  title: 'my title'
-	  ---
-	  Hi
+      title: 'my title'
+      ---
+      Hi
     `;
 
     const { frontmatter } = getFrontmatter<Frontmatter>(source);
@@ -41,9 +41,7 @@ describe("getFrontmatter", () => {
   });
 
   test("returns empty object if no frontmatter", async () => {
-    const source = dedent`
-	  Hi
-    `;
+    const source = "Hi";
 
     const { frontmatter } = getFrontmatter<Frontmatter>(source);
 
@@ -133,10 +131,11 @@ describe("createFormattedMDXError", () => {
   test("with standart error", async () => {
     const source = dedent`
       ---
-	  title: 'my title'
-	  ---
-	  Hi <GITHUB_USER>
+      title: 'my title'
+      ---
+      Hi <GITHUB_USER>
     `;
+
     const myError = new Error("something went wrong");
     const formattedError = createFormattedMDXError(myError, source);
 
@@ -148,12 +147,12 @@ describe("createFormattedMDXError", () => {
     `);
   });
 
-  test("with positioned error", async () => {
+  test("with implicitly positioned error", async () => {
     const source = dedent`
       ---
-	  title: 'my title'
-	  ---
-	  Hi <GITHUB_USER>
+      title: 'my title'
+      ---
+      Hi <GITHUB_USER>
     `;
 
     const positionedError = new Error(
@@ -187,6 +186,28 @@ describe("createFormattedMDXError", () => {
 
       > 1 | Hi <GITHUB_USER>
           |    ^
+
+      More information: https://mdxjs.com/docs/troubleshooting-mdx"
+    `);
+  });
+
+  test("with explicitly positioned error", async () => {
+    const source = dedent`
+      target x as error
+    `;
+
+    const positionedError = new Error("The char x is targetted as error");
+
+    positionedError["position"] = { start: { line: 1, column: 8 } };
+
+    const formattedError = createFormattedMDXError(positionedError, source);
+
+    expect(formattedError.message).toMatchInlineSnapshot(`
+      "[next-mdx-remote-client] error compiling MDX:
+      The char x is targetted as error
+
+      > 1 | target x as error
+          |        ^
 
       More information: https://mdxjs.com/docs/troubleshooting-mdx"
     `);
