@@ -7,14 +7,7 @@
  * improved the types
  */
 
-import { codeFrameColumns } from "@babel/code-frame";
-
-type Position = {
-  start: {
-    line: number;
-    column: number;
-  };
-};
+import { codeFrameColumns, type SourceLocation } from "@babel/code-frame";
 
 /**
  * Attempt to parse position information from an error message originating from the MDX compiler.
@@ -22,7 +15,7 @@ type Position = {
  * @param message error message
  * @returns the position of the error indicator
  */
-function parsePositionInformationFromErrorMessage(message: string): Position | undefined {
+function parsePositionInformationFromErrorMessage(message: string): SourceLocation | undefined {
   const positionInfoPattern = /\d+:\d+(-\d+:\d+)/g;
 
   const match = message.match(positionInfoPattern);
@@ -42,10 +35,6 @@ function parsePositionInformationFromErrorMessage(message: string): Position | u
   };
 }
 
-type PositionedError = Error & {
-  position?: Position;
-};
-
 /**
  * prints a nicely formatted error message from an error caught during MDX compilation.
  *
@@ -53,28 +42,25 @@ type PositionedError = Error & {
  * @param source Raw MDX string
  * @returns Error
  */
-export function createFormattedMDXError(error: PositionedError, source: string): Error {
-  const position = error.position ?? parsePositionInformationFromErrorMessage(error.message);
+export function createFormattedMDXError(error: Error, source: string): Error {
+  const position =
+    "position" in error && Boolean(error.position)
+      ? (error.position as SourceLocation)
+      : parsePositionInformationFromErrorMessage(error.message);
 
-  const codeFrames = position
-    ? codeFrameColumns(
-        source,
-        {
-          start: {
-            line: position.start.line,
-            column: position.start.column,
-          },
-        },
-        { linesAbove: 2, linesBelow: 2 },
-      )
-    : "";
+  const codeFrames =
+    position?.start?.line !== undefined
+      ? codeFrameColumns(source, position, { linesAbove: 2, linesBelow: 2 })
+      : "";
 
   const formattedError = new Error(`[next-mdx-remote-client] error compiling MDX:
-${error?.message}
+${error.message}
 ${codeFrames ? "\n" + codeFrames + "\n" : ""}
 More information: https://mdxjs.com/docs/troubleshooting-mdx`);
 
-  formattedError.stack = "";
+  // commented since React Flight throws an error if error stack is mutated
+  // when the error object is a prop in a rsc
+  // formattedError.stack = "";
 
   return formattedError;
 }
