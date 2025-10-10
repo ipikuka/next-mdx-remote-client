@@ -546,7 +546,7 @@ describe("error handling in evaluate related with ESM", () => {
 
     expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(`
       "<p>Hi ipikuka</p>
-      <div><label for="«R3»-name">Enter your name:</label><input id="«R3»-name" type="text" value=""/><p>Hello, stranger!</p></div>"
+      <div><label for="_R_3_-name">Enter your name:</label><input id="_R_3_-name" type="text" value=""/><p>Hello, stranger!</p></div>"
     `);
   });
 
@@ -581,7 +581,7 @@ describe("error handling in evaluate related with ESM", () => {
 
     expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(`
       "<p>Hi ipikuka</p>
-      <div><label for="«R3»-name">Enter your name:</label><input id="«R3»-name" type="text" value=""/><p>Hello, stranger!</p></div>"
+      <div><label for="_R_3_-name">Enter your name:</label><input id="_R_3_-name" type="text" value=""/><p>Hello, stranger!</p></div>"
     `);
   });
 
@@ -616,7 +616,7 @@ describe("error handling in evaluate related with ESM", () => {
     `);
 
     expect(ReactDOMServer.renderToStaticMarkup(content)).toBe(
-      "<div>Hello, Dave! Your id is «R0»</div>",
+      "<div>Hello, Dave! Your id is _R_0_</div>",
     );
   });
 });
