@@ -8,27 +8,27 @@
 [![typescript][badge-typescript]][url-typescript]
 [![license][badge-license]][url-license]
 
-**`next-mdx-remote-client`** is recommended in the [official `Next.js` docs](https://nextjs.org/docs/app/guides/mdx#remote-mdx).
+**`next-mdx-remote-client`** is recommended in the [`Next.js` official documentation](https://nextjs.org/docs/app/guides/mdx#remote-mdx).
 
 > [!IMPORTANT]
-> **If you are using `react18`, use ver.1 of `next-mdx-remote-client`, currently v1.1**
+> **If you are using `react18`, use ver.1 of `next-mdx-remote-client`, currently `v1.1`**
 >
-> **If you are using `react19`, use ver.2 of `next-mdx-remote-client`, currently v2.1**
+> **If you are using `react19`, use ver.2 of `next-mdx-remote-client`, currently `v2.1`**
 >
 > *The both serve the same features and APIs. I am going to maintain both.*
 
-The **`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for **`nextjs`** applications in order to load MDX content. It is a fork of **`next-mdx-remote`**.
+**`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for **`nextjs`** applications in order to load MDX content. It is a fork of **`next-mdx-remote`**.
 
 See some blog applications in which **`next-mdx-remote-client`** is used:
-+ for a **demo application** which uses **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/),
-+ for a **demo application** which uses **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/),
++ for a **`app` router demo application** visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/),
++ for a **`pages` router demo application** visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/),
 + for a **testing application** which uses **both `app` and `pages` router**, visit [source code](https://github.com/talatkuyuk/testing-app-for-next-mdx-remote-client) or [living web site](https://testing-app-for-next-mdx-remote-client.vercel.app/).
 
 ## Why `next-mdx-remote-client` ?
 
-I started to create the **`next-mdx-remote-client`** in line with the mindset of the **`@mdx-js/mdx`** in early 2024 considering [next-mdx-remote][next-mdx-remote] had not been updated for a long time, and finally, a brand new package emerged.
+I started to create **`next-mdx-remote-client`** in line with the mindset of **`@mdx-js/mdx`** in early 2024 considering **`next-mdx-remote`** had not been updated for a long time, and finally, a brand new package emerged.
 
-The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-mdx-remote`** having **more features**.
+**`next-mdx-remote-client`** serves as a **viable alternative** to **`next-mdx-remote`** having **more features**.
 
 **I would like to highlight some main features:**
 + It supports MDX version 3.
@@ -36,7 +36,7 @@ The **`next-mdx-remote-client`** serves as a **viable alternative** to **`next-m
 + It provides internal error handling mechanism.
 + It supports `import statements` and `export statements` in MDX source, which can be disabled as well.
 + Creating table of contents (TOC) is so easy since it supports passing `vfile.data` into the `scope`.
-+ You can get frontmatter without compiling the source while listing the articles/posts via `getFrontmatter`.
++ You can get frontmatter without compiling the source for example for listing articles/posts via `getFrontmatter`.
 + It exports some components and types from `@mdx-js/mdx` so as you don't need to install.
 
 Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-client`**.
@@ -107,7 +107,7 @@ yarn add next-mdx-remote-client
 ```
 
 > [!WARNING]  
-> The `next-mdx-remote` users may follow the [migration guide](/migration_guide.md).
+> **`next-mdx-remote`** users may follow the [migration guide](/migration_guide.md).
 
 ## The package's exported subpaths
 
@@ -134,7 +134,7 @@ import /* */ from "next-mdx-remote-client/utils";
 
 _Go to [the part associated with Next.js pages router](#the-part-associated-with-nextjs-pages-router)_
 
-The `next-mdx-remote-client` exposes **`evaluate`** function and **`MDXRemote`** component for "app" router.
+**`next-mdx-remote-client`** exposes **`evaluate`** function and **`MDXRemote`** component for **"app" router**.
 
 ```typescript
 import { evaluate, MDXRemote } from "next-mdx-remote-client/rsc";
@@ -147,7 +147,7 @@ import { evaluate, MDXRemote } from "next-mdx-remote-client/rsc";
 > If you need to get the **frontmatter** and the **mutated scope** --> use **`evaluate`**\
 > If you don't need --> use **`MDXRemote`**
 
-Let's give some examples how to use `next-mdx-remote-client` in "app" router first, then explain the exposed function and component.
+Let's give some examples how to use **`next-mdx-remote-client`** in "app" router first, then explain the exposed function and component.
 
 ### Examples for `app` router
 
@@ -232,7 +232,7 @@ export default async function Page() {
 
 #### An example with creating a table of contents (TOC)
 
-I assume you have a MDX file having `<TableOfContentComponent />` inside; and you provide some MDX components which have an entry for `TableOfContentComponent: (props) => { ... }`.
+I assume you have a MDX content having `<TableOfContentComponent />` inside; and you've provided it in MDX components.
 
 ```markdown
 ---
@@ -245,11 +245,11 @@ title: My Article
 rest of the article...
 ```
 
-You can have a look at an example [TOC component](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router/blob/main/mdxComponents/Toc.tsx) in the demo application.
+You can have a look at an example [TableOfContentComponent](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router/blob/main/mdxComponents/Toc.tsx) in the demo application.
 
-In order to create a table of contents (TOC) I use `remark-flexible-toc` in the remark plugin list and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`.
+In order to create a table of contents (TOC) I use **`remark-flexible-toc`** in the remark plugins and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`.
 
-That's it ! So easy !
+That's it! So easy!
 
 ```tsx
 import { Suspense } from "react";
@@ -384,13 +384,13 @@ Written by {frontmatter.author}; read in {readingTime}
 rest of the article...
 ```
 
-After the examples given, let's dive into the exposed function and component by `next-mdx-remote-client` for "app" router.
+After the examples given, let's dive into the exposed function and component by **`next-mdx-remote-client`** for "app" router.
 
 ### The `evaluate` function
 
 _Go to the [MDXRemote](#the-mdxremote-component) component_
 
-The `evaluate` function is used for compiling the **MDX source**, constructing the **compiled source**, getting exported information from MDX and returning MDX content to be rendered on the server side, as a react server component.
+The `evaluate` function is used for **compiling** MDX source, **constructing compiled source**, getting exported information from MDX and returning MDX content to be rendered on the server side, as a react server component.
 
 ```typescript
 async function evaluate(props: EvaluateProps): Promise<EvaluateResult> {}
@@ -480,7 +480,7 @@ If you provide **the generic type parameters** like `await evaluate<Frontmatter,
 > \
 > The type parameters `Frontmatter` and `Scope` should extend `Record<string, unknown>`. You should use **`type`** instead of **`interface`** for type parameters otherwise, you will receive an error saying `Type 'Xxxx' does not satisfy the constraint 'Record<string, unknown>'.` See this [issue](https://github.com/ipikuka/next-mdx-remote-client/issues/2) for more explanation.
 
-In the above example, I assume you use **`remark-flexible-toc`** remark plugin in order to collect the headings from the MDX content, and you pass that information into the `scope` via `vfileDataIntoScope` option.
+In the above example, I assume you use **`remark-flexible-toc`** remark plugin in order to collect the headings from MDX content, and you pass that information into the `scope` via `vfileDataIntoScope` option.
 
 ### The evaluate options (`EvaluateOptions`)
 
@@ -499,7 +499,7 @@ type EvaluateOptions<TScope> = {
 
 #### `mdxOptions`
 
-It is an **`EvaluateMdxOptions`** option to be passed to the `@mdx-js/mdx` compiler.
+It is an **`EvaluateMdxOptions`** option to be passed to **`@mdx-js/mdx`** compiler.
 
 ```typescript
 import { type EvaluateOptions as OriginalEvaluateOptions } from "@mdx-js/mdx";
@@ -774,11 +774,11 @@ The details are the same with the [EvaluateOptions](#the-evaluate-options-evalua
 
 _Go to [the part associated with Next.js app router](#the-part-associated-with-nextjs-app-router)_
 
-The `next-mdx-remote-client` exposes **`serialize`**, **`hydrate`** functions and **`MDXClient`** component for "pages" router.
+**`next-mdx-remote-client`** exposes **`serialize`**, **`hydrate`** functions and **`MDXClient`** component for **"pages" router**.
 
 The `serialize` function is used on the server side in "pages" router, while as the `hydrate` and the `MDXClient` are used on the client side in "pages" router. That is why the "serialize" function is purposefully isolated considering it is intended to run on the server side.
 
-Let's give some examples how to use `next-mdx-remote-client` in "pages" router first, then explain the exposed functions and component.
+Let's give some examples how to use **`next-mdx-remote-client`** in "pages" router first, then explain the exposed functions and component.
 
 ### Examples for `pages` router
 
@@ -888,7 +888,7 @@ export async function getStaticProps() {
 
 #### An example with creating a table of contents (TOC)
 
-I assume you have a MDX file having `<TableOfContentComponent />` inside; and you provide some MDX components which have an entry for `TableOfContentComponent: (props) => { ... }`.
+I assume you have a MDX content having `<TableOfContentComponent />` inside; and you've provided it in MDX components.
 
 ```markdown
 ---
@@ -901,9 +901,9 @@ title: My Article
 rest of the article...
 ```
 
-You can have a look at an example [TOC component](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router/blob/main/mdxComponents/Toc.tsx) in the demo application.
+You can have a look at an example [TableOfContentComponent](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router/blob/main/mdxComponents/Toc.tsx) in the demo application.
 
-In order to create a table of contents (TOC) I use `remark-flexible-toc` in the remark plugin list and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`.
+In order to create a table of contents (TOC) I use **`remark-flexible-toc`** in the remark plugins and pass the table of contents objects `vFile.data.toc` into the `scope` via the option `vfileDataIntoScope`.
 
 That's it! So easy!
 
@@ -1012,7 +1012,7 @@ Written by {frontmatter.author}; read in {readingTime}
 rest of the article...
 ```
 
-After the examples given, let's dive into the exposed functions and component by `next-mdx-remote-client` for "pages" router.
+After the examples given, let's dive into the exposed functions and component by **`next-mdx-remote-client`** for "pages" router.
 
 ### The `serialize` function
 
@@ -1023,7 +1023,7 @@ _or the [MDXClient](#the-mdxclient-component) component_
 import { serialize } from "next-mdx-remote-client/serialize";
 ```
 
-The `serialize` function is used for compiling the **MDX source**, in other words, producing the **compiled source** from MDX source, intended to run on server side at build time.
+The `serialize` function is used for **compiling** MDX source, in other words **constructing compiled source** from MDX source, intended to run on server side at build time.
 
 > [!WARNING]
 > The `serialize` function is **asyncronous** and to be used within the `getStaticProps` or the `getServerSideProps` on the server side. (Off the record, it can be used within an `useEffect` as well, but this is not recommended because it is a heavy function as having more dependencies).
@@ -1056,7 +1056,7 @@ type SerializeResult<TFrontmatter, TScope> =
 };
 ```
 
-The `serialize` function has **internal error handling mechanism** for the MDX syntax errors. The catched error is serialized via `serialize-error` package and attached into the serialize results, further you can deserialize the error on the client, if necessary. **You don't need to implement error handling by yourself.**
+The `serialize` function has **internal error handling mechanism** for the MDX syntax errors. The catched error is serialized via **`serialize-error`** and attached into the serialize results, further you can deserialize the error on the client, if necessary. **You don't need to implement error handling by yourself.**
 
 ```tsx
 import { serialize, type SerializeOptions } from "next-mdx-remote-client/serialize";
@@ -1132,7 +1132,7 @@ Except the `mdxOptions`, the details are the same with the [EvaluateOptions](#th
 
 #### `mdxOptions`
 
-It is a **`SerializeMdxOptions`** option to be passed to the `@mdx-js/mdx` compiler.
+It is a **`SerializeMdxOptions`** option to be passed to **`@mdx-js/mdx`** compiler.
 
 ```typescript
 import { type CompileOptions as OriginalCompileOptions } from "@mdx-js/mdx";
@@ -1179,7 +1179,7 @@ _or the [MDXClient](#the-mdxclient-component) component_
 import { hydrate } from "next-mdx-remote-client/csr";
 ```
 
-The `hydrate` function is used for **constructing the compiled source**, getting exported information from MDX and returning MDX content to be rendered on the client side.
+The `hydrate` function is used for **constructing compiled source**, getting exported information from MDX and returning MDX content to be rendered on the client side.
 
 ```typescript
 function hydrate(props: HydrateProps): HydrateResult {}
@@ -1199,7 +1199,7 @@ type HydrateProps = {
 };
 ```
 
-The option `disableParentContext` is a feature of `@mdx-js/mdx`. If it is `false`, the mdx components provided by parent `MDXProvider`s are going to be disregarded.
+The option `disableParentContext` is a feature of **`@mdx-js/mdx`**. If it is `false`, the mdx components provided by parent `MDXProvider`s are going to be disregarded.
 
 **Result of the `hydrate` function**
 
@@ -1263,7 +1263,7 @@ export default function Page({ mdxSource }: Props) {
 };
 ```
 
-In the above example, I assume you use **`remark-flexible-toc`** remark plugin in order to collect the headings from the MDX content, and you pass that information into the `scope` via `vfileDataIntoScope` option within the serialize on the server side.
+In the above example, I assume you use **`remark-flexible-toc`** remark plugin in order to collect the headings from MDX content, and you pass that information into the `scope` via `vfileDataIntoScope` option within the serialize on the server side.
 
 ### The `MDXClient` component
 
@@ -1295,7 +1295,7 @@ type MDXClientProps = {
 };
 ```
 
-The option `disableParentContext` is a feature of `@mdx-js/mdx`. If it is `false`, the mdx components provided by parent `MDXProvider`s are going to be disregarded.
+The option `disableParentContext` is a feature of **`@mdx-js/mdx`**. If it is `false`, the mdx components provided by parent `MDXProvider`s are going to be disregarded.
 
 > [!TIP]
 > If you need to get the **exports** from MDX --> use **`hydrate`**\
@@ -1342,11 +1342,11 @@ export default function Page({ mdxSource }: Props) {
 };
 ```
 
-In the above example, I assume you use **`remark-flexible-toc`** remark plugin in order to collect the headings from the MDX content, and you pass that information into the `scope` via `vfileDataIntoScope` option within the serialize on the server side.
+In the above example, I assume you use **`remark-flexible-toc`** remark plugin in order to collect the headings from MDX content, and you pass that information into the `scope` via `vfileDataIntoScope` option within the serialize on the server side.
 
 ### The `hydrateLazy` function and the `MDXClientLazy` component
 
-The `next-mdx-remote-client` exports additional versions, say, the `hydrateLazy` and the `MDXClientLazy`, which both **have the same _functionality_, _props_, _results_** with the `hydrate` and the `MDXClient`, correspondently.
+**`next-mdx-remote-client`** exports additional versions, say, the `hydrateLazy` and the `MDXClientLazy`, which both **have the same _functionality_, _props_, _results_** with the `hydrate` and the `MDXClient`, correspondently.
 
 **The only difference is the hydration process takes place lazily** on the browser within a `window.requestIdleCallback` in a useEffect. You can use `hydrateLazy` or `MDXClientLazy` in order to defer hydration of the content and immediately serve the static markup.
 
@@ -1365,7 +1365,7 @@ When you use `hydrateLazy`, and want to get the exports from MDX via `mod` objec
 
 ### The `hydrateAsync` function and the `MDXClientAsync` component
 
-The `next-mdx-remote-client` exports additional versions, say, the `hydrateAsync` and the `MDXClientAsync`.
+**`next-mdx-remote-client`** exports additional versions, say, the `hydrateAsync` and the `MDXClientAsync`.
 
 These have additional props and options, but here, I don't want to give the details since **I created them for experimental** to show the `import statements` on the client side don't work. You can have a look at the github repository for the code and the tests.
 
@@ -1380,7 +1380,7 @@ import { hydrateAsync, MDXClientAsync } from "next-mdx-remote-client/csr";
 
 ### The `MDXProvider` component
 
-The package exports the `MDXProvider` from `@mdx-js/react`, in order the developers don't need to install the `@mdx-js/react`.
+The package exports the `MDXProvider` from **`@mdx-js/react`**, in order the developers don't need to install **`@mdx-js/react`**.
 
 ```typescript
 import { MDXProvider } from "next-mdx-remote-client/csr";
@@ -1405,14 +1405,14 @@ export default function App({ Component, pageProps }) {
 ```
 
 > [!NOTE]
-> How this happens, because the `next-mdx-remote-client` injects the `useMdxComponents` context hook from `@mdx-js/react` during the function construction of the compiled source, internally. Pay attention that it is valid for only `MDXClient` and `hydrate` functions.
+> How this happens, because **`next-mdx-remote-client`** injects the `useMdxComponents` context hook from **`@mdx-js/react`** during the function construction of the compiled source, internally. Pay attention that it is valid for only `MDXClient` and `hydrate` functions.
 
 > [!CAUTION]
 > Since `MDXRemote` as a react server component can not read the context, **`MDXProvider` is effectless when used within the nextjs `app` router** for `MDXRemote`, which is also for `evaluate`.
 
 ## MDX Components
 
-You can provide a map of custom MDX components, which is a feature of `@mdx-js/mdx`, in order to replace HTML tags (see [the list of markdown syntax and equivalent HTML tags](https://mdxjs.com/table-of-components)) with the custom components.
+You can provide a map of custom MDX components, which is a feature of **`@mdx-js/mdx`**, in order to replace HTML tags (see [the list of markdown syntax and equivalent HTML tags](https://mdxjs.com/table-of-components)) with the custom components.
 
 Typescript users can use `MDXComponents` from `mdx/types`, which is exported by this package as well.
 
@@ -1517,7 +1517,7 @@ If you provide **the generic type parameter**, it ensures the `frontmatter` gets
 
 ## Types
 
-The `next-mdx-remote-client` is fully typed with [TypeScript][url-typescript].
+**`next-mdx-remote-client`** is fully typed with [TypeScript][url-typescript].
 
 The package exports the types for server side (rsc):
 
@@ -1549,17 +1549,17 @@ In addition, the package exports the types from `mdx/types` so that developers d
 
 ## Compatibility
 
-The `next-mdx-remote-client` works with unified version 6+ ecosystem since it is compatible with MDX version 3.
+**`next-mdx-remote-client`** works with unified version 6+ ecosystem since it is compatible with MDX version 3.
 
 ## Security
 
-Allowance of the **`export declarations`** and the **`import declarations`** in MDX source, if you don't have exact control on the content, may cause vulnerabilities and harmful activities. The **next-mdx-remote-client** gives options for disabling them. 
+Allowance of the **`export declarations`** and the **`import declarations`** in MDX source, if you don't have exact control on the content, may cause vulnerabilities and harmful activities. **`next-mdx-remote-client`** gives options for disabling them.
 
-But, you need to use a custom recma plugin for disabiling the **`import expressions`** like `await import("xyz")` since the **next-mdx-remote-client** doesn't touch the import expressions.
+But, you need to use a custom recma plugin for disabiling the **`import expressions`** like `await import("xyz")` since the **`next-mdx-remote-client`** doesn't touch the import expressions.
 
-`Eval` a string of JavaScript can be a dangerous and may cause enabling XSS attacks, which is how the **next-mdx-remote-client** APIs do. Please, take your own measures while passing the user input.
+`Eval` a string of JavaScript can be a dangerous and may cause enabling XSS attacks, which is how the **`next-mdx-remote-client`** APIs do. Please, take your own measures while passing the user input.
 
-If there is a Content Security Policy (CSP) on the website that disallows code evaluation via `eval` or `new Function()`, it is needed to loosen that restriction in order to utilize `next-mdx-remote-client`, which can be done using [unsafe-eval](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#common_sources).
+If there is a Content Security Policy (CSP) on the website that disallows code evaluation via `eval` or `new Function()`, it is needed to loosen that restriction in order to utilize **`next-mdx-remote-client`**, which can be done using [unsafe-eval](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#common_sources).
 
 ## Some Plugins
 
