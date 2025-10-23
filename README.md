@@ -20,9 +20,9 @@
 The **`next-mdx-remote-client`** is a wrapper of **`@mdx-js/mdx`** for **`nextjs`** applications in order to load MDX content. It is a fork of **`next-mdx-remote`**.
 
 See some blog applications in which **`next-mdx-remote-client`** is used:
-+ for a **demo application** which uses **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/),
-+ for a **demo application** which uses **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/),
-+ for a **testing application** which uses **both `app` and `pages` router**, visit [source code](https://github.com/talatkuyuk/testing-app-for-next-mdx-remote-client) or [living web site](https://testing-app-for-next-mdx-remote-client.vercel.app/).
++ for a **demo application** which uses **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://nmrc-in-app-router.vercel.app/),
++ for a **demo application** which uses **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://nmrc-in-pages-router.vercel.app/),
++ for a **testing application** which uses **both `app` and `pages` router**, visit [source code](https://github.com/talatkuyuk/testing-app-for-next-mdx-remote-client) or [living web site](https://testing-app-for-nmrc.vercel.app/).
 
 ## Why `next-mdx-remote-client` ?
 
@@ -151,7 +151,7 @@ Let's give some examples how to use `next-mdx-remote-client` in "app" router fir
 
 ### Examples for `app` router
 
-See a **demo application** with **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://next-mdx-remote-client-in-app-router.vercel.app/).
+See a **demo application** with **`app` router**, visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router) or [living web site](https://nmrc-in-app-router.vercel.app/).
 
 #### An example with `javascript`
 
@@ -782,7 +782,7 @@ Let's give some examples how to use `next-mdx-remote-client` in "pages" router f
 
 ### Examples for `pages` router
 
-See a **demo application** with **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://next-mdx-remote-client-in-pages-router.vercel.app/).
+See a **demo application** with **`pages` router**,  visit [source code](https://github.com/talatkuyuk/next-mdx-remote-client-in-pages-router) or [living web site](https://nmrc-in-pages-router.vercel.app/).
 
 #### An example with `javascript`
 
