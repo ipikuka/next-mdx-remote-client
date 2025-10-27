@@ -1,3 +1,10 @@
+**A robust Next.js newsletter `Next.js Weekly` is sponsoring me** 💖
+[![NextjsWeekly banner](./assets/next-js-weekly.png)](https://nextjsweekly.com/)
+
+### [Become a sponsor](https://github.com/sponsors/ipikuka/) 🚀
+
+A warm thanks 🙌 to [@ErfanEbrahimnia](https://github.com/ErfanEbrahimnia), and [@LSeaburg](https://github.com/LSeaburg) for the support!
+
 # next-mdx-remote-client
 
 [![npm version][badge-npm-version]][url-npm-package]
