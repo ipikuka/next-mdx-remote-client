@@ -123,6 +123,20 @@ yarn add next-mdx-remote-client
 > [!WARNING]  
 > **`next-mdx-remote`** users may follow the [migration guide](/migration_guide.md).
 
+## Initial Security Concerns
+
+Before diving into **`next-mdx-remote-client`**, it’s important to highlight the security risks associated with rendering MDX content.
+
+Because MDX supports JavaScript expressions, it introduces serious security considerations. If the content is not fully trusted and controlled, it can enable **cross-site scripting (XSS)** attacks and even lead to **remote code execution (RCE)**. In the worst-case scenario, attackers could steal sensitive data, inject malicious scripts, install malware, or compromise your server.
+
+> **Never render user-supplied MDX without proper sanitization.**
+
+MDX provides three powerful constructs: **JSX syntax**, **JavaScript expressions**, and **ESM blocks (`mdxjsEsm`)** such as `import` and `export`. **`next-mdx-remote-client`** provides options to disable **ESM blocks (`mdxjsEsm`)**. However, it does **not** take responsibility for securing MDX content itself, as **it operates purely at the rendering layer**. Content sanitization and JS expression control should be handled earlier in the processing pipeline (e.g., at the remark/recma/compilation stage).
+
+If you do not have full control over the MDX source, you should at minimum strip **dangerous JavaScript expressions** before rendering. A recommended approach is to use the remark plugin [**`remark-mdx-remove-expressions`**](https://github.com/ipikuka/remark-mdx-remove-expressions), which removes executable/dangerous MDX expressions at the syntax level.
+
+For further security concerns you can visit [Security section](#security).
+
 ## The package's exported subpaths
 
 The main entry point **`/`** also refers to **`/csr`** subpath.
@@ -1567,13 +1581,63 @@ In addition, the package exports the types from `mdx/types` so that developers d
 
 ## Security
 
-Allowance of the **`export declarations`** and the **`import declarations`** in MDX source, if you don't have exact control on the content, may cause vulnerabilities and harmful activities. **`next-mdx-remote-client`** gives options for disabling them.
+The security model of **`next-mdx-remote-client`** is fundamentally the same as other MDX integrations built on top of **`@mdx-js/mdx`**, including **`next-mdx-remote`**, **`@next/mdx`**, and similar solutions.
 
-But, you need to use a custom recma plugin for disabiling the **`import expressions`** like `await import("xyz")` since the **`next-mdx-remote-client`** doesn't touch the import expressions.
+MDX supports:
+- **JSX syntax**
+- **JavaScript expressions** (`{1 + 1}`, `{someVar}`, `{fn()}`)
+- **ESM blocks (`mdxjsEsm`)** such as `import` and `export`
 
-`Eval` a string of JavaScript can be a dangerous and may cause enabling XSS attacks, which is how the **`next-mdx-remote-client`** APIs do. Please, take your own measures while passing the user input.
+Because MDX compiles to executable JavaScript, rendering **untrusted MDX** can inherently introduce:
+- **Cross-Site Scripting (XSS)**
+- **Remote Code Execution (RCE)**
 
-If there is a Content Security Policy (CSP) on the website that disallows code evaluation via `eval` or `new Function()`, it is needed to loosen that restriction in order to utilize **`next-mdx-remote-client`**, which can be done using [unsafe-eval](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#common_sources).
+This is not unique to **`next-mdx-remote-client`**; it is intrinsic to how MDX works and has long been documented across the MDX ecosystem.
+
+### Trust Model
+
+If MDX content is **not fully trusted**, then **RCE** is inherently possible. If you completely block all JavaScript expressions, you effectively reduce MDX to *Markdown with JSX*. That may be acceptable for certain use cases, but it changes the expressive nature of MDX.
+
+A more balanced approach is to **block only dangerous expressions** rather than disabling all expressions. The remark plugin [**`remark-mdx-remove-expressions`**](https://github.com/ipikuka/remark-mdx-remove-expressions)  
+can remove executable or dangerous MDX expressions at the syntax level:
+
+```ts
+import remarkMdxRemoveExpressions from "remark-mdx-remove-expressions";
+
+{
+  mdxOptions: {
+    remarkPlugins: [
+      [remarkMdxRemoveExpressions, { onlyDangerousExpressions: true }]
+    ]
+  }
+}
+```
+
+### ESM (`import` / `export`) in MDX
+
+Allowing **`import` declarations** and **`export` declarations`** inside MDX can introduce serious risks if the content is not strictly controlled.
+
+**`next-mdx-remote-client`** provides options to disable ESM blocks (`mdxjsEsm`) for this reason. But **dynamic import expressions**, such as `await import("some-module")` are JavaScript expressions and require a **custom recma plugin** to block or transform them. [**`remark-mdx-remove-expressions`**](https://github.com/ipikuka/remark-mdx-remove-expressions) can also remove import expressions, **`next-mdx-remote-client`** does not modify or restrict these automatically.
+
+### Runtime Evaluation (`eval` / `new Function`)
+
+Like most MDX runtimes, **`next-mdx-remote-client`** evaluates compiled JavaScript using runtime evaluation `Reflect.construct` similar with `eval` or `new Function()`.
+
+Evaluating JavaScript from a string can enable **XSS** attacks or **RCE** if the input is not trusted. You are responsible for ensuring either the MDX source is trusted, or the source is properly sanitized and restricted before evaluation. Please, take your own measures while passing the user input.
+
+### Content Security Policy (CSP)
+
+If your site uses a strict **Content Security Policy (CSP)** that disallows dynamic code evaluation via `eval` or `new Function()`, you will need to loosen the `script-src` policy to include `unsafe-eval`. Otherwise, MDX runtime evaluation will fail.
+
+Carefully assess the security implications before enabling [`unsafe-eval`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#common_sources), especially in high-security environments.
+
+### Final Security Recommendations
+
+- Treat MDX as executable code.
+- Never evaluate/render untrusted MDX without applying proper restrictions or sanitization.
+- Prefer removing dangerous expressions at the **remark/recma stage**, not at the rendering layer.
+- Disable ESM blocks if the content is not fully controlled.
+- Understand your CSP implications before deploying to production.
 
 ## Some Plugins
 
