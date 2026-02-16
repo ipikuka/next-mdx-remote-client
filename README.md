@@ -1583,14 +1583,9 @@ In addition, the package exports the types from `mdx/types` so that developers d
 
 The security model of **`next-mdx-remote-client`** is fundamentally the same as other MDX integrations built on top of **`@mdx-js/mdx`**, including **`next-mdx-remote`**, **`@next/mdx`**, and similar solutions.
 
-MDX supports:
-- **JSX syntax**
-- **JavaScript expressions** (`{1 + 1}`, `{someVar}`, `{fn()}`)
-- **ESM blocks (`mdxjsEsm`)** such as `import` and `export`
+MDX supports **JSX syntax**; **JavaScript expressions** (`{1 + 1}`, `{someVar}`, `{fn()}`); and **ESM blocks (`mdxjsEsm`)** such as `import` and `export`.
 
-Because MDX compiles to executable JavaScript, rendering **untrusted MDX** can inherently introduce:
-- **Cross-Site Scripting (XSS)**
-- **Remote Code Execution (RCE)**
+Because MDX compiles to executable JavaScript, rendering **untrusted MDX** can inherently introduce **Cross-Site Scripting (XSS)** and **Remote Code Execution (RCE)**.
 
 This is not unique to **`next-mdx-remote-client`**; it is intrinsic to how MDX works and has long been documented across the MDX ecosystem.
 
@@ -1598,8 +1593,7 @@ This is not unique to **`next-mdx-remote-client`**; it is intrinsic to how MDX w
 
 If MDX content is **not fully trusted**, then **RCE** is inherently possible. If you completely block all JavaScript expressions, you effectively reduce MDX to *Markdown with JSX*. That may be acceptable for certain use cases, but it changes the expressive nature of MDX.
 
-A more balanced approach is to **block only dangerous expressions** rather than disabling all expressions. The remark plugin [**`remark-mdx-remove-expressions`**](https://github.com/ipikuka/remark-mdx-remove-expressions)  
-can remove executable or dangerous MDX expressions at the syntax level:
+A more balanced approach is to **block only dangerous expressions** rather than disabling all expressions. The remark plugin [**`remark-mdx-remove-expressions`**](https://github.com/ipikuka/remark-mdx-remove-expressions) can remove executable or dangerous MDX expressions at the syntax level:
 
 ```ts
 import remarkMdxRemoveExpressions from "remark-mdx-remove-expressions";
@@ -1615,9 +1609,9 @@ import remarkMdxRemoveExpressions from "remark-mdx-remove-expressions";
 
 ### ESM (`import` / `export`) in MDX
 
-Allowing **`import` declarations** and **`export` declarations`** inside MDX can introduce serious risks if the content is not strictly controlled.
+Allowing **`import` declarations** and **`export` declarations** inside MDX can introduce serious risks if the content is not strictly controlled. **`next-mdx-remote-client`** provides options to disable ESM blocks (`mdxjsEsm`) for this reason.
 
-**`next-mdx-remote-client`** provides options to disable ESM blocks (`mdxjsEsm`) for this reason. But **dynamic import expressions**, such as `await import("some-module")` are JavaScript expressions and require a **custom recma plugin** to block or transform them. [**`remark-mdx-remove-expressions`**](https://github.com/ipikuka/remark-mdx-remove-expressions) can also remove import expressions, **`next-mdx-remote-client`** does not modify or restrict these automatically.
+But *dynamic import expressions*, such as `await import("some-module")` are JavaScript expressions and require a **custom recma plugin** to block or transform them. [**`remark-mdx-remove-expressions`**](https://github.com/ipikuka/remark-mdx-remove-expressions) can also remove import expressions, **`next-mdx-remote-client`** does not modify or restrict these automatically.
 
 ### Runtime Evaluation (`eval` / `new Function`)
 
