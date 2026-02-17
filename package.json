@@ -7,29 +7,29 @@
   "type": "module",
   "exports": {
     ".": {
-      "workerd": "./dist/csr/index.js",
+      "types": "./dist/csr/index.d.ts",
       "import": "./dist/csr/index.js",
       "default": "./dist/csr/index.js"
     },
-    "./csr": "./dist/csr/index.js",
-    "./serialize": "./dist/csr/serialize.js",
-    "./rsc": "./dist/rsc/index.js",
-    "./utils": "./dist/utils/index.js"
-  },
-  "typesVersions": {
-    "*": {
-      "csr": [
-        "./dist/csr/index.d.ts"
-      ],
-      "serialize": [
-        "./dist/csr/serialize.d.ts"
-      ],
-      "rsc": [
-        "./dist/rsc/index.d.ts"
-      ],
-      "utils": [
-        "./dist/utils/index.d.ts"
-      ]
+    "./csr": {
+      "types": "./dist/csr/index.d.ts",
+      "import": "./dist/csr/index.js",
+      "default": "./dist/csr/index.js"
+    },
+    "./serialize": {
+      "types": "./dist/csr/serialize.d.ts",
+      "import": "./dist/csr/serialize.js",
+      "default": "./dist/csr/serialize.js"
+    },
+    "./rsc": {
+      "types": "./dist/rsc/index.d.ts",
+      "import": "./dist/rsc/index.js",
+      "default": "./dist/rsc/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js",
+      "default": "./dist/utils/index.js"
     }
   },
   "scripts": {
