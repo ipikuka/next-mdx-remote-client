@@ -62,7 +62,7 @@
     "@mdx-js/mdx",
     "nextjs",
     "next-mdx-remote",
-    "next-mdx-remote-client"
+    "@next/mdx"
   ],
   "author": "ipikuka <talatkuyuk@gmail.com>",
   "license": "MPL 2.0",
@@ -118,7 +118,7 @@
     "react-dom": ">= 18.3.0 < 19.0.0"
   },
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=20.9.0"
   },
   "typeCoverage": {
     "atLeast": 100,
