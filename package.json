@@ -71,11 +71,11 @@
     "url": "https://github.com/ipikuka/next-mdx-remote-client/issues"
   },
   "dependencies": {
-    "@babel/code-frame": "^7.27.1",
+    "@babel/code-frame": "^7.29.0",
     "@mdx-js/mdx": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
-    "remark-mdx-remove-esm": "^1.2.1",
-    "serialize-error": "^12.0.0",
+    "remark-mdx-remove-esm": "^1.2.2",
+    "serialize-error": "^13.0.1",
     "vfile": "^6.0.3",
     "vfile-matter": "^5.0.1"
   },

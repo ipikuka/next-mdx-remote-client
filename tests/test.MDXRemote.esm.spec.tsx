@@ -3,7 +3,6 @@ import { describe, expect, test } from "vitest";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom/vitest";
 
 import { MDXRemote, type MDXRemoteOptions, type MDXComponents } from "../src/rsc";
 
