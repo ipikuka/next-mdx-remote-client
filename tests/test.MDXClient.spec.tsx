@@ -1,6 +1,7 @@
-import React from "react";
-import ReactDOMServer from "react-dom/server";
 import { describe, expect, test } from "vitest";
+
+import ReactDOMServer from "react-dom/server";
+
 import { MDXClient } from "../src/csr";
 import { serialize } from "../src/csr/serialize.js";
 

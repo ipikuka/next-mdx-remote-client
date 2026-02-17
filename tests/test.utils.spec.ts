@@ -1,5 +1,6 @@
 import { describe, test, expect } from "vitest";
 
+import type { SourceLocation } from "@babel/code-frame";
 import dedent from "dedent";
 
 import { getFrontmatter } from "../src/utils";
@@ -196,7 +197,9 @@ describe("createFormattedMDXError", () => {
       target x as error
     `;
 
-    const positionedError = new Error("The char x is targetted as error");
+    const positionedError: Error & { position?: SourceLocation } = new Error(
+      "The char x is targetted as error",
+    );
 
     positionedError["position"] = { start: { line: 1, column: 8 } };
 

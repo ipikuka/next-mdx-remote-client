@@ -1,13 +1,12 @@
 import { describe, test, expect } from "vitest";
 
-import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { VFile } from "vfile";
 import dedent from "dedent";
-import remarkFlexibleMarkers from "remark-flexible-markers";
 import remarkEmoji from "remark-emoji";
-import recmaMdxEscapeMissingComponents from "recma-mdx-escape-missing-components";
+import remarkFlexibleMarkers from "remark-flexible-markers";
 import recmaMdxChangeProps from "recma-mdx-change-props";
+import recmaMdxEscapeMissingComponents from "recma-mdx-escape-missing-components";
 
 import { hydrate } from "../src/csr";
 import { serialize, type SerializeOptions } from "../src/csr/serialize.js";

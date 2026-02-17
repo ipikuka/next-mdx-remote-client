@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
 
-import dedent from "dedent";
 import { VFile } from "vfile";
+import dedent from "dedent";
 
 import { runSync } from "../src/lib/run.js";
 import { compile } from "../src/lib/compile.js";
