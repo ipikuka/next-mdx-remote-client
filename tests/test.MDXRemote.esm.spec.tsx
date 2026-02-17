@@ -1,8 +1,10 @@
-import React from "react";
 import { describe, expect, test } from "vitest";
-import { MDXRemote, type MDXRemoteOptions, type MDXComponents } from "../src/rsc";
-// import { render, screen } from "@testing-library/react";
+
+import React from "react";
 import ReactDOMServer from "react-dom/server";
+import { render, screen } from "@testing-library/react";
+
+import { MDXRemote, type MDXRemoteOptions, type MDXComponents } from "../src/rsc";
 
 describe("MDXRemote", () => {
   // const LoadingComponent = () => {
@@ -25,7 +27,7 @@ describe("MDXRemote", () => {
     },
   };
 
-  test("works", async () => {
+  test("works (as func)", async () => {
     const source = "hi <Test name={bar} />";
 
     const options: MDXRemoteOptions = {
@@ -46,7 +48,7 @@ describe("MDXRemote", () => {
     );
   });
 
-  test("works with catchable error but no Error Component", async () => {
+  test("works with catchable error but no Error Component (as func)", async () => {
     const source = "import x from 'y'";
 
     try {
@@ -59,9 +61,20 @@ describe("MDXRemote", () => {
         `[Error: Unexpected missing \`options.baseUrl\` needed to support \`export … from\`, \`import\`, or \`import.meta.url\` when generating \`function-body\`]`,
       );
     }
+
+    // second way
+
+    await expect(
+      MDXRemote({
+        source,
+        components: mdxComponents,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `[Error: Unexpected missing \`options.baseUrl\` needed to support \`export … from\`, \`import\`, or \`import.meta.url\` when generating \`function-body\`]`,
+    );
   });
 
-  test("works with catchable errors 1", async () => {
+  test("works with catchable error, with Error component (as func)", async () => {
     const source = "import x from 'y'";
 
     const content = await MDXRemote({
@@ -75,7 +88,7 @@ describe("MDXRemote", () => {
     );
   });
 
-  test("works with catchable errors 2", async () => {
+  test("catchable error (as func)", async () => {
     const source = "import x from 'y'";
 
     const options: MDXRemoteOptions = {
@@ -92,9 +105,14 @@ describe("MDXRemote", () => {
     });
 
     expect(ReactDOMServer.renderToStaticMarkup(content)).toContain("Cannot find package");
+    expect(ReactDOMServer.renderToStaticMarkup(content)).toMatch(/Cannot find package/);
+
+    // just for testing it with @testing-library
+    render(content);
+    expect(screen.getByTestId("mdx-error")).toHaveTextContent("Cannot find package 'y'");
   });
 
-  test("has problem working with uncatchable errors", async () => {
+  test("uncatchable error (as func)", async () => {
     const source = "hi {bar}";
 
     const content = await MDXRemote({
