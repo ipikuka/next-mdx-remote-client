@@ -83,8 +83,8 @@ Let's compare the features of **`next-mdx-remote`** and **`next-mdx-remote-clien
 ## General considerations about development
 
 - It is ESM only package
-- Needs `react` version 19.0+, works with latest next@15.2 (tested)
-- Needs `node` version 18.18+ in line with nextjs does
+- Needs `react` version 19.1+, works with `next@15` and `next@16` versions (tested)
+- Needs `node` version 20.9.0+ in line with `Next.js` does
 - Vitest is used instead of jest for testing
 - Rollup is removed for bundling
 - Test coverage is 100%
@@ -108,10 +108,10 @@ This package is ESM only, requires Node.js (version 18.18+).
 npm install next-mdx-remote-client
 
 # specifically for react18 users
-npm install next-mdx-remote-client@1
+npm install next-mdx-remote-client@^1
 
 # specifically for react19 users
-npm install next-mdx-remote-client@2
+npm install next-mdx-remote-client@^2
 ```
 
 or
