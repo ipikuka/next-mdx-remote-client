@@ -81,7 +81,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
-    "@swc/helpers": "^0.5.17",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
@@ -100,7 +99,6 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.4.0",
     "jsdom": "^27.0.0",
-    "next": "^14.2.33",
     "prettier": "^3.6.2",
     "recma-mdx-change-props": "^1.2.1",
     "recma-mdx-escape-missing-components": "^1.2.1",
