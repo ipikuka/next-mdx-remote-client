@@ -1653,6 +1653,8 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
   – Remark plugin to expose the table of contents via Vfile.data or via an option reference
 - [`remark-mdx-remove-esm`](https://www.npmjs.com/package/remark-mdx-remove-esm)
   – Remark plugin to remove import and/or export statements (mdxjsEsm)
+- [`remark-mdx-remove-expressions`](https://www.npmjs.com/package/remark-mdx-remove-expressions)
+  – Remark plugin to remove MDX expressions within curlybraces {} in MDX content
 
 ### My Rehype Plugins
 
