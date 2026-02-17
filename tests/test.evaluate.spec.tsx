@@ -296,7 +296,9 @@ describe("evaluate", () => {
     const { content, mod, frontmatter, scope, error } = await evaluate({
       source: "<motion.p />",
       components: {
-        // @ts-ignore no match for the signature
+        // @ts-expect-error (2322) -- Issue caused by React 19 removing global JSX types,
+        // no match for the signature which affects the type inference for nested components in this case.
+        // Define your global JSX (for JSX.IntrinsicElements) in your project if need to use nested components.
         motion: { p: () => <p>Hello world</p> },
       },
     });

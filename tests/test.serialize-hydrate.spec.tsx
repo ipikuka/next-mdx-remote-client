@@ -419,7 +419,7 @@ describe("serialize & hydrate", () => {
       ...mdxSource,
       components: {
         // @ts-expect-error (2322) -- Issue caused by React 19 removing global JSX types,
-        // which affects the type inference for nested components in this case.
+        // no match for the signature which affects the type inference for nested components in this case.
         // Define your global JSX (for JSX.IntrinsicElements) in your project if need to use nested components.
         motion: { p: () => <p>Hello world</p> },
       },
