@@ -4,7 +4,8 @@ import { render, screen } from "@testing-library/react";
 
 import { MDXClientAsync, type MDXComponents } from "../src/csr";
 import { serialize } from "../src/csr/serialize.js";
-import ErrorBoundary from "./ErrorBoundarySimple.jsx";
+
+import { ErrorBoundary } from "./ErrorBoundaryForTests.js";
 
 describe("MDXClientAsync", () => {
   const LoadingComponent = () => {
@@ -127,14 +128,12 @@ describe("MDXClientAsync", () => {
 
     render(
       <ErrorBoundary fallback={<div data-testid="mdx-error">Something went wrong</div>}>
-        render(
         <MDXClientAsync
           components={mdxComponents}
           {...mdxSource}
           loading={LoadingComponent}
           onError={ErrorComponent}
         />
-        , );
       </ErrorBoundary>,
     );
 

@@ -4,7 +4,8 @@ import { render, screen, waitFor } from "@testing-library/react";
 
 import { MDXClientLazy, type MDXComponents } from "../src/csr";
 import { serialize } from "../src/csr/serialize.js";
-import ErrorBoundary from "./ErrorBoundarySimple.jsx";
+
+import { ErrorBoundary } from "./ErrorBoundaryForTests.js";
 
 describe("MDXClientLazy", () => {
   const ErrorComponent = ({ error }: { error: Error }) => {
