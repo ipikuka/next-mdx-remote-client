@@ -1,9 +1,11 @@
-import React from "react";
-import ReactDOMServer from "react-dom/server";
 import { describe, expect, test } from "vitest";
+
+import ReactDOMServer from "react-dom/server";
+
 import { MDXClient } from "../src/csr";
 import { serialize } from "../src/csr/serialize.js";
-import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+
+import { ErrorBoundary } from "./ErrorBoundaryForTests.js";
 
 describe("MDXClient", () => {
   test("works", async () => {
@@ -70,7 +72,12 @@ describe("MDXClient", () => {
     // even the ErrorBoundary couldn't catch the error, don't know why?
     expect(() =>
       ReactDOMServer.renderToStaticMarkup(
-        <ErrorBoundary errorComponent={onError}>
+        <ErrorBoundary
+          fallback={<div data-testid="mdx-error">Something went wrong</div>}
+          onError={(error) => {
+            console.log(error);
+          }}
+        >
           <MDXClient {...mdxSource} onError={onError} />
         </ErrorBoundary>,
       ),

@@ -1,13 +1,12 @@
 import { vi, describe, test, expect } from "vitest";
 
-import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { VFile } from "vfile";
 import dedent from "dedent";
-import remarkFlexibleMarkers from "remark-flexible-markers";
 import remarkEmoji from "remark-emoji";
-import recmaMdxEscapeMissingComponents from "recma-mdx-escape-missing-components";
+import remarkFlexibleMarkers from "remark-flexible-markers";
 import recmaMdxChangeProps from "recma-mdx-change-props";
+import recmaMdxEscapeMissingComponents from "recma-mdx-escape-missing-components";
 
 import { evaluate, type EvaluateOptions } from "../src/rsc";
 import { compile } from "../src/lib/compile";
@@ -297,7 +296,7 @@ describe("evaluate", () => {
     const { content, mod, frontmatter, scope, error } = await evaluate({
       source: "<motion.p />",
       components: {
-        // @ts-ignore
+        // @ts-ignore no match for the signature
         motion: { p: () => <p>Hello world</p> },
       },
     });
