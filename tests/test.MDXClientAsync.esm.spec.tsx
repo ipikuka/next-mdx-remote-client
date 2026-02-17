@@ -1,10 +1,12 @@
-import React from "react";
-import { describe, expect, test } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { vi, describe, expect, test } from "vitest";
+
+import type { ComponentProps } from "react";
+import { render, screen, waitFor } from "@testing-library/react";
 
 import { MDXClientAsync, type MDXComponents } from "../src/csr";
 import { serialize } from "../src/csr/serialize.js";
-import ErrorBoundary from "./ErrorBoundarySimple.jsx";
+
+import { ErrorBoundary } from "./ErrorBoundaryForTests.js";
 
 describe("MDXClientAsync", () => {
   const LoadingComponent = () => {
@@ -17,7 +19,7 @@ describe("MDXClientAsync", () => {
 
   const mdxComponents = {
     Test: ({ name }: { name: string }) => <strong>{name}</strong>,
-    wrapper: (props: React.ComponentProps<"div"> & { components: MDXComponents }) => {
+    wrapper: (props: ComponentProps<"div"> & { components: MDXComponents }) => {
       const { components, children, ...rest } = props; // eslint-disable-line @typescript-eslint/no-unused-vars
       return (
         <div data-testid="mdx-layout" {...rest}>
@@ -27,7 +29,7 @@ describe("MDXClientAsync", () => {
     },
   };
 
-  test("works", async () => {
+  test("works as expected", async () => {
     const mdxSource = await serialize({
       source: "hi <Test name={bar} />",
       options: {
@@ -48,15 +50,13 @@ describe("MDXClientAsync", () => {
       />,
     );
 
-    await screen.findByTestId("mdx-loading", {}, { timeout: 2000 });
+    const loadingDiv = screen.queryByTestId("mdx-loading");
+    expect(loadingDiv?.innerHTML).toEqual("loading");
 
-    expect(screen.queryByTestId("mdx-loading")?.innerHTML).toEqual("loading");
-
-    await screen.findByTestId("mdx-layout", {}, { timeout: 2000 });
-
-    expect(screen.queryByTestId("mdx-layout")?.innerHTML).toContain(
-      "<p>hi <strong>ipikuka</strong></p>",
-    );
+    await waitFor(() => {
+      const layoutDiv = screen.queryByTestId("mdx-layout");
+      expect(layoutDiv?.innerHTML).toContain("<p>hi <strong>ipikuka</strong></p>");
+    });
   });
 
   test("works with catchable errors 1", async () => {
@@ -75,12 +75,10 @@ describe("MDXClientAsync", () => {
       />,
     );
 
-    await screen.findByTestId("mdx-loading", {}, { timeout: 2000 });
-
-    expect(screen.queryByTestId("mdx-loading")?.innerHTML).toEqual("loading");
+    const loadingDiv = screen.queryByTestId("mdx-loading");
+    expect(loadingDiv?.innerHTML).toEqual("loading");
 
     await screen.findByTestId("mdx-error", {}, { timeout: 2000 });
-
     expect(screen.queryByTestId("mdx-error")).toMatchInlineSnapshot(`
       <div
         data-testid="mdx-error"
@@ -90,7 +88,7 @@ describe("MDXClientAsync", () => {
     `);
   });
 
-  test.skip("works with catchable errors 2", async () => {
+  test("works with catchable errors 2", async () => {
     const mdxSource = await serialize({
       source: "import x from 'y'",
     });
@@ -107,49 +105,61 @@ describe("MDXClientAsync", () => {
       />,
     );
 
-    await screen.findByTestId("mdx-loading", {}, { timeout: 2000 });
-
-    expect(screen.queryByTestId("mdx-loading")?.innerHTML).toEqual("loading");
+    const loadingDiv = screen.queryByTestId("mdx-loading");
+    expect(loadingDiv?.innerHTML).toEqual("loading");
 
     await screen.findByTestId("mdx-error", {}, { timeout: 2000 });
-
     expect(screen.queryByTestId("mdx-error")?.innerHTML).toContain(
       "Cannot find package 'y' imported from",
     );
   });
 
-  test.skip("has problem working with uncatchable errors", async () => {
+  test("uncatchable runtime error", async () => {
     const mdxSource = await serialize({
       source: "hi {bar}",
     });
 
     if ("error" in mdxSource) throw new Error("shouldn't have any MDX syntax error");
 
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const onError = vi.fn();
+
     render(
-      <ErrorBoundary fallback={<div data-testid="mdx-error">Something went wrong</div>}>
-        render(
+      <ErrorBoundary
+        fallback={<div data-testid="mdx-error">Something went wrong</div>}
+        onError={onError}
+      >
         <MDXClientAsync
           components={mdxComponents}
           {...mdxSource}
           loading={LoadingComponent}
           onError={ErrorComponent}
         />
-        , );
       </ErrorBoundary>,
     );
 
-    await screen.findByTestId("mdx-loading", {}, { timeout: 2000 });
+    const loadingDiv = screen.queryByTestId("mdx-loading");
+    expect(loadingDiv).toHaveTextContent("loading");
+    expect(loadingDiv?.innerHTML).toEqual("loading");
 
-    expect(screen.queryByTestId("mdx-loading")?.innerHTML).toEqual("loading");
+    await waitFor(() =>
+      expect(onError).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: "ReferenceError",
+          message: expect.stringContaining("bar is not defined"),
+        }),
+        expect.objectContaining({
+          componentStack: expect.stringContaining("_createMdxContent"),
+        }),
+      ),
+    );
 
-    try {
-      await screen.findByTestId("mdx-error", {}, { timeout: 2000 });
+    const errorDiv = await screen.findByTestId("mdx-error", {}, { timeout: 2000 });
+    expect(errorDiv).toHaveTextContent("Something went wrong");
+    expect(errorDiv.innerHTML).toEqual("Something went wrong");
 
-      // it doesn't catch expected error "bar is not defined"
-      expect(screen.queryByTestId("mdx-error")).toBeUndefined();
-    } catch (error) {
-      // it doesn't catch expected error "bar is not defined"
-      expect(error).toMatchInlineSnapshot();
-    }
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    consoleErrorSpy.mockRestore();
   });
 });

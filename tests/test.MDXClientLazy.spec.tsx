@@ -1,10 +1,12 @@
-import React from "react";
-import { describe, expect, test } from "vitest";
+import { vi, describe, expect, test } from "vitest";
+
+import type { ComponentProps } from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 
 import { MDXClientLazy, type MDXComponents } from "../src/csr";
 import { serialize } from "../src/csr/serialize.js";
-import ErrorBoundary from "./ErrorBoundarySimple.jsx";
+
+import { ErrorBoundary } from "./ErrorBoundaryForTests.js";
 
 describe("MDXClientLazy", () => {
   const ErrorComponent = ({ error }: { error: Error }) => {
@@ -13,7 +15,7 @@ describe("MDXClientLazy", () => {
 
   const mdxComponents = {
     Test: ({ name }: { name: string }) => <strong>{name}</strong>,
-    wrapper: (props: React.ComponentProps<"div"> & { components: MDXComponents }) => {
+    wrapper: (props: ComponentProps<"div"> & { components: MDXComponents }) => {
       const { components, children, ...rest } = props; // eslint-disable-line @typescript-eslint/no-unused-vars
       return (
         <div data-testid="mdx-layout" {...rest}>
@@ -23,7 +25,7 @@ describe("MDXClientLazy", () => {
     },
   };
 
-  test("works", async () => {
+  test("works as expected", async () => {
     const mdxSource = await serialize({
       source: "hi <Test name={bar} />",
       options: {
@@ -39,11 +41,10 @@ describe("MDXClientLazy", () => {
       <MDXClientLazy components={mdxComponents} {...mdxSource} onError={ErrorComponent} />,
     );
 
-    await waitFor(() =>
-      expect(screen.queryByTestId("mdx-layout")?.innerHTML).toContain(
-        "<p>hi <strong>ipikuka</strong></p>",
-      ),
-    );
+    await waitFor(() => {
+      const layoutDiv = screen.queryByTestId("mdx-layout");
+      expect(layoutDiv?.innerHTML).toContain("<p>hi <strong>ipikuka</strong></p>");
+    });
   });
 
   test("works with catchable errors", async () => {
@@ -57,9 +58,9 @@ describe("MDXClientLazy", () => {
       <MDXClientLazy components={mdxComponents} {...mdxSource} onError={ErrorComponent} />,
     );
 
-    await screen.findByTestId("mdx-error", {}, { timeout: 2000 });
+    const errorDiv = await screen.findByTestId("mdx-error", {}, { timeout: 2000 });
 
-    expect(screen.queryByTestId("mdx-error")).toMatchInlineSnapshot(`
+    expect(errorDiv).toMatchInlineSnapshot(`
       <div
         data-testid="mdx-error"
       >
@@ -68,27 +69,42 @@ describe("MDXClientLazy", () => {
     `);
   });
 
-  test.skip("has problem working with uncatchable errors", async () => {
+  test("uncatchable runtime error", async () => {
     const mdxSource = await serialize({
       source: "hi {bar}",
     });
 
     if ("error" in mdxSource) throw new Error("shouldn't have any MDX syntax error");
 
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const onError = vi.fn();
+
     render(
-      <ErrorBoundary fallback={<div data-testid="mdx-error">Something went wrong</div>}>
+      <ErrorBoundary
+        fallback={<div data-testid="mdx-error">Something went wrong</div>}
+        onError={onError}
+      >
         <MDXClientLazy components={mdxComponents} {...mdxSource} onError={ErrorComponent} />
       </ErrorBoundary>,
     );
 
-    try {
-      await screen.findByTestId("mdx-error", {}, { timeout: 2000 });
+    await waitFor(() =>
+      expect(onError).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: "ReferenceError",
+          message: expect.stringContaining("bar is not defined"),
+        }),
+        expect.objectContaining({
+          componentStack: expect.stringContaining("_createMdxContent"),
+        }),
+      ),
+    );
 
-      // it doesn't catch expected error "bar is not defined"
-      expect(screen.queryByTestId("mdx-error")).toBeUndefined();
-    } catch (error) {
-      // it doesn't catch expected error "bar is not defined"
-      expect(error).toMatchInlineSnapshot();
-    }
+    const errorDiv = await screen.findByTestId("mdx-error");
+    expect(errorDiv).toHaveTextContent("Something went wrong");
+
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    consoleErrorSpy.mockRestore();
   });
 });
