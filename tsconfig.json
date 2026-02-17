@@ -13,6 +13,7 @@
     "declarationDir": "./dist",
     "outDir": "./dist",
     "sourceMap": true,
+    "inlineSources": true,
     "noImplicitReturns": true,
     "noImplicitThis": false
   },
