@@ -1,3 +1,4 @@
+import { defineConfig } from "eslint/config";
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import globals from "globals";
@@ -5,7 +6,7 @@ import react from "eslint-plugin-react";
 import eslintPluginPrettier from "eslint-plugin-prettier";
 import eslintConfigPrettier from "eslint-config-prettier";
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: [
       "**/archive/**",
@@ -19,6 +20,7 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   {
+    name: "TypeScript",
     files: ["**/*.{ts,tsx}"],
     extends: [eslint.configs.recommended, tseslint.configs.recommended],
     plugins: {
@@ -32,10 +34,12 @@ export default tseslint.config(
     },
   },
   {
+    name: "JavaScript",
     files: ["**/*.{js,jsx}"],
     extends: [tseslint.configs.disableTypeChecked],
   },
   {
+    name: "React",
     files: ["**/*.jsx", "tests/context/ExampleForm.mjs"],
     plugins: {
       react,
@@ -51,6 +55,7 @@ export default tseslint.config(
     },
   },
   {
+    name: "Idle Callback Polyfill",
     files: ["src/csr/idle-callback-polyfill.js"],
     languageOptions: {
       sourceType: "script",
