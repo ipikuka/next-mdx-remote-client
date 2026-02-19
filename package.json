@@ -49,8 +49,7 @@
   "files": [
     "dist/",
     "LICENSE",
-    "README.md",
-    "tsconfig.json"
+    "README.md"
   ],
   "repository": {
     "type": "git",
