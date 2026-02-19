@@ -2,9 +2,9 @@
   "name": "next-mdx-remote-client",
   "description": "A wrapper of the `@mdx-js/mdx` for the `nextjs` applications in order to load MDX content. It is a fork of `next-mdx-remote`.",
   "version": "1.1.5",
+  "type": "module",
   "main": "./dist/csr/index.js",
   "types": "./dist/csr/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/csr/index.d.ts",
@@ -41,10 +41,10 @@
     "test:watch": "vitest --pool=vmThreads",
     "test:file": "vitest --pool=vmThreads test.serialize-hydrate.spec.tsx",
     "test": "npm run test:esm && npm run test:rest",
-    "test:esm": "vitest --pool=vmThreads --watch=false esm",
-    "test:rest": "vitest --pool=forks --watch=false --exclude 'tests/*esm*'",
-    "prepublishOnly": "npm run test && npm run format && npm run test-coverage",
-    "test-coverage": "vitest --pool=vmThreads run --coverage"
+    "test:esm": "vitest --pool=vmThreads run esm",
+    "test:rest": "vitest --pool=forks run --exclude 'tests/*esm*'",
+    "test-coverage": "vitest --pool=vmThreads run --coverage",
+    "prepublishOnly": "npm run format && npm run test-coverage"
   },
   "files": [
     "dist/",
