@@ -1,7 +1,11 @@
 name: main
 on:
-  - pull_request
-  - push
+  pull_request:
+    branches:
+      - "**"
+  push:
+    branches:
+      - "**"
 jobs:
   test:
     name: Test (Node ${{ matrix.node }})
