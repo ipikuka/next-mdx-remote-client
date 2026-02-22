@@ -1684,6 +1684,15 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 - [`recma-mdx-interpolate`](https://www.npmjs.com/package/recma-mdx-interpolate)
   – Recma plugin to enable interpolation of identifiers wrapped in curly braces within the `alt`, `src`, `href`, and `title` attributes of markdown link and image syntax in MDX.
 
+### My Unist Utils and Plugins
+
+I also build low-level utilities and plugins for the Unist ecosystem that can be used across Remark, Rehype, Recma, and other syntax trees.
+
+- [`unist-util-find-between-all`](https://www.npmjs.com/package/unist-util-find-between-all)
+  – Unist utility to find the nodes between two nodes.
+- [`unist-plugin-log-tree`](https://www.npmjs.com/package/unist-plugin-log-tree)
+  – Debugging plugin for the unified ecosystem that logs abstract syntax trees (ASTs) without transforming.
+
 ## License
 
 [MPL 2.0 License](./LICENSE) © ipikuka
