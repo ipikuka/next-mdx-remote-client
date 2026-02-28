@@ -22,7 +22,7 @@ Thank you for supporting open source! 🙌
 [![typescript][badge-typescript]][url-typescript]
 [![license][badge-license]][url-license]
 
-**`next-mdx-remote-client`** is recommended in the [`Next.js` official documentation](https://nextjs.org/docs/app/guides/mdx#remote-mdx).
+**`next-mdx-remote-client`** is recommended in the [`Next.js` official documentation](https://nextjs.org/docs/15/app/guides/mdx#remote-mdx).
 
 > [!IMPORTANT]
 > **If you are using `react18`, use ver.1 of `next-mdx-remote-client`, currently `v1.1`**
