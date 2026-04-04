@@ -6,7 +6,7 @@
 import { compile as compileMDX, type CompileOptions as CompileMDXOptions } from "@mdx-js/mdx";
 import type { VFile } from "vfile";
 import type { PluggableList } from "unified";
-import remarkMdxRemoveEsm, { clsx } from "remark-mdx-remove-esm";
+import remarkMdxRemoveEsm from "remark-mdx-remove-esm";
 
 import type { CompileOptions, CompileResult } from "./types.js";
 import { createFormattedMDXError } from "./util.js";
@@ -20,7 +20,7 @@ import { createFormattedMDXError } from "./util.js";
 function composeCompileOptions(options: CompileOptions = {}): CompileMDXOptions {
   const { mdxOptions = {}, disableImports, disableExports } = options;
 
-  const mdxRemoveEsmOptions = clsx([disableExports && "export", disableImports && "import"]);
+  const mdxRemoveEsmOptions = [disableExports && "export", disableImports && "import"];
 
   const remarkPlugins: PluggableList = [
     ...(mdxOptions.remarkPlugins || []),
