@@ -606,6 +606,28 @@ describe("error handling in evaluate", () => {
     }).toThrow("bar is not defined");
   });
 
+  test("invalid identifier in scope causes syntax error during compile", async () => {
+    const myScope = { ["bar-baz"]: "ipikuka" };
+
+    const { content, mod, frontmatter, scope, error } = await evaluate({
+      source: "hi {bar-baz}",
+      options: {
+        scope: myScope,
+      },
+    });
+
+    expect(frontmatter).toStrictEqual({});
+    expect(scope).toStrictEqual(myScope);
+    expect(mod).toStrictEqual({});
+    expect(error).toMatchInlineSnapshot(
+      `[SyntaxError: Arg string terminates parameters early]`,
+    );
+
+    expect(ReactDOMServer.renderToStaticMarkup(content)).toMatchInlineSnapshot(`
+      "<div class="mdx-empty"></div>"
+    `);
+  });
+
   test("missing a component causes runtime error during render", async () => {
     const { content, mod, frontmatter, scope, error } = await evaluate({
       source: "hi <Test />",
