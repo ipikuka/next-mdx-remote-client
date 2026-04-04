@@ -841,6 +841,35 @@ describe("error handling in serialize & hydrate", () => {
     }).toThrow("bar is not defined");
   });
 
+  test("invalid identifier in scope causes syntax error during compile", async () => {
+    const myScope = { ["bar-baz"]: "ipikuka" };
+
+    const mdxSource = await serialize({
+      source: "hi {bar-baz}",
+      options: {
+        scope: myScope,
+      },
+    });
+
+    if ("error" in mdxSource) throw new Error("shouldn't have any MDX syntax error");
+
+    expect(mdxSource.frontmatter).toEqual({});
+    expect(mdxSource.scope).toEqual(myScope);
+
+    const { content, mod, error } = hydrate(mdxSource);
+
+    expect(mod).toEqual({});
+    expect(error).toMatchInlineSnapshot(
+      `[SyntaxError: Arg string terminates parameters early]`,
+    );
+
+    expect(content).toMatchInlineSnapshot(`
+      <div
+        className="mdx-empty"
+      />
+    `);
+  });
+
   test("missing a component causes runtime error during render", async () => {
     const mdxSource = await serialize({
       source: "hi <Test />",
