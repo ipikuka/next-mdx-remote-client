@@ -17,6 +17,7 @@ export default defineConfig(
       "**/package-lock.json",
       "**/.DS_Store",
       "**/.vscode",
+      "tsconfig.build.tsbuildinfo",
     ],
   },
   eslint.configs.recommended,

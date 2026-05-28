@@ -1,9 +1,10 @@
 .DS_Store
 .vscode
-dist
-node_modules
-package-lock.json
 archive
 coverage
-README.md
+dist
 migration_guide.md
+node_modules
+package-lock.json
+README.md
+tsconfig.build.tsbuildinfo
