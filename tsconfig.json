@@ -17,5 +17,5 @@
     "noImplicitReturns": true,
     "noImplicitThis": false
   },
-  "include": ["./src"]
+  "include": ["src"]
 }
