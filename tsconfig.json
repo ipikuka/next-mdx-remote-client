@@ -8,13 +8,15 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "inlineSources": true,
     "outDir": "dist",
     "noImplicitReturns": true,
-    "noImplicitThis": false
+    "noImplicitThis": false,
+    "types": ["@testing-library/jest-dom"]
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }
