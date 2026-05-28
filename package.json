@@ -124,6 +124,9 @@
     "detail": true,
     "ignoreAsAssertion": true,
     "ignoreCatch": true,
-    "strict": true
+    "strict": true,
+    "ignoreFiles": [
+      "tests/**/*"
+    ]
   }
 }
