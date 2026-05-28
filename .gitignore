@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
-dist
-node_modules
 archive
 coverage
+dist
+node_modules
+*.tsbuildinfo
