@@ -6,6 +6,8 @@
  * requestIdleCallback types found here: https://github.com/microsoft/TypeScript/issues/21309
  */
 
+export {}; // to force module scoping
+
 type RequestIdleCallbackHandle = number;
 
 type RequestIdleCallbackOptions = {
