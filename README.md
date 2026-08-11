@@ -3,7 +3,9 @@
 **A robust Next.js newsletter `Next.js Weekly` is sponsoring me** 💖
 [![NextjsWeekly banner](./assets/next-js-weekly.png)](https://nextjsweekly.com/)
 
-A warm thanks 🙌 to [@ErfanEbrahimnia](https://github.com/ErfanEbrahimnia), [@recepkyk](https://github.com/recepkyk), and [@LSeaburg](https://github.com/LSeaburg) for the [support](https://github.com/sponsors/ipikuka) 💖
+[![Outstatic banner](./assets/outstatic-ad.png)](https://outstatic.com/?utm_source=github&utm_medium=readme&utm_campaign=next-mdx-remote-client)
+
+A warm thanks 🙌 to [@ErfanEbrahimnia](https://github.com/ErfanEbrahimnia), [@avitorio](https://github.com/avitorio), [@recepkyk](https://github.com/recepkyk), and [@LSeaburg](https://github.com/LSeaburg) for the [support](https://github.com/sponsors/ipikuka) 💖
 
 ---
 
