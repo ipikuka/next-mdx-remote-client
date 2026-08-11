@@ -8,7 +8,6 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "skipLibCheck": true, // for 'JSX' namespace in @types/mdx/types.d.ts
-    "esModuleInterop": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
