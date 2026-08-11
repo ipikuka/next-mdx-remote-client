@@ -86,6 +86,7 @@
     "@testing-library/react": "^16.3.2",
     "@types/babel__code-frame": "^7.27.0",
     "@types/eslint-config-prettier": "^6.11.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.12.4",
     "@types/react": "^18.3.29",
     "@types/react-dom": "^18.3.7",
