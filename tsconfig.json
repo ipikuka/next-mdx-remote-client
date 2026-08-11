@@ -7,7 +7,6 @@
     "strict": true,
     "jsx": "react-jsx",
     "allowJs": true,
-    "skipLibCheck": true, // for 'JSX' namespace in @types/mdx/types.d.ts
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
